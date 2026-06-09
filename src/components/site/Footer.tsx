@@ -1,0 +1,42 @@
+export function Footer() {
+  const cols = [
+    { title: "Series", links: ["Phantom", "Atelier", "Forge", "Edge", "Strike"] },
+    { title: "Support", links: ["Warranty", "Drivers", "Repair", "Community"] },
+    { title: "Company", links: ["About", "Press", "Careers", "Sustainability"] },
+  ];
+  return (
+    <footer className="relative border-t border-glass-border py-16">
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-neon-cyan/60 to-transparent" />
+      <div className="mx-auto grid max-w-7xl gap-12 px-4 md:grid-cols-[2fr_3fr]">
+        <div>
+          <div className="flex items-center gap-2">
+            <div className="h-8 w-8 rounded-lg bg-gradient-primary shadow-neon-cyan" />
+            <span className="font-display text-lg font-black tracking-widest">SELLORA</span>
+          </div>
+          <p className="mt-4 max-w-sm text-sm text-muted-foreground">
+            High-performance computing, engineered without compromise. Shipping globally from orbit.
+          </p>
+        </div>
+        <div className="grid grid-cols-3 gap-8">
+          {cols.map((c) => (
+            <div key={c.title}>
+              <p className="font-display text-[10px] tracking-[0.25em] text-neon-cyan">{c.title.toUpperCase()}</p>
+              <ul className="mt-4 space-y-2">
+                {c.links.map((l) => (
+                  <li key={l}>
+                    <a href="#" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                      {l}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="mx-auto mt-12 max-w-7xl px-4 text-xs text-muted-foreground">
+        © {new Date().getFullYear()} SELLORA Systems. All rights reserved.
+      </div>
+    </footer>
+  );
+}
