@@ -187,9 +187,9 @@ function Chip({ active, onClick, children }: { active: boolean; onClick: () => v
 
 function SpecPill({ icon: Icon, label }: { icon: React.ElementType; label: string }) {
   return (
-    <div className="flex flex-col items-center gap-1 rounded-lg border border-glass-border bg-white/[0.02] px-2 py-2 text-center">
-      <Icon className="h-3.5 w-3.5 text-neon-cyan" />
-      <span className="truncate text-[10px] text-muted-foreground">{label}</span>
+    <div className="flex min-w-0 w-full flex-col items-center justify-center gap-1 overflow-hidden rounded-lg border border-glass-border bg-white/[0.02] px-1.5 py-2 text-center">
+      <Icon className="h-3.5 w-3.5 shrink-0 text-neon-cyan" />
+      <span className="w-full truncate text-center text-[10px] text-muted-foreground leading-tight" title={label}>{label}</span>
     </div>
   );
 }

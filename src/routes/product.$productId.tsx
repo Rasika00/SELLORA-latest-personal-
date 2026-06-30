@@ -50,8 +50,8 @@ function ProductDetails() {
         <div className="absolute inset-0 -z-20 bg-grid opacity-30 [mask-image:linear-gradient(to_bottom,transparent,black_20%,black_80%,transparent)]" />
         
         {/* Massive overlapping text */}
-        <div className="absolute inset-0 -z-10 flex items-center justify-center overflow-hidden">
-          <h1 className="font-display text-[20vw] font-black uppercase text-foreground/5 whitespace-nowrap select-none pointer-events-none tracking-tighter">
+        <div className="absolute inset-0 -z-10 flex items-center justify-center overflow-hidden pointer-events-none">
+          <h1 className="font-display text-[14vw] font-black uppercase text-foreground/5 whitespace-nowrap select-none tracking-tighter">
             {product.category}
           </h1>
         </div>
@@ -64,34 +64,37 @@ function ProductDetails() {
             <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" /> Back to grid
           </Link>
 
-          <div className="flex flex-col items-center text-center">
-            <span className={`mb-6 rounded-full border px-4 py-1.5 font-display text-[10px] uppercase tracking-[0.3em] shadow-[0_0_30px_oklch(0.78_0.18_200/0.3)] ${borderColor} ${textColor} bg-white/5 backdrop-blur-md animate-fade-up`}>
+          <div className="flex flex-col items-center text-center max-w-full px-2">
+            <span className={`mb-6 rounded-full border px-4 py-1.5 font-display text-[10px] uppercase tracking-[0.3em] shadow-[0_0_30px_oklch(0.78_0.18_200/0.3)] ${borderColor} ${textColor} bg-white/5 backdrop-blur-md animate-fade-up max-w-full truncate`}>
               {product.badge}
             </span>
-            <h2 className="font-display text-5xl md:text-8xl font-black tracking-tight uppercase animate-fade-up [animation-delay:0.1s]">
+            <h2 className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight uppercase animate-fade-up break-words max-w-full [animation-delay:0.1s]">
               {product.name}
             </h2>
-            <p className="mt-4 max-w-2xl text-lg md:text-xl text-muted-foreground animate-fade-up [animation-delay:0.2s]">
+            <p className="mt-4 max-w-2xl text-base sm:text-lg md:text-xl text-muted-foreground animate-fade-up break-words [animation-delay:0.2s]">
               Engineered with {product.processor}. Built for unprecedented performance.
             </p>
           </div>
 
           <div className="relative mt-16 flex justify-center animate-fade-up [animation-delay:0.4s]">
-            <div className="relative w-full max-w-5xl">
-              <img
-                src={product.img}
-                alt={`${product.name} High Resolution Render`}
-                className="w-full h-auto object-contain drop-shadow-[0_40px_100px_rgba(0,0,0,0.8)] scale-110 md:scale-125 animate-float"
-              />
+            <div className="group relative w-full max-w-5xl overflow-hidden rounded-3xl border border-glass-border bg-black/60 shadow-[0_0_80px_rgba(0,0,0,0.8)] neon-border">
+              <div className="relative aspect-[16/9] w-full overflow-hidden">
+                <img
+                  src={product.img}
+                  alt={`${product.name} High Resolution Render`}
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none" />
+              </div>
               
               {/* Decorative HUD Elements */}
-              <div className="absolute top-10 left-10 hidden md:flex flex-col gap-1 text-[10px] text-muted-foreground tracking-[0.2em] font-mono">
-                <span>SYS.STATUS: OPTIMAL</span>
+              <div className="absolute top-6 left-6 hidden md:flex flex-col gap-1 rounded-lg glass px-3 py-2 text-[10px] text-muted-foreground tracking-[0.2em] font-mono backdrop-blur-md">
+                <span className="text-neon-cyan">SYS.STATUS: OPTIMAL</span>
                 <span>TEMP: 32°C</span>
                 <span>VOLTAGE: 1.2V</span>
               </div>
-              <div className="absolute bottom-20 right-10 hidden md:flex items-center gap-2 text-[10px] text-neon-cyan tracking-[0.2em] font-mono">
-                <span className="h-2 w-2 rounded-full bg-neon-cyan animate-pulse" />
+              <div className="absolute bottom-6 right-6 hidden md:flex items-center gap-2 rounded-full glass px-4 py-2 text-[10px] text-neon-cyan tracking-[0.2em] font-mono backdrop-blur-md">
+                <span className="h-2 w-2 rounded-full bg-neon-cyan animate-pulse shadow-neon-cyan" />
                 LINK ACTIVE
               </div>
             </div>
@@ -122,19 +125,19 @@ function ProductDetails() {
       <div className="h-32" /> 
 
       {/* Sticky Bottom Bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-glass-border bg-background/80 backdrop-blur-xl p-4 md:p-6 animate-fade-up">
-        <div className="mx-auto flex max-w-7xl flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex flex-col">
+      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-glass-border bg-background/90 backdrop-blur-xl p-4 md:px-8 animate-fade-up">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4">
+          <div className="flex flex-col min-w-0">
             <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Configure from</span>
-            <span className="font-display text-3xl md:text-4xl font-bold text-foreground">
+            <span className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-foreground truncate">
               ${product.price.toLocaleString()}
             </span>
           </div>
-          <div className="flex w-full md:w-auto gap-4">
-            <button className="flex-1 md:flex-none rounded-full glass-strong px-8 py-4 text-sm font-bold transition-all hover:bg-white/10">
+          <div className="flex flex-wrap sm:flex-nowrap w-full sm:w-auto gap-3">
+            <button className="flex-1 sm:flex-none rounded-full glass-strong px-6 py-3.5 text-xs sm:text-sm font-bold transition-all hover:bg-white/10 whitespace-nowrap">
               Save to Wishlist
             </button>
-            <button className="flex-1 md:flex-none rounded-full bg-gradient-primary px-10 py-4 text-sm font-bold text-primary-foreground shadow-[0_0_30px_oklch(0.78_0.18_200/0.3)] transition-transform hover:scale-105 hover:shadow-[0_0_50px_oklch(0.78_0.18_200/0.6)]">
+            <button className="flex-1 sm:flex-none rounded-full bg-gradient-primary px-8 py-3.5 text-xs sm:text-sm font-bold text-primary-foreground shadow-[0_0_30px_oklch(0.78_0.18_200/0.3)] transition-transform hover:scale-105 whitespace-nowrap">
               Configure & Buy
             </button>
           </div>
@@ -158,14 +161,16 @@ function HUDCard({ icon: Icon, label, value, desc, color }: { icon: React.Elemen
     "text-neon-blue";
 
   return (
-    <div className={`group relative overflow-hidden rounded-2xl glass p-8 transition-all duration-500 ${glow}`}>
-      <div className="absolute top-0 right-0 p-4 opacity-10 transition-opacity group-hover:opacity-30">
+    <div className={`group relative flex flex-col justify-between overflow-hidden rounded-2xl glass p-6 md:p-8 transition-all duration-500 ${glow}`}>
+      <div className="absolute top-0 right-0 p-4 opacity-10 transition-opacity group-hover:opacity-30 pointer-events-none">
         <Icon className={`h-24 w-24 ${iconColor}`} />
       </div>
-      <Icon className={`mb-6 h-8 w-8 ${iconColor}`} />
-      <p className="mb-2 font-display text-[10px] tracking-[0.2em] text-muted-foreground uppercase">{label}</p>
-      <p className="mb-1 font-display text-2xl font-bold">{value}</p>
-      <p className="text-xs text-muted-foreground/60">{desc}</p>
+      <div>
+        <Icon className={`mb-6 h-8 w-8 shrink-0 ${iconColor}`} />
+        <p className="mb-2 font-display text-[10px] tracking-[0.2em] text-muted-foreground uppercase truncate">{label}</p>
+        <p className="mb-1 font-display text-xl sm:text-2xl font-bold break-words">{value}</p>
+      </div>
+      <p className="mt-2 text-xs text-muted-foreground/60 leading-relaxed">{desc}</p>
     </div>
   );
 }

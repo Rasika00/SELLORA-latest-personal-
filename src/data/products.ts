@@ -1,9 +1,9 @@
-import gaming from "@/assets/laptop-gaming.jpg";
-import gaming2 from "@/assets/laptop-gaming2.jpg";
-import creator from "@/assets/laptop-creator.jpg";
-import creator2 from "@/assets/laptop-creator2.jpg";
-import business from "@/assets/laptop-business.jpg";
-import workstation from "@/assets/laptop-workstation.jpg";
+const gaming = "https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=1200&q=80";
+const creator = "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=1200&q=80";
+const workstation = "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&w=1200&q=80";
+const business = "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&w=1200&q=80";
+const gaming2 = "https://images.unsplash.com/photo-1593642634315-48f5414c3ad9?auto=format&fit=crop&w=1200&q=80";
+const creator2 = "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&w=1200&q=80";
 
 export type Product = {
   id: string;
