@@ -59,7 +59,7 @@ function ProductDetails() {
         {/* Ambient Glows */}
         <div className={`pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[50vh] w-[50vw] -translate-x-1/2 -translate-y-1/2 rounded-full ${glowColor} blur-[100px] animate-glow-pulse`} />
 
-        <div className="mx-auto max-w-[1400px] w-full px-4 md:px-8">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-8 md:px-12">
           <Link to="/" className="group mb-12 inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground">
             <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" /> Back to grid
           </Link>
@@ -68,7 +68,7 @@ function ProductDetails() {
             <span className={`mb-6 rounded-full border px-4 py-1.5 font-display text-[10px] uppercase tracking-[0.3em] shadow-[0_0_30px_oklch(0.78_0.18_200/0.3)] ${borderColor} ${textColor} bg-white/5 backdrop-blur-md animate-fade-up max-w-full truncate`}>
               {product.badge}
             </span>
-            <h2 className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight uppercase animate-fade-up break-words max-w-full [animation-delay:0.1s]">
+            <h2 className="font-display text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight uppercase animate-fade-up break-words max-w-full [animation-delay:0.1s]">
               {product.name}
             </h2>
             <p className="mt-4 max-w-2xl text-base sm:text-lg md:text-xl text-muted-foreground animate-fade-up break-words [animation-delay:0.2s]">
@@ -104,18 +104,18 @@ function ProductDetails() {
 
       {/* Specifications HUD Section */}
       <section className="relative py-24 bg-black/50 border-y border-glass-border">
-        <div className="mx-auto max-w-7xl px-4 md:px-8">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-8 md:px-12">
           <div className="mb-16 flex items-center justify-between border-b border-glass-border pb-4">
             <h3 className="font-display text-sm tracking-[0.3em] text-muted-foreground">TECHNICAL SPECIFICATIONS</h3>
             <Expand className="h-4 w-4 text-muted-foreground" />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <HUDCard icon={Cpu} label="Compute Core" value={product.cpu} desc="Next-gen architecture" color="cyan" />
-            <HUDCard icon={MemoryStick} label="System Memory" value={product.ram} desc="Ultra-low latency" color="purple" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            <HUDCard icon={Cpu} label="Compute Core" value={product.cpu} desc="Next gen architecture" color="cyan" />
+            <HUDCard icon={MemoryStick} label="System Memory" value={product.ram} desc="Ultra low latency" color="purple" />
             <HUDCard icon={Zap} label="Graphics Engine" value={product.gpu} desc="Ray tracing enabled" color="blue" />
-            <HUDCard icon={Expand} label="Display" value="16-inch OLED" desc="240Hz refresh rate" color="cyan" />
-            <HUDCard icon={Battery} label="Power" value="99.9Wh" desc="All-day battery life" color="purple" />
+            <HUDCard icon={Expand} label="Display" value="16 inch OLED" desc="240Hz refresh rate" color="cyan" />
+            <HUDCard icon={Battery} label="Power" value="99.9Wh" desc="All day battery life" color="purple" />
             <HUDCard icon={Shield} label="Security" value="Zero Trust" desc="Hardware encryption" color="blue" />
           </div>
         </div>
@@ -125,19 +125,19 @@ function ProductDetails() {
       <div className="h-32" /> 
 
       {/* Sticky Bottom Bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-glass-border bg-background/90 backdrop-blur-xl p-4 md:px-8 animate-fade-up">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4">
+      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-glass-border bg-background/90 backdrop-blur-xl px-4 sm:px-8 md:px-12 py-3 sm:py-4 animate-fade-up">
+        <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-3 sm:gap-4">
           <div className="flex flex-col min-w-0">
             <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Configure from</span>
-            <span className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-foreground truncate">
-              ${product.price.toLocaleString()}
+            <span className="font-display text-lg sm:text-xl md:text-2xl font-bold text-foreground truncate">
+              Rs {product.price.toLocaleString()}
             </span>
           </div>
-          <div className="flex flex-wrap sm:flex-nowrap w-full sm:w-auto gap-3">
-            <button className="flex-1 sm:flex-none rounded-full glass-strong px-6 py-3.5 text-xs sm:text-sm font-bold transition-all hover:bg-white/10 whitespace-nowrap">
+          <div className="flex flex-wrap sm:flex-nowrap w-full sm:w-auto gap-2.5 sm:gap-3">
+            <button className="flex-1 sm:flex-none rounded-full glass-strong px-4 sm:px-6 py-3 sm:py-3.5 text-xs sm:text-sm font-bold transition-all hover:bg-white/10 text-center whitespace-normal sm:whitespace-nowrap">
               Save to Wishlist
             </button>
-            <button className="flex-1 sm:flex-none rounded-full bg-gradient-primary px-8 py-3.5 text-xs sm:text-sm font-bold text-primary-foreground shadow-[0_0_30px_oklch(0.78_0.18_200/0.3)] transition-transform hover:scale-105 whitespace-nowrap">
+            <button className="flex-1 sm:flex-none rounded-full bg-gradient-primary px-6 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-sm font-bold text-primary-foreground shadow-[0_0_30px_oklch(0.78_0.18_200/0.3)] transition-transform hover:scale-105 text-center whitespace-normal sm:whitespace-nowrap">
               Configure & Buy
             </button>
           </div>

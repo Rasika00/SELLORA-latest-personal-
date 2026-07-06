@@ -26,7 +26,7 @@ export function Hero() {
       <div className="pointer-events-none absolute right-[8%] top-1/4 -z-10 h-[28rem] w-[28rem] rounded-full bg-neon-purple/30 blur-3xl animate-glow-pulse [animation-delay:1.5s]" />
 
       {/* Editorial stage */}
-      <div className="relative mx-auto max-w-[1400px] px-4">
+      <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-8 md:px-12">
         {/* Eyebrow tag */}
         <div className="mx-auto mb-6 flex w-fit items-center gap-2 rounded-full glass px-4 py-1.5 animate-fade-up">
           <span className="h-1.5 w-1.5 rounded-full bg-neon-cyan shadow-neon-cyan" />
@@ -40,18 +40,17 @@ export function Hero() {
           {/* Massive overlapping headline behind subject */}
           <h1
             aria-label="Global hub for performance computing in 3D"
-            className="font-display pointer-events-none select-none text-center font-black uppercase leading-[0.82] tracking-[-0.02em] animate-fade-up [animation-delay:0.1s]"
+            className="font-display pointer-events-none select-none flex flex-col items-center justify-center w-full mx-auto text-center font-black uppercase leading-[0.82] tracking-[-0.02em] animate-fade-up [animation-delay:0.1s]"
           >
-            <span className="block text-[12vw] text-foreground/95 md:text-[8vw]">
+            <span className="block text-3xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-[7.5rem] text-foreground/95">
               GLOBAL HUB
             </span>
-            <span className="block text-[12vw] text-foreground/90 md:text-[8vw]">
+            <span className="block text-3xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-[7.5rem] text-foreground/90">
               FOR <span className="text-gradient">PERFORMANCE</span>
             </span>
-            <span className="block text-[12vw] text-foreground/85 md:text-[8vw]">
+            <span className="block text-3xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-[7.5rem] text-foreground/85">
               COMPUTING
             </span>
-
           </h1>
 
           {/* Floating 3D laptop centered over headline */}
@@ -66,34 +65,34 @@ export function Hero() {
                 alt="SELLORA flagship laptop floating with cinematic purple and cyan rim light"
                 width={1080}
                 height={1920}
-                className="h-[85vh] w-auto max-h-[1000px] drop-shadow-[0_80px_100px_oklch(0_0_0/0.7)] md:h-[95vh] scale-[1.5] md:scale-[2]"
+                className="h-[55vh] sm:h-[65vh] md:h-[88vh] w-auto max-h-[900px] drop-shadow-[0_65px_85px_oklch(0_0_0/0.7)] scale-[1.15] sm:scale-[1.35] md:scale-[1.7]"
               />
             </div>
           </div>
 
           {/* Bottom wordmark plate */}
-          <div className="relative mt-[-4vw] pb-8 text-center animate-fade-up [animation-delay:0.3s]">
-            <div className="font-display text-[24vw] font-black leading-none tracking-tight text-foreground md:text-[18vw]">
-              SELLORA
+          <div className="relative mt-2 md:mt-[-3rem] pb-8 flex flex-col items-center justify-center w-full mx-auto text-center overflow-visible animate-fade-up [animation-delay:0.3s]">
+            <div className="w-full flex justify-center items-center mx-auto text-center font-display text-5xl sm:text-[6rem] md:text-[8rem] lg:text-[11rem] xl:text-[13rem] 2xl:text-[14.5rem] font-black leading-none tracking-tight text-foreground select-none overflow-visible">
+              <span className="inline-block whitespace-nowrap">SELLORA</span>
             </div>
-            <p className="mt-2 font-display text-xs tracking-[0.4em] text-muted-foreground md:text-sm">
+            <p className="mt-4 font-display text-xs tracking-[0.4em] text-muted-foreground md:text-sm">
               FROM SILICON TO SHIPPED
             </p>
           </div>
         </div>
 
         {/* Sub copy + CTAs */}
-        <div className="mx-auto mt-8 grid max-w-5xl gap-8 md:grid-cols-[1fr_auto] md:items-end">
+        <div className="mx-auto mt-8 flex flex-col md:flex-row w-full max-w-7xl justify-between gap-6 md:gap-8 md:items-end">
           <p className="max-w-md text-sm leading-relaxed text-muted-foreground md:text-base">
-            A new platform for high-performance laptops — engineered, rendered,
-            and shipped in 3D. Cinematic OLED, desktop-class silicon, aerospace-grade chassis.
+            A new platform for high performance laptops — engineered, rendered,
+            and shipped in 3D. Cinematic OLED, desktop class silicon, aerospace grade chassis.
           </p>
-          <div className="flex flex-wrap items-center gap-3">
-            <button className="group relative inline-flex items-center gap-2 rounded-full bg-gradient-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-neon-cyan transition-transform duration-300 hover:scale-105">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+            <button className="group relative inline-flex items-center justify-center gap-2 rounded-full bg-gradient-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-neon-cyan transition-transform duration-300 hover:scale-105 w-full sm:w-auto">
               Explore Series
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </button>
-            <button className="group inline-flex items-center gap-2 rounded-full glass-strong px-7 py-3.5 text-sm font-semibold text-foreground neon-border-hover">
+            <button className="group inline-flex items-center justify-center gap-2 rounded-full glass-strong px-7 py-3.5 text-sm font-semibold text-foreground neon-border-hover w-full sm:w-auto">
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-gradient-primary">
                 <Play className="h-3 w-3 fill-primary-foreground text-primary-foreground" />
               </span>

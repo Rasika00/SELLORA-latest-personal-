@@ -10,12 +10,12 @@ const badgeStyles = {
 };
 
 const categories = ["Gaming", "Ultrabook", "Workstation"] as const;
-const processors = ["Intel i9", "AMD Ryzen 9", "Apple M-Max"] as const;
+const processors = ["Intel i9", "AMD Ryzen 9", "Apple M Max"] as const;
 
 export function ProductGrid() {
   const [cats, setCats] = useState<string[]>([]);
   const [procs, setProcs] = useState<string[]>([]);
-  const [maxPrice, setMaxPrice] = useState(6000);
+  const [maxPrice, setMaxPrice] = useState(600000);
 
   const filtered = useMemo(() => {
     return products.filter((p) => {
@@ -31,10 +31,11 @@ export function ProductGrid() {
 
   return (
     <section id="products" className="relative py-24 md:py-32">
+      <div id="workstation" className="absolute -top-24" />
       <div className="pointer-events-none absolute right-0 top-1/3 -z-10 h-96 w-96 rounded-full bg-neon-purple/20 blur-3xl" />
       <div className="pointer-events-none absolute left-0 bottom-1/4 -z-10 h-96 w-96 rounded-full bg-neon-cyan/20 blur-3xl" />
 
-      <div className="mx-auto max-w-7xl px-4">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-8 md:px-12">
         <div className="mb-12 flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
           <div>
             <p className="font-display text-xs tracking-[0.3em] text-neon-cyan">THE LAPTOP DECK</p>
@@ -47,7 +48,7 @@ export function ProductGrid() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr]">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[250px_1fr]">
           {/* Sticky sidebar */}
           <aside className="lg:sticky lg:top-28 lg:self-start">
             <div className="rounded-2xl glass p-5 neon-border">
@@ -76,22 +77,22 @@ export function ProductGrid() {
                 <div className="px-1">
                   <input
                     type="range"
-                    min={1500}
-                    max={6000}
-                    step={100}
+                    min={150000}
+                    max={600000}
+                    step={10000}
                     value={maxPrice}
                     onChange={(e) => setMaxPrice(Number(e.target.value))}
                     className="w-full accent-[oklch(0.78_0.18_200)]"
                   />
                   <div className="mt-2 flex justify-between text-xs text-muted-foreground">
-                    <span>$1.5K</span>
-                    <span className="font-display text-neon-cyan">${maxPrice.toLocaleString()}</span>
+                    <span>Rs 150K</span>
+                    <span className="font-display text-neon-cyan">Rs {maxPrice.toLocaleString()}</span>
                   </div>
                 </div>
               </FilterGroup>
 
               <button
-                onClick={() => { setCats([]); setProcs([]); setMaxPrice(6000); }}
+                onClick={() => { setCats([]); setProcs([]); setMaxPrice(600000); }}
                 className="mt-4 w-full rounded-lg border border-glass-border px-4 py-2 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
               >
                 Reset filters
@@ -132,11 +133,11 @@ export function ProductGrid() {
                     <SpecPill icon={Zap} label={p.gpu} />
                   </div>
 
-                  <div className="mt-auto flex items-end justify-between pt-6">
+                  <div className="mt-auto flex flex-wrap items-end justify-between gap-3 pt-6">
                     <div>
                       <p className="text-[10px] uppercase tracking-widest text-muted-foreground">From</p>
-                      <p className="font-display text-2xl font-bold text-foreground">
-                        ${p.price.toLocaleString()}
+                      <p className="font-display text-lg font-bold text-foreground">
+                        Rs {p.price.toLocaleString()}
                       </p>
                     </div>
                     <button className="group/btn inline-flex items-center gap-1.5 rounded-full bg-gradient-primary px-4 py-2 text-xs font-semibold text-primary-foreground transition-transform hover:scale-105 hover:shadow-neon-cyan">

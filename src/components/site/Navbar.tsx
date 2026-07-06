@@ -1,22 +1,28 @@
 import { Link } from "@tanstack/react-router";
-import { Menu, Search, ShoppingCart, User } from "lucide-react";
+import { useState } from "react";
+import { Menu, X, Search, ShoppingCart, User, ShieldCheck } from "lucide-react";
 
 export function Navbar() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   const links = [
-    { label: "Gaming", href: "/#products" },
-    { label: "Creator", href: "/#products" },
-    { label: "Workstation", href: "/#products" },
+    { label: "Laptop", href: "/#products" },
+    { label: "Creator", href: "/#creator" },
+    { label: "Workstation", href: "/#workstation" },
     { label: "Tech", href: "/#features" },
-    { label: "Support", href: "/" },
+    { label: "Support", href: "/#support" },
   ];
+
   return (
-    <header className="fixed top-0 inset-x-0 z-50 px-4 pt-4">
-      <nav className="glass-strong mx-auto flex max-w-7xl items-center justify-between rounded-2xl px-5 py-3">
-        <Link to="/" className="flex items-center gap-2">
-          <div className="relative h-8 w-8 rounded-lg bg-gradient-primary shadow-neon-cyan" />
-          <span className="font-display text-lg font-black tracking-widest">SELLORA</span>
+    <header className="fixed top-0 inset-x-0 z-50 px-3 sm:px-6 md:px-8 pt-3 sm:pt-4">
+      <nav className="glass-strong mx-auto flex w-full max-w-7xl items-center justify-between rounded-2xl px-3 sm:px-6 py-2 sm:py-3.5 gap-2">
+        <Link to="/" className="flex items-center gap-2 shrink-0">
+          <div className="relative h-7 w-7 sm:h-8 sm:w-8 rounded-lg bg-gradient-primary shadow-neon-cyan shrink-0" />
+          <span className="font-display text-base sm:text-lg font-black tracking-widest">SELLORA</span>
         </Link>
-        <ul className="hidden items-center gap-8 md:flex">
+
+        {/* Desktop Nav Links */}
+        <ul className="hidden items-center gap-6 lg:gap-8 md:flex">
           {links.map((l) => (
             <li key={l.label}>
               <a
@@ -28,22 +34,82 @@ export function Navbar() {
             </li>
           ))}
         </ul>
-        <div className="flex items-center gap-2">
-          <button aria-label="Search" className="rounded-lg p-2 text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground">
-            <Search className="h-4 w-4" />
-          </button>
-          <button aria-label="Account" className="hidden rounded-lg p-2 text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground sm:inline-flex">
+
+        {/* Right Actions */}
+        <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+          {/* Always Accessible Admin Command Button */}
+          <Link
+            to="/admin"
+            className="rounded-full border border-neon-purple/50 bg-neon-purple/15 px-2.5 py-1 sm:px-3.5 sm:py-1.5 text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider text-neon-purple transition-all hover:bg-neon-purple hover:text-background shadow-[0_0_15px_oklch(0.62_0.24_295/0.25)] flex items-center gap-1 shrink-0"
+            title="Admin Command Center"
+          >
+            <ShieldCheck className="h-3 w-3 sm:h-3.5 sm:w-3.5 shrink-0" />
+            <span className="hidden sm:inline">Admin Command</span>
+            <span className="inline sm:hidden font-extrabold">Admin</span>
+          </Link>
+
+          <Link
+            to="/login"
+            aria-label="Account / Login"
+            className="hidden sm:inline-flex rounded-lg p-1.5 sm:p-2 text-muted-foreground transition-colors hover:bg-white/5 hover:text-neon-cyan items-center gap-1.5 shrink-0"
+            title="Terminal Login"
+          >
             <User className="h-4 w-4" />
-          </button>
-          <button aria-label="Cart" className="relative rounded-lg p-2 text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground">
+            <span className="text-sm font-medium hidden lg:inline">Sign In</span>
+          </Link>
+
+          <button aria-label="Cart" className="relative rounded-lg p-1.5 sm:p-2 text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground shrink-0">
             <ShoppingCart className="h-4 w-4" />
             <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-neon-cyan shadow-neon-cyan" />
           </button>
-          <button aria-label="Menu" className="rounded-lg p-2 text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground md:hidden">
-            <Menu className="h-4 w-4" />
+
+          {/* Mobile Menu Button */}
+          <button
+            aria-label="Menu"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="rounded-lg p-1.5 sm:p-2 text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground md:hidden shrink-0"
+          >
+            {mobileMenuOpen ? <X className="h-5 w-5 text-neon-cyan" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </nav>
+
+      {/* Mobile Menu Dropdown */}
+      {mobileMenuOpen && (
+        <div className="md:hidden mx-auto mt-2 max-w-7xl rounded-2xl glass-strong p-4 animate-fade-up border border-glass-border shadow-elevated">
+          <ul className="flex flex-col gap-2.5">
+            {links.map((l) => (
+              <li key={l.label}>
+                <a
+                  href={l.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block rounded-xl px-4 py-2.5 text-sm font-medium text-foreground hover:bg-white/10 hover:text-neon-cyan transition-all"
+                >
+                  {l.label}
+                </a>
+              </li>
+            ))}
+            <li className="pt-2 mt-1 border-t border-white/10 flex flex-col gap-2">
+              <Link
+                to="/admin"
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-full rounded-xl bg-neon-purple/20 border border-neon-purple/50 px-4 py-3 text-center text-xs font-mono font-bold uppercase tracking-wider text-neon-purple hover:bg-neon-purple hover:text-background transition-all flex items-center justify-center gap-2"
+              >
+                <ShieldCheck className="h-4 w-4" />
+                Launch Admin Command Center
+              </Link>
+              <Link
+                to="/login"
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-full rounded-xl bg-white/5 px-4 py-2.5 text-center text-sm font-medium text-muted-foreground hover:bg-white/10 hover:text-foreground transition-all flex items-center justify-center gap-2"
+              >
+                <User className="h-4 w-4" />
+                Sign In
+              </Link>
+            </li>
+          </ul>
+        </div>
+      )}
     </header>
   );
 }
