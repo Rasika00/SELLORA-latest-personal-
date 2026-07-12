@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
-import { Cpu, MemoryStick, Zap, Plus, Filter } from "lucide-react";
-import { Link } from "@tanstack/react-router";
+import { Cpu, MemoryStick, Zap, Plus, Filter, Scale, Check, Trophy, ArrowRight, X } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { products, type Product } from "@/data/products";
 
 const badgeStyles = {
@@ -13,9 +13,11 @@ const categories = ["Gaming", "Ultrabook", "Workstation"] as const;
 const processors = ["Intel i9", "AMD Ryzen 9", "Apple M Max"] as const;
 
 export function ProductGrid() {
+  const navigate = useNavigate();
   const [cats, setCats] = useState<string[]>([]);
   const [procs, setProcs] = useState<string[]>([]);
   const [maxPrice, setMaxPrice] = useState(600000);
+  const [compareIds, setCompareIds] = useState<string[]>(["1", "2", "3"]);
 
   const filtered = useMemo(() => {
     return products.filter((p) => {
@@ -29,6 +31,28 @@ export function ProductGrid() {
   const toggle = (arr: string[], setArr: (v: string[]) => void, val: string) =>
     setArr(arr.includes(val) ? arr.filter((x) => x !== val) : [...arr, val]);
 
+  const toggleCompare = (e: React.MouseEvent, id: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (compareIds.includes(id)) {
+      setCompareIds(compareIds.filter((item) => item !== id));
+    } else {
+      if (compareIds.length >= 3) {
+        // replace the oldest with the new one
+        setCompareIds([...compareIds.slice(1), id]);
+      } else {
+        setCompareIds([...compareIds, id]);
+      }
+    }
+  };
+
+  const launchCompare = () => {
+    const s1 = compareIds[0] || "1";
+    const s2 = compareIds[1] || "2";
+    const s3 = compareIds[2] || "3";
+    navigate({ to: `/compare` as any, search: { s1, s2, s3 } as any });
+  };
+
   return (
     <section id="products" className="relative py-24 md:py-32">
       <div id="workstation" className="absolute -top-24" />
@@ -36,16 +60,36 @@ export function ProductGrid() {
       <div className="pointer-events-none absolute left-0 bottom-1/4 -z-10 h-96 w-96 rounded-full bg-neon-cyan/20 blur-3xl" />
 
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-8 md:px-12">
-        <div className="mb-12 flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
+        <div className="mb-12 flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-end">
           <div>
-            <p className="font-display text-xs tracking-[0.3em] text-neon-cyan">THE LAPTOP DECK</p>
+            <div className="flex items-center gap-2">
+              <p className="font-display text-xs tracking-[0.3em] text-neon-cyan">THE LAPTOP DECK</p>
+              <span className="rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-mono text-muted-foreground">
+                {filtered.length} MACHINES
+              </span>
+            </div>
             <h2 className="font-display mt-3 text-4xl font-black uppercase tracking-tight md:text-5xl">
               Choose your <span className="text-gradient">weapon</span>
             </h2>
           </div>
-          <p className="max-w-sm text-sm text-muted-foreground">
-            {filtered.length} machines · Engineered, benchmarked, and shipped from orbit.
-          </p>
+
+          <div className="flex flex-wrap items-center gap-4">
+            <p className="max-w-xs text-xs sm:text-sm text-muted-foreground">
+              Engineered, benchmarked, and shipped from orbit. Select up to 3 models for the Showdown Arena.
+            </p>
+
+            <Link
+              to="/compare"
+              className="group flex items-center gap-2 rounded-2xl bg-gradient-to-r from-neon-cyan via-neon-blue to-neon-purple p-0.5 shadow-neon-cyan transition-transform hover:scale-105 shrink-0"
+            >
+              <div className="flex items-center gap-2 rounded-[14px] bg-background px-4 py-2.5 transition-colors group-hover:bg-transparent">
+                <Scale className="h-4 w-4 text-neon-cyan group-hover:text-background transition-colors" />
+                <span className="font-display text-xs font-bold tracking-widest text-foreground group-hover:text-background transition-colors">
+                  LAUNCH 3-WAY SHOWDOWN
+                </span>
+              </div>
+            </Link>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[250px_1fr]">
@@ -102,52 +146,83 @@ export function ProductGrid() {
 
           {/* Grid */}
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
-            {filtered.map((p) => (
-              <Link
-                key={p.id}
-                to="/product/$productId"
-                params={{ productId: p.id }}
-                className="group relative flex flex-col overflow-hidden rounded-2xl glass neon-border-hover"
-              >
-                <div className="relative aspect-[4/3] overflow-hidden bg-black">
-                  <div className="absolute inset-0 bg-gradient-to-br from-neon-cyan/10 via-transparent to-neon-purple/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                  <img
-                    src={p.img}
-                    alt={`${p.name} laptop product render`}
-                    loading="lazy"
-                    width={1024}
-                    height={768}
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <span className={`absolute left-4 top-4 rounded-full border px-3 py-1 font-display text-[10px] tracking-[0.2em] ${badgeStyles[p.badgeColor]}`}>
-                    {p.badge}
-                  </span>
-                </div>
+            {filtered.map((p) => {
+              const isCompared = compareIds.includes(p.id);
 
-                <div className="flex flex-1 flex-col p-5">
-                  <h3 className="font-display text-lg font-bold tracking-wide">{p.name}</h3>
+              return (
+                <Link
+                  key={p.id}
+                  to="/product/$productId"
+                  params={{ productId: p.id }}
+                  className="group relative flex flex-col overflow-hidden rounded-2xl glass neon-border-hover"
+                >
+                  <div className="relative aspect-[4/3] overflow-hidden bg-black">
+                    <div className="absolute inset-0 bg-gradient-to-br from-neon-cyan/10 via-transparent to-neon-purple/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                    <img
+                      src={p.img}
+                      alt={`${p.name} laptop product render`}
+                      loading="lazy"
+                      width={1024}
+                      height={768}
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <span className={`absolute left-4 top-4 rounded-full border px-3 py-1 font-display text-[10px] tracking-[0.2em] ${badgeStyles[p.badgeColor]}`}>
+                      {p.badge}
+                    </span>
 
-                  <div className="mt-4 grid grid-cols-3 gap-2">
-                    <SpecPill icon={Cpu} label={p.cpu} />
-                    <SpecPill icon={MemoryStick} label={p.ram} />
-                    <SpecPill icon={Zap} label={p.gpu} />
-                  </div>
-
-                  <div className="mt-auto flex flex-wrap items-end justify-between gap-3 pt-6">
-                    <div>
-                      <p className="text-[10px] uppercase tracking-widest text-muted-foreground">From</p>
-                      <p className="font-display text-lg font-bold text-foreground">
-                        Rs {p.price.toLocaleString()}
-                      </p>
-                    </div>
-                    <button className="group/btn inline-flex items-center gap-1.5 rounded-full bg-gradient-primary px-4 py-2 text-xs font-semibold text-primary-foreground transition-transform hover:scale-105 hover:shadow-neon-cyan">
-                      <Plus className="h-3.5 w-3.5" />
-                      Add to Deck
+                    {/* Compare Button right on top right of the card image */}
+                    <button
+                      onClick={(e) => toggleCompare(e, p.id)}
+                      className={`absolute right-4 top-4 flex items-center gap-1.5 rounded-full px-3 py-1 font-display text-[10px] font-bold tracking-wider transition-all z-20 ${
+                        isCompared
+                          ? "bg-neon-cyan text-background shadow-neon-cyan scale-105"
+                          : "bg-black/60 backdrop-blur-md border border-white/20 text-muted-foreground hover:text-white hover:border-neon-cyan"
+                      }`}
+                      title={isCompared ? "Remove from Showdown comparison" : "Add to Showdown comparison"}
+                    >
+                      {isCompared ? <Check className="h-3 w-3" /> : <Plus className="h-3 w-3" />}
+                      <span>{isCompared ? "COMPARING" : "COMPARE"}</span>
                     </button>
                   </div>
-                </div>
-              </Link>
-            ))}
+
+                  <div className="flex flex-1 flex-col p-5">
+                    <div className="flex items-center justify-between gap-2">
+                      <h3 className="font-display text-lg font-bold tracking-wide truncate">{p.name}</h3>
+                      <span className="font-mono text-xs font-semibold text-neon-cyan">{p.priceUsd}</span>
+                    </div>
+
+                    <div className="mt-4 grid grid-cols-3 gap-2">
+                      <SpecPill icon={Cpu} label={p.cpu} />
+                      <SpecPill icon={MemoryStick} label={p.ram} />
+                      <SpecPill icon={Zap} label={p.gpu} />
+                    </div>
+
+                    <div className="mt-auto flex flex-wrap items-end justify-between gap-3 pt-6">
+                      <div>
+                        <p className="text-[10px] uppercase tracking-widest text-muted-foreground">From</p>
+                        <p className="font-display text-base sm:text-lg font-bold text-foreground">
+                          Rs {p.price.toLocaleString()}
+                        </p>
+                      </div>
+                      <button
+                        onClick={(e) => {
+                          // Allow "Add to Deck" button to also add to comparison tray easily or go to details
+                          toggleCompare(e, p.id);
+                        }}
+                        className={`group/btn inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold transition-all ${
+                          isCompared
+                            ? "bg-neon-cyan/20 border border-neon-cyan/60 text-neon-cyan"
+                            : "bg-gradient-primary text-primary-foreground hover:scale-105 hover:shadow-neon-cyan"
+                        }`}
+                      >
+                        {isCompared ? <Check className="h-3.5 w-3.5" /> : <Plus className="h-3.5 w-3.5" />}
+                        <span>{isCompared ? "In Showdown" : "Add to Deck"}</span>
+                      </button>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
             {filtered.length === 0 && (
               <div className="col-span-full rounded-2xl glass p-12 text-center text-muted-foreground">
                 No machines match your filters. Try widening the search.
@@ -156,6 +231,57 @@ export function ProductGrid() {
           </div>
         </div>
       </div>
+
+      {/* Floating Arena Showdown Tray Bar */}
+      {compareIds.length > 0 && (
+        <div className="fixed bottom-6 inset-x-4 sm:inset-x-auto sm:right-8 z-40 max-w-xl animate-fade-up">
+          <div className="rounded-2xl glass-strong p-4 sm:p-5 border border-neon-cyan/50 shadow-elevated flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="flex -space-x-3 overflow-hidden">
+                {compareIds.map((id) => {
+                  const prod = products.find((p) => p.id === id);
+                  if (!prod) return null;
+                  return (
+                    <img
+                      key={id}
+                      src={prod.img}
+                      alt={prod.name}
+                      className="inline-block h-10 w-10 sm:h-11 sm:w-11 rounded-full ring-2 ring-neon-cyan bg-black object-cover"
+                      title={prod.name}
+                    />
+                  );
+                })}
+              </div>
+              <div>
+                <p className="font-display text-[10px] uppercase tracking-widest text-neon-cyan font-bold">
+                  SHOWDOWN DECK ({compareIds.length}/3)
+                </p>
+                <p className="text-xs text-foreground font-medium truncate max-w-[180px] sm:max-w-[220px]">
+                  {compareIds.map((id) => products.find((p) => p.id === id)?.name).filter(Boolean).join(", ")}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                onClick={launchCompare}
+                className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-neon-cyan via-neon-blue to-neon-purple px-5 py-2.5 font-display text-xs font-black uppercase tracking-widest text-background shadow-neon-cyan hover:scale-105 transition-all"
+              >
+                <span>SHOWDOWN ({compareIds.length})</span>
+                <ArrowRight className="h-3.5 w-3.5" />
+              </button>
+
+              <button
+                onClick={() => setCompareIds([])}
+                className="rounded-xl border border-glass-border bg-white/5 p-2.5 text-muted-foreground hover:bg-white/10 hover:text-foreground transition-all"
+                title="Clear comparison deck"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

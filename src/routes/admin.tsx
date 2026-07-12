@@ -85,6 +85,7 @@ function AdminDashboard() {
     e.preventDefault();
     if (!newProduct.name) return;
 
+    const priceVal = Number(newProduct.price) || 299900;
     const created: Product = {
       id: Date.now().toString(),
       name: newProduct.name,
@@ -92,10 +93,14 @@ function AdminDashboard() {
       badgeColor: newProduct.badgeColor || "cyan",
       category: newProduct.category || "Gaming",
       processor: newProduct.processor || "Intel i9",
-      price: Number(newProduct.price) || 299900,
+      price: priceVal,
+      priceUsd: `$${Math.round(priceVal / 100).toLocaleString()}`,
       cpu: newProduct.cpu || "Next Gen CPU",
       ram: newProduct.ram || "32GB",
       gpu: newProduct.gpu || "RTX 5080",
+      display: '16.0" QHD+ 240Hz Fast-IPS',
+      batteryWeight: "90Wh (Up to 8 hrs) · 2.3 kg",
+      specialHighlight: "Custom Configured Rig with Extreme Performance Engine",
       img: newProduct.img || "https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=1200&q=80"
     };
 

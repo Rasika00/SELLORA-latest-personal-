@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, X, Search, ShoppingCart, User, ShieldCheck } from "lucide-react";
+import { Menu, X, Search, ShoppingCart, User, ShieldCheck, Scale } from "lucide-react";
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -11,6 +11,7 @@ export function Navbar() {
     { label: "Workstation", href: "/#workstation" },
     { label: "Tech", href: "/#features" },
     { label: "Support", href: "/#support" },
+    { label: "Compare", href: "/compare", isRouterLink: true },
   ];
 
   return (
@@ -25,12 +26,22 @@ export function Navbar() {
         <ul className="hidden items-center gap-6 lg:gap-8 md:flex">
           {links.map((l) => (
             <li key={l.label}>
-              <a
-                href={l.href}
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-neon-cyan"
-              >
-                {l.label}
-              </a>
+              {l.isRouterLink ? (
+                <Link
+                  to={l.href as any}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-neon-cyan/50 bg-neon-cyan/15 px-3.5 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-neon-cyan transition-all hover:bg-neon-cyan hover:text-background shadow-[0_0_15px_oklch(0.78_0.18_200/0.25)]"
+                >
+                  <Scale className="h-3.5 w-3.5 shrink-0 animate-pulse" />
+                  <span>{l.label}</span>
+                </Link>
+              ) : (
+                <a
+                  href={l.href}
+                  className="text-sm font-medium text-muted-foreground transition-colors hover:text-neon-cyan"
+                >
+                  {l.label}
+                </a>
+              )}
             </li>
           ))}
         </ul>
@@ -80,13 +91,24 @@ export function Navbar() {
           <ul className="flex flex-col gap-2.5">
             {links.map((l) => (
               <li key={l.label}>
-                <a
-                  href={l.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block rounded-xl px-4 py-2.5 text-sm font-medium text-foreground hover:bg-white/10 hover:text-neon-cyan transition-all"
-                >
-                  {l.label}
-                </a>
+                {l.isRouterLink ? (
+                  <Link
+                    to={l.href as any}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center gap-2 rounded-xl bg-neon-cyan/15 border border-neon-cyan/40 px-4 py-2.5 text-sm font-bold text-neon-cyan transition-all shadow-[0_0_15px_oklch(0.78_0.18_200/0.25)]"
+                  >
+                    <Scale className="h-4 w-4" />
+                    <span>{l.label}</span>
+                  </Link>
+                ) : (
+                  <a
+                    href={l.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block rounded-xl px-4 py-2.5 text-sm font-medium text-foreground hover:bg-white/10 hover:text-neon-cyan transition-all"
+                  >
+                    {l.label}
+                  </a>
+                )}
               </li>
             ))}
             <li className="pt-2 mt-1 border-t border-white/10 flex flex-col gap-2">
