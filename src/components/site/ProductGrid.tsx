@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { Cpu, MemoryStick, Zap, Plus, Filter, Scale, Check, Trophy, ArrowRight, X } from "lucide-react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { products, type Product } from "@/data/products";
@@ -10,14 +10,16 @@ const badgeStyles = {
 };
 
 const categories = ["Gaming", "Ultrabook", "Workstation"] as const;
-const processors = ["Intel i9", "AMD Ryzen 9", "Apple M Max"] as const;
+const processors = ["Intel i9", "Intel i7", "Intel i5", "AMD Ryzen 9", "AMD Ryzen 7", "AMD Ryzen 5", "Apple M Max"] as const;
 
 export function ProductGrid() {
   const navigate = useNavigate();
   const [cats, setCats] = useState<string[]>([]);
   const [procs, setProcs] = useState<string[]>([]);
   const [maxPrice, setMaxPrice] = useState(600000);
-  const [compareIds, setCompareIds] = useState<string[]>(["1", "2", "3"]);
+  const [compareIds, setCompareIds] = useState<string[]>([]);
+  const [visibleCount, setVisibleCount] = useState(8);
+  const [showError, setShowError] = useState(false);
 
   const filtered = useMemo(() => {
     return products.filter((p) => {
@@ -26,6 +28,10 @@ export function ProductGrid() {
       if (p.price > maxPrice) return false;
       return true;
     });
+  }, [cats, procs, maxPrice]);
+
+  useEffect(() => {
+    setVisibleCount(8);
   }, [cats, procs, maxPrice]);
 
   const toggle = (arr: string[], setArr: (v: string[]) => void, val: string) =>
@@ -47,6 +53,11 @@ export function ProductGrid() {
   };
 
   const launchCompare = () => {
+    if (compareIds.length === 0) {
+      setShowError(true);
+      setTimeout(() => setShowError(false), 3000);
+      return;
+    }
     const s1 = compareIds[0] || "1";
     const s2 = compareIds[1] || "2";
     const s3 = compareIds[2] || "3";
@@ -59,7 +70,7 @@ export function ProductGrid() {
       <div className="pointer-events-none absolute right-0 top-1/3 -z-10 h-96 w-96 rounded-full bg-neon-purple/20 blur-3xl" />
       <div className="pointer-events-none absolute left-0 bottom-1/4 -z-10 h-96 w-96 rounded-full bg-neon-cyan/20 blur-3xl" />
 
-      <div className="mx-auto w-full max-w-7xl px-4 sm:px-8 md:px-12">
+      <div className="mx-auto w-full max-w-full px-4 sm:px-8 md:px-12">
         <div className="mb-12 flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-end">
           <div>
             <div className="flex items-center gap-2">
@@ -78,24 +89,29 @@ export function ProductGrid() {
               Engineered, benchmarked, and shipped from orbit. Select up to 3 models for the Showdown Arena.
             </p>
 
-            <Link
-              to="/compare"
-              className="group flex items-center gap-2 rounded-2xl bg-gradient-to-r from-neon-cyan via-neon-blue to-neon-purple p-0.5 shadow-neon-cyan transition-transform hover:scale-105 shrink-0"
-            >
-              <div className="flex items-center gap-2 rounded-[14px] bg-background px-4 py-2.5 transition-colors group-hover:bg-transparent">
-                <Scale className="h-4 w-4 text-neon-cyan group-hover:text-background transition-colors" />
-                <span className="font-display text-xs font-bold tracking-widest text-foreground group-hover:text-background transition-colors">
-                  LAUNCH 3-WAY SHOWDOWN
-                </span>
-              </div>
-            </Link>
+            <div className="flex flex-col items-end gap-1.5">
+              <button
+                onClick={launchCompare}
+                className="group flex items-center gap-2 rounded-2xl bg-gradient-to-r from-neon-cyan via-neon-blue to-neon-purple p-0.5 shadow-neon-cyan transition-transform hover:scale-105 shrink-0"
+              >
+                <div className="flex items-center gap-2 rounded-[14px] bg-background px-4 py-2.5 transition-colors group-hover:bg-transparent">
+                  <Scale className="h-4 w-4 text-neon-cyan group-hover:text-background transition-colors" />
+                  <span className="font-display text-xs font-bold tracking-widest text-foreground group-hover:text-background transition-colors">
+                    LAUNCH 3-WAY SHOWDOWN
+                  </span>
+                </div>
+              </button>
+              {showError && (
+                <span className="text-xs font-bold text-red-500 animate-fade-up">Select at least one laptop to compare.</span>
+              )}
+            </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[250px_1fr]">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[220px_1fr]">
           {/* Sticky sidebar */}
           <aside className="lg:sticky lg:top-28 lg:self-start">
-            <div className="rounded-2xl glass p-5 neon-border">
+            <div className="rounded-2xl glass p-5 neon-border min-h-[600px] flex flex-col">
               <div className="mb-4 flex items-center gap-2">
                 <Filter className="h-4 w-4 text-neon-cyan" />
                 <h3 className="font-display text-sm tracking-[0.2em]">FILTERS</h3>
@@ -121,15 +137,15 @@ export function ProductGrid() {
                 <div className="px-1">
                   <input
                     type="range"
-                    min={150000}
+                    min={40000}
                     max={600000}
-                    step={10000}
+                    step={5000}
                     value={maxPrice}
                     onChange={(e) => setMaxPrice(Number(e.target.value))}
                     className="w-full accent-[oklch(0.78_0.18_200)]"
                   />
                   <div className="mt-2 flex justify-between text-xs text-muted-foreground">
-                    <span>Rs 150K</span>
+                    <span>Rs 40K</span>
                     <span className="font-display text-neon-cyan">Rs {maxPrice.toLocaleString()}</span>
                   </div>
                 </div>
@@ -137,16 +153,18 @@ export function ProductGrid() {
 
               <button
                 onClick={() => { setCats([]); setProcs([]); setMaxPrice(600000); }}
-                className="mt-4 w-full rounded-lg border border-glass-border px-4 py-2 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
+                className="mt-auto w-full rounded-lg border border-glass-border px-4 py-2 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
               >
                 Reset filters
               </button>
             </div>
           </aside>
 
-          {/* Grid */}
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
-            {filtered.map((p) => {
+          {/* Main Content Area */}
+          <div className="flex flex-col">
+            {/* Grid */}
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+            {filtered.slice(0, visibleCount).map((p) => {
               const isCompared = compareIds.includes(p.id);
 
               return (
@@ -166,9 +184,6 @@ export function ProductGrid() {
                       height={768}
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
-                    <span className={`absolute left-4 top-4 rounded-full border px-3 py-1 font-display text-[10px] tracking-[0.2em] ${badgeStyles[p.badgeColor]}`}>
-                      {p.badge}
-                    </span>
 
                     {/* Compare Button right on top right of the card image */}
                     <button
@@ -188,10 +203,10 @@ export function ProductGrid() {
                   <div className="flex flex-1 flex-col p-5">
                     <div className="flex items-center justify-between gap-2">
                       <h3 className="font-display text-lg font-bold tracking-wide truncate">{p.name}</h3>
-                      <span className="font-mono text-xs font-semibold text-neon-cyan">{p.priceUsd}</span>
+
                     </div>
 
-                    <div className="mt-4 grid grid-cols-3 gap-2">
+                    <div className="mt-4 flex flex-col gap-1.5">
                       <SpecPill icon={Cpu} label={p.cpu} />
                       <SpecPill icon={MemoryStick} label={p.ram} />
                       <SpecPill icon={Zap} label={p.gpu} />
@@ -227,6 +242,20 @@ export function ProductGrid() {
               <div className="col-span-full rounded-2xl glass p-12 text-center text-muted-foreground">
                 No machines match your filters. Try widening the search.
               </div>
+            )}
+          </div>
+
+          {/* Load More Button */}
+          {visibleCount < filtered.length && (
+            <div className="mt-12 flex justify-center">
+              <button
+                onClick={() => setVisibleCount((prev) => prev + 8)}
+                className="group relative inline-flex items-center gap-2 rounded-full border border-neon-cyan/40 bg-neon-cyan/10 px-8 py-3.5 font-display text-sm font-bold uppercase tracking-widest text-neon-cyan transition-all hover:bg-neon-cyan hover:text-background hover:shadow-neon-cyan"
+              >
+                <span>View More Laptops</span>
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </button>
+            </div>
             )}
           </div>
         </div>
@@ -314,9 +343,9 @@ function Chip({ active, onClick, children }: { active: boolean; onClick: () => v
 
 function SpecPill({ icon: Icon, label }: { icon: React.ElementType; label: string }) {
   return (
-    <div className="flex min-w-0 w-full flex-col items-center justify-center gap-1 overflow-hidden rounded-lg border border-glass-border bg-white/[0.02] px-1.5 py-2 text-center">
-      <Icon className="h-3.5 w-3.5 shrink-0 text-neon-cyan" />
-      <span className="w-full truncate text-center text-[10px] text-muted-foreground leading-tight" title={label}>{label}</span>
+    <div className="flex w-full items-center gap-2.5 rounded-lg border border-glass-border bg-white/[0.02] px-3 py-2">
+      <Icon className="h-4 w-4 shrink-0 text-neon-cyan" />
+      <span className="text-[11px] font-medium text-muted-foreground leading-snug">{label}</span>
     </div>
   );
 }

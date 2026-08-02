@@ -48,7 +48,7 @@ export function Support() {
     <section id="support" className="relative py-24 md:py-32 border-t border-glass-border">
       <div className="absolute inset-0 -z-10 bg-grid-sm opacity-20 [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_70%)]" />
 
-      <div className="mx-auto w-full max-w-7xl px-4 sm:px-8 md:px-12">
+      <div className="mx-auto w-full max-w-full px-4 sm:px-8 md:px-12">
         
         {/* Header */}
         <div className="mx-auto max-w-2xl text-center mb-16">

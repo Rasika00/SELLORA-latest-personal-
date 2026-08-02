@@ -102,7 +102,7 @@ export function Features() {
     <section id="features" className="relative py-24 md:py-32 border-t border-glass-border">
       <div className="absolute inset-0 -z-10 bg-grid-sm opacity-30 [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_70%)]" />
 
-      <div className="mx-auto w-full max-w-7xl px-4 sm:px-8 md:px-12">
+      <div className="mx-auto w-full max-w-full px-4 sm:px-8 md:px-12">
         <div className="mx-auto max-w-2xl text-center">
           <p className="font-display text-xs tracking-[0.3em] text-neon-cyan">
             TECH &amp; WORKSTATION ARCHITECTURE

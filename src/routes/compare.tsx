@@ -1,5 +1,5 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState, useMemo } from "react";
+import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
+import { useState, useMemo, useEffect } from "react";
 import {
   Trophy,
   ChevronDown,
@@ -24,18 +24,17 @@ export const Route = createFileRoute("/compare")({
 function CompareShowdown() {
   const navigate = useNavigate();
 
-  const getInitialSlot = (param: string, fallback: string) => {
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      const val = params.get(param);
-      if (val && products.some((p) => p.id === val)) return val;
-    }
-    return fallback;
-  };
+  const searchParams: any = useSearch({ strict: false });
 
-  const [slot1Id, setSlot1Id] = useState<string>(() => getInitialSlot("s1", "1"));
-  const [slot2Id, setSlot2Id] = useState<string>(() => getInitialSlot("s2", "2"));
-  const [slot3Id, setSlot3Id] = useState<string>(() => getInitialSlot("s3", "3"));
+  const [slot1Id, setSlot1Id] = useState<string>("1");
+  const [slot2Id, setSlot2Id] = useState<string>("2");
+  const [slot3Id, setSlot3Id] = useState<string>("3");
+
+  useEffect(() => {
+    if (searchParams.s1 && products.some((p) => p.id === searchParams.s1)) setSlot1Id(searchParams.s1);
+    if (searchParams.s2 && products.some((p) => p.id === searchParams.s2)) setSlot2Id(searchParams.s2);
+    if (searchParams.s3 && products.some((p) => p.id === searchParams.s3)) setSlot3Id(searchParams.s3);
+  }, [searchParams.s1, searchParams.s2, searchParams.s3]);
 
   // Track active swap dropdown open states (null | 1 | 2 | 3)
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
@@ -53,22 +52,43 @@ function CompareShowdown() {
     { slotNum: 3, product: slot3, id: slot3Id, setId: setSlot3Id },
   ];
 
-  // Determine top recommended pick among selected
+  // Determine top recommended pick across all machines
   const topPick = useMemo(() => {
-    // If Atelier Pro is selected, it's the standout balance pick from the screenshot
-    const atelier = selectedSlots.find((s) => s.product.id === "2");
-    if (atelier) return atelier.product;
-    // Otherwise pick the highest benchmark score or highest price/performance
-    let highest = selectedSlots[0].product;
-    selectedSlots.forEach((s) => {
-      if (
-        (s.product.detailedSpecs?.benchmarkScore || 0) >
-        (highest.detailedSpecs?.benchmarkScore || 0)
-      ) {
-        highest = s.product;
+    // 1. Calculate price bounds based on selected slots
+    const selectedPrices = selectedSlots.map(s => s.product.price);
+    const maxSelectedPrice = Math.max(...selectedPrices);
+    const minSelectedPrice = Math.min(...selectedPrices);
+    // Suggest within a similar price range (from 25% cheaper than min up to 25% more than max)
+    const maxBudget = maxSelectedPrice * 1.25;
+    const minBudget = minSelectedPrice * 0.75;
+
+    // 2. Filter available products
+    const validProducts = products.filter(p => {
+      // Exclude MacBooks completely
+      if (p.name.toLowerCase().includes("macbook")) return false;
+      if (p.processor === "Apple M Max") return false;
+      
+      // Keep within similar price bounds
+      if (p.price > maxBudget || p.price < minBudget) return false;
+
+      return true;
+    });
+
+    // Fallback to all non-MacBooks if no products fit the price range perfectly
+    const pool = validProducts.length > 0 ? validProducts : products.filter(p => !p.name.toLowerCase().includes("macbook") && p.processor !== "Apple M Max");
+
+    let highest = pool[0];
+    pool.forEach((p) => {
+      const pScore = p.detailedSpecs?.benchmarkScore || 0;
+      const hScore = highest.detailedSpecs?.benchmarkScore || 0;
+      if (pScore > hScore) {
+        highest = p;
+      } else if (pScore === hScore && p.price > highest.price) {
+        highest = p;
       }
     });
-    return highest;
+    
+    return highest || products[0];
   }, [slot1Id, slot2Id, slot3Id]);
 
   const handlePickWinner = () => {
@@ -100,7 +120,7 @@ function CompareShowdown() {
       <div className="pointer-events-none fixed top-1/4 left-1/4 -z-10 h-96 w-96 rounded-full bg-neon-cyan/15 blur-[120px]" />
       <div className="pointer-events-none fixed bottom-1/3 right-1/4 -z-10 h-96 w-96 rounded-full bg-neon-purple/15 blur-[120px]" />
 
-      <div className="mx-auto w-full max-w-7xl px-3 sm:px-6 md:px-8">
+      <div className="mx-auto w-full max-w-full px-3 sm:px-6 md:px-8">
         <Link
           to="/"
           className="group mb-8 inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
@@ -120,55 +140,65 @@ function CompareShowdown() {
           <div className="absolute inset-0 -z-10 bg-grid-sm opacity-20 pointer-events-none" />
 
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-            <div className="flex items-start sm:items-center gap-4 sm:gap-5">
-              <div
-                className={`flex h-14 w-14 sm:h-16 sm:w-16 shrink-0 items-center justify-center rounded-2xl border ${
-                  winnerCelebrated
-                    ? "bg-neon-cyan text-background border-neon-cyan shadow-[0_0_30px_oklch(0.78_0.18_200)] animate-bounce"
-                    : "bg-neon-cyan/20 border-neon-cyan/50 text-neon-cyan shadow-neon-cyan"
-                }`}
-              >
-                <Trophy className="h-7 w-7 sm:h-8 sm:w-8" />
+            {!winnerCelebrated ? (
+              <div className="flex items-center gap-4 sm:gap-5">
+                <div className="flex h-14 w-14 sm:h-16 sm:w-16 shrink-0 items-center justify-center rounded-2xl border bg-neon-cyan/20 border-neon-cyan/50 text-neon-cyan shadow-neon-cyan">
+                  <Trophy className="h-7 w-7 sm:h-8 sm:w-8" />
+                </div>
+                <div>
+                  <h2 className="font-display text-xl sm:text-2xl md:text-3xl font-black uppercase tracking-tight text-foreground">
+                    Find the Ultimate Machine
+                  </h2>
+                  <p className="mt-1.5 text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed">
+                    Compare your deck and let our algorithm select the best balance of compute, thermal headroom, and value.
+                  </p>
+                </div>
               </div>
+            ) : (
+              <div className="flex items-start sm:items-center gap-4 sm:gap-5">
+                <div className="flex h-14 w-14 sm:h-16 sm:w-16 shrink-0 items-center justify-center rounded-2xl border bg-neon-cyan text-background border-neon-cyan shadow-[0_0_30px_oklch(0.78_0.18_200)] animate-bounce">
+                  <Trophy className="h-7 w-7 sm:h-8 sm:w-8" />
+                </div>
 
-              <div>
-                <p className="font-display text-[10px] sm:text-xs font-bold tracking-[0.25em] text-neon-cyan uppercase flex items-center gap-2">
-                  <span>TOP RECOMMENDED PICK AMONG SELECTED</span>
-                  {winnerCelebrated && (
+                <div>
+                  <p className="font-display text-[10px] sm:text-xs font-bold tracking-[0.25em] text-neon-cyan uppercase flex items-center gap-2">
+                    <span>TOP RECOMMENDED PICK ACROSS ALL MACHINES</span>
                     <span className="inline-flex items-center gap-1 rounded-full bg-neon-cyan px-2 py-0.5 text-[9px] font-black text-background">
                       <CheckCircle2 className="h-3 w-3" /> WINNER LOCKED
                     </span>
-                  )}
-                </p>
-                <h2 className="font-display mt-1 text-2xl sm:text-3xl md:text-4xl font-black uppercase tracking-tight text-foreground">
-                  SELLORA {topPick.name}
-                </h2>
-                <p className="mt-1.5 text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed">
-                  {topPick.id === "2"
-                    ? "Standout balance across compute (Apple M-Max), memory (96GB Unified), and display fidelity."
-                    : topPick.id === "1"
-                    ? "Peak gaming benchmark leadership, extreme RTX 5090 graphics, and 240Hz Mini-LED responsiveness."
-                    : topPick.id === "3"
-                    ? "Maximum ECC RAM capacity and workstation Ada generation GPU for mission-critical AI/3D workflows."
-                    : `Standout compute efficiency with ${topPick.processor} and ${topPick.gpu} processing power.`}
-                </p>
+                  </p>
+                  <h2 className="font-display mt-1 text-2xl sm:text-3xl md:text-4xl font-black uppercase tracking-tight text-foreground">
+                    {topPick.name}
+                  </h2>
+                  <p className="mt-1.5 text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed">
+                    {topPick.id === "2"
+                      ? "Standout balance across compute (Apple M-Max), memory (96GB Unified), and display fidelity."
+                      : topPick.id === "1"
+                      ? "Peak gaming benchmark leadership, extreme RTX 5090 graphics, and 240Hz Mini-LED responsiveness."
+                      : topPick.id === "3"
+                      ? "Maximum ECC RAM capacity and workstation Ada generation GPU for mission-critical AI/3D workflows."
+                      : `Standout compute efficiency with ${topPick.processor} and ${topPick.gpu} processing power.`}
+                  </p>
+                </div>
               </div>
-            </div>
+            )}
 
-            <button
-              onClick={handlePickWinner}
-              className="group/win shrink-0 inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-neon-cyan via-neon-blue to-neon-purple px-6 py-3.5 font-display text-xs sm:text-sm font-extrabold uppercase tracking-widest text-background shadow-neon-cyan hover:scale-105 transition-all"
-            >
-              <span>PICK WINNER</span>
-              <ArrowRight className="h-4 w-4 transition-transform group-hover/win:translate-x-1" />
-            </button>
+            {!winnerCelebrated && (
+              <button
+                onClick={handlePickWinner}
+                className="group/win shrink-0 inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-neon-cyan via-neon-blue to-neon-purple px-6 py-3.5 font-display text-xs sm:text-sm font-extrabold uppercase tracking-widest text-background shadow-neon-cyan hover:scale-105 transition-all"
+              >
+                <span>PICK WINNER</span>
+                <ArrowRight className="h-4 w-4 transition-transform group-hover/win:translate-x-1" />
+              </button>
+            )}
           </div>
         </div>
 
         {/* 3-Way Showdown Cards Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-16 relative">
           {selectedSlots.map(({ slotNum, product, id, setId }) => {
-            const isBestPick = product.id === topPick.id;
+            const isBestPick = winnerCelebrated && product.id === topPick.id;
             const isDropdownOpen = activeDropdown === slotNum;
 
             return (
@@ -202,7 +232,7 @@ function CompareShowdown() {
                     <div className="absolute inset-0 bg-gradient-to-br from-neon-cyan/10 via-transparent to-neon-purple/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <img
                       src={product.img}
-                      alt={`SELLORA ${product.name} render`}
+                      alt={`${product.name} render`}
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-108"
                     />
                     <span
@@ -217,7 +247,7 @@ function CompareShowdown() {
                   {/* Title and Swap Dropdown Row */}
                   <div className="flex items-center justify-between gap-2 mt-4 relative z-20">
                     <h3 className="font-display text-xl sm:text-2xl font-black uppercase tracking-tight text-foreground truncate">
-                      SELLORA {product.name}
+                      {product.name}
                     </h3>
 
                     {/* Swap Dropdown Trigger */}
@@ -262,7 +292,7 @@ function CompareShowdown() {
                                   {m.name}
                                 </span>
                                 <span className="text-[10px] font-mono text-muted-foreground shrink-0 ml-2">
-                                  {m.priceUsd}
+                                  Rs {m.price.toLocaleString()}
                                 </span>
                               </button>
                             ))}
@@ -275,10 +305,7 @@ function CompareShowdown() {
                   {/* Price */}
                   <div className="mt-1 flex items-baseline gap-2">
                     <span className="font-display text-2xl sm:text-3xl font-black text-neon-cyan">
-                      {product.priceUsd}
-                    </span>
-                    <span className="text-xs text-muted-foreground font-mono">
-                      (Rs {product.price.toLocaleString()})
+                      Rs {product.price.toLocaleString()}
                     </span>
                   </div>
 

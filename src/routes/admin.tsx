@@ -144,7 +144,7 @@ function AdminDashboard() {
 
       {/* Top Command Bar */}
       <header className="sticky top-0 z-40 border-b border-glass-border bg-black/80 backdrop-blur-2xl px-3 sm:px-6 md:px-8 lg:px-12 py-3 sm:py-3.5">
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 sm:gap-4">
+        <div className="mx-auto flex w-full max-w-full items-center justify-between gap-3 sm:gap-4">
           <div className="flex items-center gap-4">
             <Link to="/" className="flex items-center gap-2 group">
               <div className="relative h-9 w-9 rounded-xl bg-gradient-primary shadow-neon-cyan flex items-center justify-center font-display font-black text-background text-sm">
@@ -202,7 +202,7 @@ function AdminDashboard() {
       </header>
 
       {/* Main Grid Body */}
-      <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col md:flex-row gap-6 md:gap-8 px-3 sm:px-6 md:px-8 lg:px-12 py-6 sm:py-8">
+      <div className="mx-auto flex w-full max-w-full flex-1 flex-col md:flex-row gap-6 md:gap-8 px-3 sm:px-6 md:px-8 lg:px-12 py-6 sm:py-8">
         
         {/* Navigation Sidebar */}
         <aside className="w-full md:w-64 lg:w-72 shrink-0">

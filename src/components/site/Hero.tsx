@@ -26,7 +26,7 @@ export function Hero() {
       <div className="pointer-events-none absolute right-[8%] top-1/4 -z-10 h-[28rem] w-[28rem] rounded-full bg-neon-purple/30 blur-3xl animate-glow-pulse [animation-delay:1.5s]" />
 
       {/* Editorial stage */}
-      <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-8 md:px-12">
+      <div className="relative mx-auto w-full max-w-full px-4 sm:px-8 md:px-12">
         {/* Eyebrow tag */}
         <div className="mx-auto mb-6 flex w-fit items-center gap-2 rounded-full glass px-4 py-1.5 animate-fade-up">
           <span className="h-1.5 w-1.5 rounded-full bg-neon-cyan shadow-neon-cyan" />
@@ -82,7 +82,7 @@ export function Hero() {
         </div>
 
         {/* Sub copy + CTAs */}
-        <div className="mx-auto mt-8 flex flex-col md:flex-row w-full max-w-7xl justify-between gap-6 md:gap-8 md:items-end">
+        <div className="mx-auto mt-8 flex flex-col md:flex-row w-full max-w-full justify-between gap-6 md:gap-8 md:items-end">
           <p className="max-w-md text-sm leading-relaxed text-muted-foreground md:text-base">
             A new platform for high performance laptops — engineered, rendered,
             and shipped in 3D. Cinematic OLED, desktop class silicon, aerospace grade chassis.

@@ -11,12 +11,11 @@ export function Navbar() {
     { label: "Workstation", href: "/#workstation" },
     { label: "Tech", href: "/#features" },
     { label: "Support", href: "/#support" },
-    { label: "Compare", href: "/compare", isRouterLink: true },
   ];
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50 px-3 sm:px-6 md:px-8 pt-3 sm:pt-4">
-      <nav className="glass-strong mx-auto flex w-full max-w-7xl items-center justify-between rounded-2xl px-3 sm:px-6 py-2 sm:py-3.5 gap-2">
+    <header className="fixed top-0 inset-x-0 z-50 px-3 sm:px-6 md:px-8 pt-3 sm:pt-4 pointer-events-none">
+      <nav className="mx-auto flex w-full max-w-full items-center justify-between rounded-2xl border border-glass-border bg-card px-3 sm:px-6 py-2 sm:py-3.5 gap-2 md:glass-strong pointer-events-auto">
         <Link to="/" className="flex items-center gap-2 shrink-0">
           <div className="relative h-7 w-7 sm:h-8 sm:w-8 rounded-lg bg-gradient-primary shadow-neon-cyan shrink-0" />
           <span className="font-display text-base sm:text-lg font-black tracking-widest">SELLORA</span>
@@ -87,7 +86,7 @@ export function Navbar() {
 
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="md:hidden mx-auto mt-2 max-w-7xl rounded-2xl glass-strong p-4 animate-fade-up border border-glass-border shadow-elevated">
+        <div className="md:hidden mx-auto mt-2 max-w-full rounded-2xl glass-strong p-4 animate-fade-up border border-glass-border shadow-elevated pointer-events-auto">
           <ul className="flex flex-col gap-2.5">
             {links.map((l) => (
               <li key={l.label}>

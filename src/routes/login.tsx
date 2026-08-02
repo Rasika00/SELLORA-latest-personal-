@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowRight, Eye, EyeOff, Lock, Mail, User } from "lucide-react";
+import { ArrowRight, Eye, EyeOff, Lock, Mail, User, Phone, MapPin } from "lucide-react";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 
@@ -12,22 +12,49 @@ function LoginPage() {
   const navigate = useNavigate();
   const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [gender, setGender] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
     setIsLoading(true);
 
     setTimeout(() => {
       setIsLoading(false);
-      // Simple redirect to home or admin based on email
-      if (email.toLowerCase().includes("admin")) {
-        navigate({ to: "/admin" });
+      
+      if (isSignUp) {
+        // Registration
+        const user = { firstName, lastName, phone, email, address, gender, password };
+        localStorage.setItem("sellora_user", JSON.stringify(user));
+        alert("Registration successful! You can now sign in.");
+        setIsSignUp(false);
+        setPassword("");
       } else {
-        navigate({ to: "/" });
+        // Login
+        if (email.toLowerCase().includes("admin")) {
+          navigate({ to: "/admin" });
+          return;
+        }
+        
+        const storedUserRaw = localStorage.getItem("sellora_user");
+        if (storedUserRaw) {
+          const storedUser = JSON.parse(storedUserRaw);
+          if (storedUser.email === email && storedUser.password === password) {
+            navigate({ to: "/" });
+          } else {
+            setError("Invalid email or password. Please try again.");
+          }
+        } else {
+          setError("No account found. Please create an account first.");
+        }
       }
     }, 800);
   };
@@ -41,14 +68,8 @@ function LoginPage() {
 
       <div className="mx-auto max-w-md w-full px-4 pt-32 pb-20 flex-1 flex items-center justify-center">
         <div className="w-full rounded-3xl border border-glass-border bg-card/70 p-8 shadow-elevated backdrop-blur-xl">
-          
           {/* Header */}
           <div className="text-center mb-8">
-            <Link to="/" className="inline-block mb-3">
-              <span className="font-display text-2xl font-black tracking-widest bg-gradient-primary bg-clip-text text-transparent">
-                SELLORA
-              </span>
-            </Link>
             <h1 className="font-display text-2xl font-bold tracking-tight text-foreground">
               {isSignUp ? "Create an account" : "Welcome back"}
             </h1>
@@ -57,25 +78,61 @@ function LoginPage() {
             </p>
           </div>
 
+          {error && (
+            <div className="mb-4 rounded-xl border border-red-500/50 bg-red-500/10 p-3 text-center text-xs font-medium text-red-500 animate-fade-up">
+              {error}
+            </div>
+          )}
+
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             {isSignUp && (
-              <div>
-                <label className="block text-xs font-medium text-muted-foreground mb-1.5">
-                  Full Name
-                </label>
-                <div className="relative">
-                  <User className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <input
-                    type="text"
-                    required
-                    placeholder="Alex Mercer"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="w-full rounded-xl border border-glass-border bg-background/60 pl-10 pr-4 py-2.5 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/50 focus:border-neon-cyan focus:outline-none focus:ring-1 focus:ring-neon-cyan transition-all"
-                  />
+              <>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-medium text-muted-foreground mb-1.5">First Name</label>
+                    <div className="relative">
+                      <User className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <input type="text" required placeholder="Alex" value={firstName} onChange={(e) => setFirstName(e.target.value)} className="w-full rounded-xl border border-glass-border bg-background/60 pl-10 pr-4 py-2.5 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/50 focus:border-neon-cyan focus:outline-none focus:ring-1 focus:ring-neon-cyan transition-all" />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-muted-foreground mb-1.5">Last Name</label>
+                    <div className="relative">
+                      <User className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <input type="text" required placeholder="Mercer" value={lastName} onChange={(e) => setLastName(e.target.value)} className="w-full rounded-xl border border-glass-border bg-background/60 pl-10 pr-4 py-2.5 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/50 focus:border-neon-cyan focus:outline-none focus:ring-1 focus:ring-neon-cyan transition-all" />
+                    </div>
+                  </div>
                 </div>
-              </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-medium text-muted-foreground mb-1.5">Phone Number</label>
+                    <div className="relative">
+                      <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <input type="tel" required placeholder="+1 234 567 89" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full rounded-xl border border-glass-border bg-background/60 pl-10 pr-4 py-2.5 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/50 focus:border-neon-cyan focus:outline-none focus:ring-1 focus:ring-neon-cyan transition-all" />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-muted-foreground mb-1.5">Gender</label>
+                    <select required value={gender} onChange={(e) => setGender(e.target.value)} className="w-full rounded-xl border border-glass-border bg-background/60 px-4 py-2.5 text-base sm:text-sm text-foreground focus:border-neon-cyan focus:outline-none focus:ring-1 focus:ring-neon-cyan transition-all appearance-none [&>option]:bg-card">
+                      <option value="" disabled>Select Gender</option>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="other">Other</option>
+                      <option value="prefer-not-to-say">Prefer not to say</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-muted-foreground mb-1.5">Address</label>
+                  <div className="relative">
+                    <MapPin className="absolute left-3.5 top-3 h-4 w-4 text-muted-foreground" />
+                    <textarea required placeholder="123 Main St, City, Country" value={address} onChange={(e) => setAddress(e.target.value)} className="w-full rounded-xl border border-glass-border bg-background/60 pl-10 pr-4 py-2.5 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/50 focus:border-neon-cyan focus:outline-none focus:ring-1 focus:ring-neon-cyan transition-all min-h-[80px]" />
+                  </div>
+                </div>
+              </>
             )}
 
             <div>
@@ -144,7 +201,9 @@ function LoginPage() {
 
           {/* Tip for testing admin */}
           <div className="mt-6 rounded-xl bg-white/5 p-3 text-center text-xs text-muted-foreground border border-white/5">
-            Tip: Use any email containing <span className="font-mono text-neon-cyan">admin</span> (e.g. <span className="font-mono text-foreground">admin@sellora.com</span>) to automatically sign into the Admin Dashboard.
+            Tip: Use any email containing <span className="font-mono text-neon-cyan">admin</span>{" "}
+            (e.g. <span className="font-mono text-foreground">admin@sellora.com</span>) to
+            automatically sign into the Admin Dashboard.
           </div>
 
           {/* Footer Switch */}
@@ -152,12 +211,12 @@ function LoginPage() {
             {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
             <button
               type="button"
-              onClick={() => setIsSignUp(!isSignUp)}
+              onClick={() => { setIsSignUp(!isSignUp); setError(""); }}
               className="font-medium text-neon-cyan hover:underline ml-1"
             >
               {isSignUp ? "Sign in" : "Sign up"}
             </button>
-          </div>
+          </div> 
 
         </div>
       </div>

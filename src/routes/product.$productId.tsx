@@ -57,45 +57,106 @@ function ProductDetails() {
         </div>
 
         {/* Ambient Glows */}
-        <div className={`pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[50vh] w-[50vw] -translate-x-1/2 -translate-y-1/2 rounded-full ${glowColor} blur-[100px] animate-glow-pulse`} />
+        <div className={`pointer-events-none absolute left-1/4 top-1/2 -z-10 h-[50vh] w-[50vw] -translate-x-1/2 -translate-y-1/2 rounded-full ${glowColor} blur-[100px] animate-glow-pulse`} />
 
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-8 md:px-12">
-          <Link to="/" className="group mb-12 inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground">
+        <div className="mx-auto w-full max-w-full px-4 sm:px-8 md:px-12">
+          <Link to="/" className="group mb-8 inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground">
             <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" /> Back to grid
           </Link>
 
-          <div className="flex flex-col items-center text-center max-w-full px-2">
-            <span className={`mb-6 rounded-full border px-4 py-1.5 font-display text-[10px] uppercase tracking-[0.3em] shadow-[0_0_30px_oklch(0.78_0.18_200/0.3)] ${borderColor} ${textColor} bg-white/5 backdrop-blur-md animate-fade-up max-w-full truncate`}>
-              {product.badge}
-            </span>
-            <h2 className="font-display text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight uppercase animate-fade-up break-words max-w-full [animation-delay:0.1s]">
-              {product.name}
-            </h2>
-            <p className="mt-4 max-w-2xl text-base sm:text-lg md:text-xl text-muted-foreground animate-fade-up break-words [animation-delay:0.2s]">
-              Engineered with {product.processor}. Built for unprecedented performance.
-            </p>
-          </div>
-
-          <div className="relative mt-16 flex justify-center animate-fade-up [animation-delay:0.4s]">
-            <div className="group relative w-full max-w-5xl overflow-hidden rounded-3xl border border-glass-border bg-black/60 shadow-[0_0_80px_rgba(0,0,0,0.8)] neon-border">
-              <div className="relative aspect-[16/9] w-full overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            {/* Left side: Image */}
+            <div className="relative animate-fade-up [animation-delay:0.1s] lg:col-span-7">
+              <div className="group relative w-full overflow-hidden rounded-3xl border border-glass-border bg-black/60 shadow-[0_0_80px_rgba(0,0,0,0.8)] neon-border aspect-[4/3] sm:aspect-[16/9] lg:aspect-[4/3]">
                 <img
                   src={product.img}
                   alt={`${product.name} High Resolution Render`}
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none" />
+                
+                {/* Decorative HUD Elements */}
+                <div className="absolute top-6 left-6 hidden md:flex flex-col gap-1 rounded-lg glass px-3 py-2 text-[10px] text-muted-foreground tracking-[0.2em] font-mono backdrop-blur-md">
+                  <span className="text-neon-cyan">SYS.STATUS: OPTIMAL</span>
+                  <span>TEMP: 32°C</span>
+                  <span>VOLTAGE: 1.2V</span>
+                </div>
+                <div className="absolute bottom-6 right-6 hidden md:flex items-center gap-2 rounded-full glass px-4 py-2 text-[10px] text-neon-cyan tracking-[0.2em] font-mono backdrop-blur-md">
+                  <span className="h-2 w-2 rounded-full bg-neon-cyan animate-pulse shadow-neon-cyan" />
+                  LINK ACTIVE
+                </div>
               </div>
-              
-              {/* Decorative HUD Elements */}
-              <div className="absolute top-6 left-6 hidden md:flex flex-col gap-1 rounded-lg glass px-3 py-2 text-[10px] text-muted-foreground tracking-[0.2em] font-mono backdrop-blur-md">
-                <span className="text-neon-cyan">SYS.STATUS: OPTIMAL</span>
-                <span>TEMP: 32°C</span>
-                <span>VOLTAGE: 1.2V</span>
-              </div>
-              <div className="absolute bottom-6 right-6 hidden md:flex items-center gap-2 rounded-full glass px-4 py-2 text-[10px] text-neon-cyan tracking-[0.2em] font-mono backdrop-blur-md">
-                <span className="h-2 w-2 rounded-full bg-neon-cyan animate-pulse shadow-neon-cyan" />
-                LINK ACTIVE
+            </div>
+
+            {/* Right side: Details & Algo */}
+            <div className="flex flex-col items-start max-w-full lg:col-span-5">
+              <span className={`mb-6 inline-block rounded-full border px-4 py-1.5 font-display text-[10px] uppercase tracking-[0.3em] shadow-[0_0_30px_oklch(0.78_0.18_200/0.3)] ${borderColor} ${textColor} bg-white/5 backdrop-blur-md animate-fade-up max-w-full truncate`}>
+                {product.badge}
+              </span>
+              <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-black tracking-tight uppercase animate-fade-up break-words max-w-full [animation-delay:0.1s]">
+                {product.name}
+              </h2>
+              <p className="mt-4 text-base sm:text-lg md:text-xl text-muted-foreground animate-fade-up break-words [animation-delay:0.2s]">
+                Engineered with {product.processor}. Built for unprecedented performance.
+              </p>
+
+              {/* Auto Suggestion Comparison Algorithm */}
+              <div className="mt-12 w-full animate-fade-up [animation-delay:0.3s]">
+                <div className="mb-4 flex items-center gap-2 border-b border-glass-border pb-2">
+                  <Cpu className="h-4 w-4 text-neon-cyan" />
+                  <h3 className="font-display text-xs tracking-[0.2em] text-muted-foreground">SIMILAR SUGGESTIONS</h3>
+                </div>
+                
+                <div className="flex flex-col gap-3 w-full">
+                  {(() => {
+                    const suggestedLaptops = [...products]
+                      .filter(p => p.id !== product.id)
+                      .sort((a, b) => {
+                         const scoreA = Math.abs(a.price - product.price) + (a.category === product.category ? 0 : product.price * 0.2);
+                         const scoreB = Math.abs(b.price - product.price) + (b.category === product.category ? 0 : product.price * 0.2);
+                         return scoreA - scoreB;
+                      })
+                      .slice(0, 2);
+
+                    return (
+                      <>
+                        {suggestedLaptops.map(match => (
+                          <div key={match.id} className="flex flex-col sm:flex-row sm:items-center justify-between rounded-xl glass p-3 border border-glass-border hover:border-neon-cyan/40 transition-colors bg-white/5 gap-3">
+                            <div className="flex items-center gap-3 min-w-0">
+                              <img src={match.img} alt={match.name} className="h-12 w-12 sm:h-14 sm:w-14 rounded-lg bg-black object-cover shrink-0 border border-white/10" />
+                              <div className="min-w-0 flex flex-col gap-1">
+                                <div className="flex items-center gap-2">
+                                  <p className="font-display text-sm font-bold truncate">{match.name}</p>
+                                  <span className="text-[9px] uppercase tracking-widest text-neon-cyan font-mono">{match.processor}</span>
+                                </div>
+                                <div className="flex flex-wrap gap-1.5">
+                                  <span className="rounded bg-white/10 px-1.5 py-0.5 text-[9px] text-muted-foreground">{match.ram}</span>
+                                  <span className="rounded bg-white/10 px-1.5 py-0.5 text-[9px] text-muted-foreground">{match.gpu}</span>
+                                  <span className="rounded bg-white/10 px-1.5 py-0.5 text-[9px] text-muted-foreground">{match.cpu}</span>
+                                  {match.display && <span className="rounded bg-white/10 px-1.5 py-0.5 text-[9px] text-muted-foreground">{match.display.split(' ')[0]}</span>}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                        
+                        {suggestedLaptops.length > 0 && (
+                          <Link 
+                            to="/compare" 
+                            search={{ 
+                              s1: product.id, 
+                              s2: suggestedLaptops[0]?.id || "2", 
+                              s3: suggestedLaptops[1]?.id || "3" 
+                            } as any}
+                            className="mt-3 flex items-center justify-center rounded-lg bg-neon-cyan/10 px-4 py-3 text-xs font-bold uppercase tracking-wider text-neon-cyan border border-neon-cyan/20 hover:bg-neon-cyan hover:text-background transition-colors w-full"
+                          >
+                            Compare All Machines
+                          </Link>
+                        )}
+                      </>
+                    );
+                  })()}
+                </div>
               </div>
             </div>
           </div>
@@ -104,7 +165,7 @@ function ProductDetails() {
 
       {/* Specifications HUD Section */}
       <section className="relative py-24 bg-black/50 border-y border-glass-border">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-8 md:px-12">
+        <div className="mx-auto w-full max-w-full px-4 sm:px-8 md:px-12">
           <div className="mb-16 flex items-center justify-between border-b border-glass-border pb-4">
             <h3 className="font-display text-sm tracking-[0.3em] text-muted-foreground">TECHNICAL SPECIFICATIONS</h3>
             <Expand className="h-4 w-4 text-muted-foreground" />
@@ -126,7 +187,7 @@ function ProductDetails() {
 
       {/* Sticky Bottom Bar */}
       <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-glass-border bg-background/90 backdrop-blur-xl px-4 sm:px-8 md:px-12 py-3 sm:py-4 animate-fade-up">
-        <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-3 sm:gap-4">
+        <div className="mx-auto flex w-full max-w-full flex-wrap items-center justify-between gap-3 sm:gap-4">
           <div className="flex flex-col min-w-0">
             <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Configure from</span>
             <span className="font-display text-lg sm:text-xl md:text-2xl font-bold text-foreground truncate">

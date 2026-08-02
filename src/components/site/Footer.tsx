@@ -7,7 +7,7 @@ export function Footer() {
   return (
     <footer className="relative border-t border-glass-border py-16">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-neon-cyan/60 to-transparent" />
-      <div className="mx-auto grid w-full max-w-7xl gap-10 px-4 sm:px-8 md:px-12 md:grid-cols-[2fr_3fr]">
+      <div className="mx-auto grid w-full max-w-full gap-10 px-4 sm:px-8 md:px-12 md:grid-cols-[2fr_3fr]">
         <div>
           <div className="flex items-center gap-2">
             <div className="h-8 w-8 rounded-lg bg-gradient-primary shadow-neon-cyan" />
@@ -34,7 +34,7 @@ export function Footer() {
           ))}
         </div>
       </div>
-      <div className="mx-auto mt-12 w-full max-w-7xl px-4 sm:px-8 md:px-12 text-xs text-muted-foreground">
+      <div className="mx-auto mt-12 w-full max-w-full px-4 sm:px-8 md:px-12 text-xs text-muted-foreground">
         © {new Date().getFullYear()} SELLORA Systems. All rights reserved.
       </div>
     </footer>
