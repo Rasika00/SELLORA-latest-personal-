@@ -10,7 +10,7 @@ export function Footer() {
       <div className="mx-auto grid w-full max-w-full gap-10 px-4 sm:px-8 md:px-12 md:grid-cols-[2fr_3fr]">
         <div>
           <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-gradient-primary shadow-neon-cyan" />
+            <img src="/logo.png" alt="Sellora Logo" className="h-10 sm:h-12 w-auto object-contain drop-shadow-[0_0_8px_rgba(0,255,255,0.3)]" />
             <span className="font-display text-lg font-black tracking-widest">SELLORA</span>
           </div>
           <p className="mt-4 max-w-sm text-sm text-muted-foreground">

@@ -7,7 +7,8 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
+import { Preloader } from "@/components/site/Preloader";
 
 import appCss from "../styles.css?url";
 
@@ -97,10 +98,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const [showPreloader, setShowPreloader] = useState(true);
 
   return (
     <QueryClientProvider client={queryClient}>
       <HeadContent />
+      {showPreloader && <Preloader onComplete={() => setShowPreloader(false)} />}
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
       <Scripts />

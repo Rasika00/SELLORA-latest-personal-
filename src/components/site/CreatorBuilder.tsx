@@ -46,7 +46,7 @@ export function CreatorBuilder() {
   return (
     <section id="creator" className="relative py-24 md:py-32 border-t border-glass-border">
       <div className="mx-auto w-full max-w-full px-4 sm:px-8 md:px-12">
-        
+
         {/* Simple Clean Header */}
         <div className="mb-12 text-center max-w-2xl mx-auto">
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-neon-purple/40 bg-neon-purple/10 px-3.5 py-1 text-[10px] font-mono font-bold tracking-[0.25em] text-neon-purple uppercase">

@@ -17,7 +17,7 @@ export function Navbar() {
     <header className="fixed top-0 inset-x-0 z-50 px-3 sm:px-6 md:px-8 pt-3 sm:pt-4 pointer-events-none">
       <nav className="mx-auto flex w-full max-w-full items-center justify-between rounded-2xl border border-glass-border bg-card px-3 sm:px-6 py-2 sm:py-3.5 gap-2 md:glass-strong pointer-events-auto">
         <Link to="/" className="flex items-center gap-2 shrink-0">
-          <div className="relative h-7 w-7 sm:h-8 sm:w-8 rounded-lg bg-gradient-primary shadow-neon-cyan shrink-0" />
+          <img src="/logo.png" alt="Sellora" className="h-8 sm:h-10 w-auto object-contain drop-shadow-[0_0_8px_rgba(0,255,255,0.5)]" />
           <span className="font-display text-base sm:text-lg font-black tracking-widest">SELLORA</span>
         </Link>
 
