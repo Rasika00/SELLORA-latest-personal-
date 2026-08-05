@@ -182,7 +182,7 @@ export function ProductGrid() {
                       loading="lazy"
                       width={1024}
                       height={768}
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      className="h-full w-full object-cover object-left transition-transform duration-700 group-hover:scale-110"
                     />
 
                     {/* Compare Button right on top right of the card image */}

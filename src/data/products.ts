@@ -47,7 +47,7 @@ export const products: Product[] = [
     display: '18" QHD+ Mini-LED 300Hz',
     batteryWeight: "91.7Wh · 3.10 kg",
     specialHighlight: "Vapor Chamber Cooling with 3-Fan System",
-    img: gaming,
+    img: 'https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=1200&q=80',
     detailedSpecs: {
       displayTech: "18-inch Mini-LED QHD+ HDR",
       refreshRate: "300Hz / 3ms",
@@ -72,7 +72,7 @@ export const products: Product[] = [
     display: '16.2" Liquid Retina XDR',
     batteryWeight: "100Wh · 2.16 kg",
     specialHighlight: "Incredible battery life with ProRes hardware acceleration",
-    img: creator,
+    img: 'https://upload.wikimedia.org/wikipedia/commons/9/9e/MacBook_Neo_Indigo_Touch_ID.png',
     detailedSpecs: {
       displayTech: "Liquid Retina XDR, 1600 nits peak",
       refreshRate: "ProMotion 120Hz",
@@ -97,7 +97,7 @@ export const products: Product[] = [
     display: '16.0" WQUXGA OLED Touch',
     batteryWeight: "94Wh · 2.95 kg",
     specialHighlight: "ISV-certified for professional 3D and CAD software",
-    img: workstation,
+    img: 'https://upload.wikimedia.org/wikipedia/commons/a/ac/ThinkPad_T14.jpg',
     detailedSpecs: {
       displayTech: "16-inch 4K OLED Pantone Validated",
       refreshRate: "60Hz Standard",
@@ -122,7 +122,7 @@ export const products: Product[] = [
     display: '14.5" 3.2K OLED 120Hz',
     batteryWeight: "69.5Wh · 1.68 kg",
     specialHighlight: "Seamless glass touchpad and CNC machined chassis",
-    img: business,
+    img: 'https://upload.wikimedia.org/wikipedia/commons/2/21/DELL_XPS_13_and_15_%2837080596413%29.jpg',
     detailedSpecs: {
       displayTech: "3.2K OLED Touch 100% DCI-P3",
       refreshRate: "120Hz Variable",
@@ -147,7 +147,7 @@ export const products: Product[] = [
     display: '14.0" 3K OLED 120Hz',
     batteryWeight: "73Wh · 1.50 kg",
     specialHighlight: "Slash Lighting array on a premium CNC aluminum lid",
-    img: gaming2,
+    img: 'https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=1200&q=80',
     detailedSpecs: {
       displayTech: "ROG Nebula Display OLED",
       refreshRate: "120Hz / 0.2ms",
@@ -172,7 +172,7 @@ export const products: Product[] = [
     display: '16.0" WUXGA DreamColor',
     batteryWeight: "95Wh · 2.40 kg",
     specialHighlight: "Tool-less chassis access for easy RAM and storage upgrades",
-    img: creator2,
+    img: 'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=1200&q=80',
     detailedSpecs: {
       displayTech: "HP DreamColor 100% DCI-P3",
       refreshRate: "120Hz",
@@ -197,7 +197,7 @@ export const products: Product[] = [
     display: '18" QHD+ 165Hz',
     batteryWeight: "97Wh · 4.23 kg",
     specialHighlight: "Cryo-tech cooling technology with quad fans",
-    img: gaming,
+    img: 'https://images.unsplash.com/photo-1593642634315-48f5414c3ad9?auto=format&fit=crop&w=1200&q=80',
     detailedSpecs: {
       displayTech: "QHD+ ComfortView Plus",
       refreshRate: "165Hz",
@@ -222,7 +222,7 @@ export const products: Product[] = [
     display: '18" UHD+ Mini-LED 120Hz',
     batteryWeight: "99.9Wh · 3.60 kg",
     specialHighlight: "Cherry MX Ultra Low Profile mechanical keyboard",
-    img: gaming2,
+    img: 'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&w=1200&q=80',
     detailedSpecs: {
       displayTech: "18-inch 4K Mini-LED HDR 1000",
       refreshRate: "120Hz",
@@ -247,7 +247,7 @@ export const products: Product[] = [
     display: '16" ROG Nebula HDR',
     batteryWeight: "90Wh · 2.65 kg",
     specialHighlight: "Tri-Fan technology with full-surround vents",
-    img: gaming,
+    img: 'https://images.unsplash.com/photo-1618424181497-157f25b6ce50?auto=format&fit=crop&w=1200&q=80',
     detailedSpecs: {
       displayTech: "Mini-LED QHD+",
       refreshRate: "240Hz / 3ms",
@@ -272,7 +272,7 @@ export const products: Product[] = [
     display: '15.3" Liquid Retina',
     batteryWeight: "66.5Wh · 1.51 kg",
     specialHighlight: "Fanless design for completely silent operation",
-    img: business,
+    img: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1200&q=80',
     detailedSpecs: {
       displayTech: "Liquid Retina IPS 500 nits",
       refreshRate: "60Hz",
@@ -297,7 +297,7 @@ export const products: Product[] = [
     display: '14.4" PixelSense Flow',
     batteryWeight: "58Wh · 1.98 kg",
     specialHighlight: "Dynamic woven hinge for seamless transitions",
-    img: creator,
+    img: 'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&w=1200&q=80',
     detailedSpecs: {
       displayTech: "PixelSense Touch with HDR",
       refreshRate: "120Hz",
@@ -322,7 +322,7 @@ export const products: Product[] = [
     display: '14" 2.8K OLED Touch',
     batteryWeight: "68Wh · 1.44 kg",
     specialHighlight: "9MP camera with hardware privacy controls",
-    img: business,
+    img: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=80',
     detailedSpecs: {
       displayTech: "OLED Touch with IMAX Enhanced",
       refreshRate: "120Hz Variable",
@@ -347,7 +347,7 @@ export const products: Product[] = [
     display: '14" 3K OLED',
     batteryWeight: "75Wh · 1.20 kg",
     specialHighlight: "Incredibly light at just 1.2kg with a 75Wh battery",
-    img: business,
+    img: 'https://images.unsplash.com/photo-1512314889357-e157c22f938d?auto=format&fit=crop&w=1200&q=80',
     detailedSpecs: {
       displayTech: "ASUS Lumina OLED",
       refreshRate: "120Hz",
@@ -372,7 +372,7 @@ export const products: Product[] = [
     display: '16" 4K OLED Touch',
     batteryWeight: "93Wh · 2.67 kg",
     specialHighlight: "Revolutionary CAMM memory module for increased speed",
-    img: workstation,
+    img: 'https://upload.wikimedia.org/wikipedia/commons/8/83/VR_Workstation.jpg',
     detailedSpecs: {
       displayTech: "16-inch UHD+ OLED 100% DCI-P3",
       refreshRate: "60Hz",
@@ -397,7 +397,7 @@ export const products: Product[] = [
     display: '16" 3.2K OLED Touch',
     batteryWeight: "90Wh · 2.40 kg",
     specialHighlight: "Built-in Asus Dial for precise creative control",
-    img: creator2,
+    img: 'https://images.unsplash.com/photo-1588702545922-7729643c1c71?auto=format&fit=crop&w=1200&q=80',
     detailedSpecs: {
       displayTech: "120Hz 3.2K OLED Calman Verified",
       refreshRate: "120Hz",
@@ -422,7 +422,7 @@ export const products: Product[] = [
     display: '16" WQXGA IPS 240Hz',
     batteryWeight: "99.9Wh · 2.80 kg",
     specialHighlight: "Legion Coldfront 5.0 with AI-tuned performance",
-    img: gaming,
+    img: 'https://upload.wikimedia.org/wikipedia/commons/8/8e/Lenovo_Legion_Y520_%281%29.jpg',
     detailedSpecs: {
       displayTech: "PureSight Gaming IPS",
       refreshRate: "240Hz",
@@ -447,7 +447,7 @@ export const products: Product[] = [
     display: '18" WQXGA Mini-LED',
     batteryWeight: "90Wh · 3.25 kg",
     specialHighlight: "MagKey 3.0 swappable mechanical switches",
-    img: gaming2,
+    img: 'https://upload.wikimedia.org/wikipedia/commons/2/27/Acer_Predator_laptops_and_mice%2C_Computex_Taipei_%2827373087145%29.jpg',
     detailedSpecs: {
       displayTech: "Mini-LED 1000 nits Peak",
       refreshRate: "250Hz",
@@ -472,7 +472,7 @@ export const products: Product[] = [
     display: '17" WQXGA IPS',
     batteryWeight: "77Wh · 1.35 kg",
     specialHighlight: "Unbelievably light for a 17-inch display at just 1.35kg",
-    img: business,
+    img: 'https://upload.wikimedia.org/wikipedia/commons/5/57/Lg-vietnam_laptop_lg-gram_17.jpg',
     detailedSpecs: {
       displayTech: "Anti-glare IPS display",
       refreshRate: "144Hz Variable",
@@ -497,7 +497,7 @@ export const products: Product[] = [
     display: '14" FHD IPS',
     batteryWeight: "48Wh · 1.2 kg",
     specialHighlight: "Excellent portability and battery life at an entry level price",
-    img: business,
+    img: 'https://upload.wikimedia.org/wikipedia/commons/3/31/Acer_Swift_3_SF314-56-52CP%2C_Expert_Veendam_%282020%29_01.jpg',
     detailedSpecs: {
       displayTech: "100% sRGB IPS",
       refreshRate: "60Hz",
@@ -522,7 +522,7 @@ export const products: Product[] = [
     display: '15.6" FHD 120Hz',
     batteryWeight: "60Wh · 2.3 kg",
     specialHighlight: "Great entry-level gaming laptop with dedicated RTX graphics",
-    img: gaming,
+    img: 'https://upload.wikimedia.org/wikipedia/commons/8/8e/Lenovo_Legion_Y520_%281%29.jpg',
     detailedSpecs: {
       displayTech: "FHD IPS Anti-glare",
       refreshRate: "120Hz",
@@ -547,7 +547,7 @@ export const products: Product[] = [
     display: '14" 2.8K OLED 90Hz',
     batteryWeight: "51Wh · 1.4 kg",
     specialHighlight: "Stunning 2.8K OLED display in a thin aluminum chassis",
-    img: business,
+    img: 'https://images.unsplash.com/photo-1542487354-feaf93476caa?auto=format&fit=crop&w=1200&q=80',
     detailedSpecs: {
       displayTech: "OLED HDR 500 nits",
       refreshRate: "90Hz",
@@ -572,7 +572,7 @@ export const products: Product[] = [
     display: '15.6" FHD 144Hz',
     batteryWeight: "90Wh · 2.2 kg",
     specialHighlight: "MIL-STD-810H durability with a massive 90Wh battery",
-    img: gaming2,
+    img: 'https://images.unsplash.com/photo-1629131726692-1accd0c53ce0?auto=format&fit=crop&w=1200&q=80',
     detailedSpecs: {
       displayTech: "FHD IPS-Level",
       refreshRate: "144Hz",
@@ -597,7 +597,7 @@ export const products: Product[] = [
     display: '14" QHD+ 100% DCI-P3',
     batteryWeight: "72Wh · 1.6 kg",
     specialHighlight: "Perfect balance of creator performance and portability",
-    img: creator,
+    img: 'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&w=1200&q=80',
     detailedSpecs: {
       displayTech: "QHD+ True Pixel Display",
       refreshRate: "60Hz",
