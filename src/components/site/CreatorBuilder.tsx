@@ -6,7 +6,7 @@ export function CreatorBuilder() {
       name: "Apple",
       tagline: "Innovation & Design",
       desc: "Apple revolutionized personal technology with the Macintosh in 1984. Today, Apple leads the world in innovation with its M-series silicon, bringing unprecedented power and efficiency to creative professionals.",
-      img: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&w=800&q=80",
+      img: "https://res.cloudinary.com/dpdsdpmgg/image/upload/v1786033609/apple_comany_2K_202608062151_l0u0de.jpg",
       stats: [
         "Founded: April 1, 1976",
         "Headquarters: Cupertino, California",
@@ -19,7 +19,7 @@ export function CreatorBuilder() {
       name: "Dell Technologies",
       tagline: "Enterprise & Workstation Leader",
       desc: "Dell provides the essential infrastructure for organizations to build their digital future. Their Precision workstation line is the trusted standard for heavy engineering, AI, and professional 3D rendering.",
-      img: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=800&q=80",
+      img: "https://res.cloudinary.com/dpdsdpmgg/image/upload/v1786033610/dell_company_view_2K_202608062153_nayk6a.jpg",
       stats: [
         "Founded: February 1, 1984",
         "Headquarters: Round Rock, Texas",
@@ -32,7 +32,7 @@ export function CreatorBuilder() {
       name: "Lenovo",
       tagline: "Global PC Powerhouse",
       desc: "Lenovo is a global technology powerhouse driving computing innovation to deliver smarter technology for all. Renowned for their ThinkPad durability and Yoga versatility in the mobile creator space.",
-      img: "https://images.unsplash.com/photo-1629131726692-1accd0c53ce0?auto=format&fit=crop&w=800&q=80",
+      img: "https://res.cloudinary.com/dpdsdpmgg/image/upload/v1786033610/Lenovo_company._2K_202608062152_qj4zhk.jpg",
       stats: [
         "Founded: November 1, 1984",
         "Headquarters: Beijing & Morrisville",

@@ -170,7 +170,7 @@ function TabDashboard({ inventory }: { inventory: any[] }) {
             <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl">
               <div className="flex items-center gap-3">
                 <div className="h-2 w-2 rounded-full bg-neon-cyan animate-pulse"></div>
-                <span className="font-medium text-sm">Database Cluster (us-east)</span>
+                <span className="font-medium text-sm">Database Cluster (us east)</span>
               </div>
               <span className="text-xs font-mono text-neon-cyan">99.9% Uptime</span>
             </div>
@@ -522,7 +522,7 @@ function TabSettings() {
           <h3 className="text-lg font-bold mb-6 flex items-center gap-2"><Shield className="h-5 w-5 text-muted-foreground" /> Security & Access</h3>
           <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10">
             <div>
-              <div className="font-medium text-sm text-white">Require Two-Factor Authentication (2FA)</div>
+              <div className="font-medium text-sm text-white">Require Two Factor Authentication (2FA)</div>
               <div className="text-xs text-muted-foreground mt-1">Force all admin users to authenticate with a second factor.</div>
             </div>
             <button className="relative inline-flex h-6 w-11 items-center rounded-full bg-neon-cyan shadow-[0_0_10px_rgba(0,242,254,0.5)]">

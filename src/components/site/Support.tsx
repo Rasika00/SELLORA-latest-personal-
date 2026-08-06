@@ -8,27 +8,31 @@ export function Support() {
       tag: "24/7 Concierge",
       desc: "Connect via live video or encrypted terminal directly with the orbital engineering team who calibrated your silicon.",
       accent: "cyan" as const,
+      link: "https://google.com",
     },
     {
       icon: ShieldCheck,
-      title: "3-Year Orbital Warranty",
+      title: "3 Year Orbital Warranty",
       tag: "Zero Cost",
-      desc: "Comprehensive global coverage with express air-courier pickup and clean-room thermal repasting.",
+      desc: "Comprehensive global coverage with express air courier pickup and clean room thermal repasting.",
       accent: "purple" as const,
+      link: "https://google.com",
     },
     {
       icon: Download,
       title: "Driver & BIOS Vault",
       tag: "Studio Verified",
-      desc: "Download ISV-certified GPU studio drivers, custom fan curves, and unlocked overclocking BIOS profiles.",
+      desc: "Download ISV certified GPU studio drivers, custom fan curves, and unlocked overclocking BIOS profiles.",
       accent: "blue" as const,
+      link: "https://google.com",
     },
     {
       icon: Globe,
       title: "Global Service Hubs",
       tag: "45 Countries",
-      desc: "Locate certified orbital service centers or request next-day on-site replacement at your studio.",
+      desc: "Locate certified orbital service centers or request next day on site replacement at your studio.",
       accent: "cyan" as const,
+      link: "https://google.com",
     },
   ];
 
@@ -59,7 +63,7 @@ export function Support() {
             We Stand Behind <span className="text-gradient">Every Rig</span>
           </h2>
           <p className="mt-3 text-sm md:text-base text-muted-foreground">
-            Uncompromising global concierge support. Access studio drivers, check your 3-year warranty status, or connect directly with our engineering team.
+            Uncompromising global concierge support. Access studio drivers, check your 3 year warranty status, or connect directly with our engineering team.
           </p>
         </div>
 
@@ -70,7 +74,7 @@ export function Support() {
             return (
               <div
                 key={card.title}
-                onClick={() => alert(`📞 Launching ${card.title} portal...`)}
+                onClick={() => window.open(card.link, "_blank")}
                 className={`group relative cursor-pointer rounded-3xl border p-6 backdrop-blur-xl transition-all hover:scale-[1.02] ${glow[card.accent]}`}
               >
                 <div className="flex items-center justify-between mb-5">

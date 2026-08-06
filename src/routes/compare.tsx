@@ -172,11 +172,11 @@ function CompareShowdown() {
                   </h2>
                   <p className="mt-1.5 text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed">
                     {topPick.id === "2"
-                      ? "Standout balance across compute (Apple M-Max), memory (96GB Unified), and display fidelity."
+                      ? "Standout balance across compute (Apple M Max), memory (96GB Unified), and display fidelity."
                       : topPick.id === "1"
-                      ? "Peak gaming benchmark leadership, extreme RTX 5090 graphics, and 240Hz Mini-LED responsiveness."
+                      ? "Peak gaming benchmark leadership, extreme RTX 5090 graphics, and 240Hz Mini LED responsiveness."
                       : topPick.id === "3"
-                      ? "Maximum ECC RAM capacity and workstation Ada generation GPU for mission-critical AI/3D workflows."
+                      ? "Maximum ECC RAM capacity and workstation Ada generation GPU for mission critical AI/3D workflows."
                       : `Standout compute efficiency with ${topPick.processor} and ${topPick.gpu} processing power.`}
                   </p>
                 </div>
@@ -385,7 +385,7 @@ function SpecRow({
   label: string;
   value?: string;
 }) {
-  const displayVal = value || "-";
+  const displayVal = value || " ";
   return (
     <div className="flex items-center justify-between gap-3 text-xs sm:text-sm">
       <div className="flex items-center gap-2.5 text-muted-foreground shrink-0">

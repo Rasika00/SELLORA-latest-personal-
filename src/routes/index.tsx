@@ -10,10 +10,10 @@ import { Footer } from "@/components/site/Footer";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "SELLORA — Next-Gen Computing. Unleashed." },
-      { name: "description", content: "Premium high-performance laptops for Gaming, Creator, and Workstation. Engineered for the future." },
-      { property: "og:title", content: "SELLORA — Next-Gen Computing. Unleashed." },
-      { property: "og:description", content: "Premium high-performance laptops for Gaming, Creator, and Workstation." },
+      { title: "SELLORA — Next Gen Computing. Unleashed." },
+      { name: "description", content: "Premium high performance laptops for Gaming, Creator, and Workstation. Engineered for the future." },
+      { property: "og:title", content: "SELLORA — Next Gen Computing. Unleashed." },
+      { property: "og:description", content: "Premium high performance laptops for Gaming, Creator, and Workstation." },
     ],
   }),
   component: Index,

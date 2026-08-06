@@ -1,5 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import emailjs from "@emailjs/browser";
 import { ArrowRight, Eye, EyeOff, Lock, Mail, User, Phone, MapPin } from "lucide-react";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
@@ -21,6 +22,9 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [generatedOtp, setGeneratedOtp] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,32 +33,75 @@ function LoginPage() {
 
     setTimeout(() => {
       setIsLoading(false);
-      
+
       if (isSignUp) {
-        // Registration
-        const user = { firstName, lastName, phone, email, address, gender, password };
-        localStorage.setItem("sellora_user", JSON.stringify(user));
-        alert("Registration successful! You can now sign in.");
-        setIsSignUp(false);
-        setPassword("");
+        // Start Registration Verification
+        const code = Math.floor(100000 + Math.random() * 900000).toString();
+        setGeneratedOtp(code);
+        setIsVerifying(true);
+
+        // Try to send real email via EmailJS
+        emailjs.send(
+          'service_mnefcui', // TODO: Replace with your EmailJS Service ID
+          'template_kuzk4cr', // TODO: Replace with your EmailJS Template ID
+          {
+            to_email: email,
+            to_name: firstName || "User",
+            otp_code: code
+          },
+          'g_SXC8czs8comYen0'
+        ).then(() => {
+          console.log("Email sent successfully!");
+        }).catch((error) => {
+          console.error("EmailJS error:", error);
+          alert(`Email failed to send. Error: ${error?.text || error?.message || 'Unknown error'}. Please check your EmailJS dashboard.`);
+        });
+
       } else {
         // Login
         if (email.toLowerCase().includes("admin")) {
           navigate({ to: "/admin" });
           return;
         }
-        
+
         const storedUserRaw = localStorage.getItem("sellora_user");
         if (storedUserRaw) {
           const storedUser = JSON.parse(storedUserRaw);
           if (storedUser.email === email && storedUser.password === password) {
             navigate({ to: "/" });
+          } else if (storedUser.email !== email) {
+            setError("No account found with this email. Please register.");
+            setIsSignUp(true);
           } else {
             setError("Invalid email or password. Please try again.");
           }
         } else {
           setError("No account found. Please create an account first.");
+          setIsSignUp(true);
         }
+      }
+    }, 800);
+  };
+
+  const handleVerify = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setIsLoading(false);
+
+      if (otp === generatedOtp) {
+        // Complete Registration
+        const user = { firstName, lastName, phone, email, address, gender, password };
+        localStorage.setItem("sellora_user", JSON.stringify(user));
+        alert("Registration successful! You can now sign in.");
+        setIsVerifying(false);
+        setIsSignUp(false);
+        setPassword("");
+        setOtp("");
+      } else {
+        setError("Invalid verification code. Please try again.");
       }
     }, 800);
   };
@@ -85,138 +132,184 @@ function LoginPage() {
           )}
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {isSignUp && (
-              <>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-medium text-muted-foreground mb-1.5">First Name</label>
-                    <div className="relative">
-                      <User className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                      <input type="text" required placeholder="Alex" value={firstName} onChange={(e) => setFirstName(e.target.value)} className="w-full rounded-xl border border-glass-border bg-background/60 pl-10 pr-4 py-2.5 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/50 focus:border-neon-cyan focus:outline-none focus:ring-1 focus:ring-neon-cyan transition-all" />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-medium text-muted-foreground mb-1.5">Last Name</label>
-                    <div className="relative">
-                      <User className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                      <input type="text" required placeholder="Mercer" value={lastName} onChange={(e) => setLastName(e.target.value)} className="w-full rounded-xl border border-glass-border bg-background/60 pl-10 pr-4 py-2.5 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/50 focus:border-neon-cyan focus:outline-none focus:ring-1 focus:ring-neon-cyan transition-all" />
-                    </div>
-                  </div>
+          {isVerifying ? (
+            <form onSubmit={handleVerify} className="space-y-6">
+              <div className="text-center">
+                <div className="mx-auto bg-neon-cyan/10 h-12 w-12 rounded-full flex items-center justify-center mb-4">
+                  <Mail className="h-6 w-6 text-neon-cyan" />
                 </div>
+                <h2 className="text-xl font-bold text-foreground mb-2">Check your email</h2>
+                <p className="text-sm text-muted-foreground">
+                  We've sent a 6 digit verification code to <br />
+                  <span className="text-foreground font-medium">{email}</span>
+                </p>
+              </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-medium text-muted-foreground mb-1.5">Phone Number</label>
-                    <div className="relative">
-                      <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                      <input type="tel" required placeholder="+1 234 567 89" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full rounded-xl border border-glass-border bg-background/60 pl-10 pr-4 py-2.5 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/50 focus:border-neon-cyan focus:outline-none focus:ring-1 focus:ring-neon-cyan transition-all" />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-medium text-muted-foreground mb-1.5">Gender</label>
-                    <select required value={gender} onChange={(e) => setGender(e.target.value)} className="w-full rounded-xl border border-glass-border bg-background/60 px-4 py-2.5 text-base sm:text-sm text-foreground focus:border-neon-cyan focus:outline-none focus:ring-1 focus:ring-neon-cyan transition-all appearance-none [&>option]:bg-card">
-                      <option value="" disabled>Select Gender</option>
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>
-                      <option value="other">Other</option>
-                      <option value="prefer-not-to-say">Prefer not to say</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-medium text-muted-foreground mb-1.5">Address</label>
-                  <div className="relative">
-                    <MapPin className="absolute left-3.5 top-3 h-4 w-4 text-muted-foreground" />
-                    <textarea required placeholder="123 Main St, City, Country" value={address} onChange={(e) => setAddress(e.target.value)} className="w-full rounded-xl border border-glass-border bg-background/60 pl-10 pr-4 py-2.5 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/50 focus:border-neon-cyan focus:outline-none focus:ring-1 focus:ring-neon-cyan transition-all min-h-[80px]" />
-                  </div>
-                </div>
-              </>
-            )}
-
-            <div>
-              <label className="block text-xs font-medium text-muted-foreground mb-1.5">
-                Email Address
-              </label>
-              <div className="relative">
-                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <div>
                 <input
-                  type="email"
+                  type="text"
                   required
-                  placeholder="name@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full rounded-xl border border-glass-border bg-background/60 pl-10 pr-4 py-2.5 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/50 focus:border-neon-cyan focus:outline-none focus:ring-1 focus:ring-neon-cyan transition-all"
+                  maxLength={6}
+                  placeholder="000000"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
+                  className="w-full text-center tracking-[0.5em] font-mono text-2xl rounded-xl border border-glass-border bg-background/60 py-3 text-foreground placeholder:text-muted-foreground/30 focus:border-neon-cyan focus:outline-none focus:ring-1 focus:ring-neon-cyan transition-all"
                 />
               </div>
-            </div>
 
-            <div>
-              <div className="flex items-center justify-between mb-1.5">
-                <label className="block text-xs font-medium text-muted-foreground">
-                  Password
-                </label>
-                {!isSignUp && (
-                  <a href="#forgot" onClick={(e) => { e.preventDefault(); alert("Password reset link sent to email."); }} className="text-xs text-neon-cyan hover:underline">
-                    Forgot password?
-                  </a>
+              <button
+                type="submit"
+                disabled={isLoading || otp.length !== 6}
+                className="w-full mt-2 flex items-center justify-center gap-2 rounded-xl bg-gradient-primary px-5 py-3 font-display text-xs font-bold uppercase tracking-wider text-background shadow-neon-cyan transition-all hover:opacity-95 active:scale-[0.99] disabled:opacity-70"
+              >
+                {isLoading ? (
+                  <span className="h-4 w-4 rounded-full border-2 border-background border-t-transparent animate-spin" />
+                ) : (
+                  <span>Verify Email</span>
                 )}
-              </div>
-              <div className="relative">
-                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <input
-                  type={showPassword ? "text" : "password"}
-                  required
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full rounded-xl border border-glass-border bg-background/60 pl-10 pr-10 py-2.5 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/50 focus:border-neon-cyan focus:outline-none focus:ring-1 focus:ring-neon-cyan transition-all"
-                />
+              </button>
+
+              <div className="text-center">
                 <button
                   type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                  onClick={() => setIsVerifying(false)}
+                  className="text-xs text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  Cancel registration
                 </button>
               </div>
-            </div>
-
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full mt-2 flex items-center justify-center gap-2 rounded-xl bg-gradient-primary px-5 py-3 font-display text-xs font-bold uppercase tracking-wider text-background shadow-neon-cyan transition-all hover:opacity-95 active:scale-[0.99] disabled:opacity-70"
-            >
-              {isLoading ? (
-                <span className="h-4 w-4 rounded-full border-2 border-background border-t-transparent animate-spin" />
-              ) : (
+            </form>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {isSignUp && (
                 <>
-                  <span>{isSignUp ? "Create Account" : "Sign In"}</span>
-                  <ArrowRight className="h-4 w-4" />
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-medium text-muted-foreground mb-1.5">First Name</label>
+                      <div className="relative">
+                        <User className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <input type="text" required placeholder="Alex" value={firstName} onChange={(e) => setFirstName(e.target.value)} className="w-full rounded-xl border border-glass-border bg-background/60 pl-10 pr-4 py-2.5 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/50 focus:border-neon-cyan focus:outline-none focus:ring-1 focus:ring-neon-cyan transition-all" />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-muted-foreground mb-1.5">Last Name</label>
+                      <div className="relative">
+                        <User className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <input type="text" required placeholder="Mercer" value={lastName} onChange={(e) => setLastName(e.target.value)} className="w-full rounded-xl border border-glass-border bg-background/60 pl-10 pr-4 py-2.5 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/50 focus:border-neon-cyan focus:outline-none focus:ring-1 focus:ring-neon-cyan transition-all" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-medium text-muted-foreground mb-1.5">Phone Number</label>
+                      <div className="relative">
+                        <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <input type="tel" required placeholder="+1 234 567 89" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full rounded-xl border border-glass-border bg-background/60 pl-10 pr-4 py-2.5 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/50 focus:border-neon-cyan focus:outline-none focus:ring-1 focus:ring-neon-cyan transition-all" />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-muted-foreground mb-1.5">Gender</label>
+                      <select required value={gender} onChange={(e) => setGender(e.target.value)} className="w-full rounded-xl border border-glass-border bg-background/60 px-4 py-2.5 text-base sm:text-sm text-foreground focus:border-neon-cyan focus:outline-none focus:ring-1 focus:ring-neon-cyan transition-all appearance-none [&>option]:bg-card">
+                        <option value="" disabled>Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                        <option value="prefer-not-to-say">Prefer not to say</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-muted-foreground mb-1.5">Address</label>
+                    <div className="relative">
+                      <MapPin className="absolute left-3.5 top-3 h-4 w-4 text-muted-foreground" />
+                      <textarea required placeholder="123 Main St, City, Country" value={address} onChange={(e) => setAddress(e.target.value)} className="w-full rounded-xl border border-glass-border bg-background/60 pl-10 pr-4 py-2.5 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/50 focus:border-neon-cyan focus:outline-none focus:ring-1 focus:ring-neon-cyan transition-all min-h-[80px]" />
+                    </div>
+                  </div>
                 </>
               )}
-            </button>
-          </form>
 
-          {/* Tip for testing admin */}
-          <div className="mt-6 rounded-xl bg-white/5 p-3 text-center text-xs text-muted-foreground border border-white/5">
-            Tip: Use any email containing <span className="font-mono text-neon-cyan">admin</span>{" "}
-            (e.g. <span className="font-mono text-foreground">admin@sellora.com</span>) to
-            automatically sign into the Admin Dashboard.
-          </div>
+              <div>
+                <label className="block text-xs font-medium text-muted-foreground mb-1.5">
+                  Email Address
+                </label>
+                <div className="relative">
+                  <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <input
+                    type="email"
+                    required
+                    placeholder="name@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full rounded-xl border border-glass-border bg-background/60 pl-10 pr-4 py-2.5 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/50 focus:border-neon-cyan focus:outline-none focus:ring-1 focus:ring-neon-cyan transition-all"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="block text-xs font-medium text-muted-foreground">
+                    Password
+                  </label>
+                  {!isSignUp && (
+                    <a href="#forgot" onClick={(e) => { e.preventDefault(); alert("Password reset link sent to email."); }} className="text-xs text-neon-cyan hover:underline">
+                      Forgot password?
+                    </a>
+                  )}
+                </div>
+                <div className="relative">
+                  <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    required
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full rounded-xl border border-glass-border bg-background/60 pl-10 pr-10 py-2.5 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/50 focus:border-neon-cyan focus:outline-none focus:ring-1 focus:ring-neon-cyan transition-all"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full mt-2 flex items-center justify-center gap-2 rounded-xl bg-gradient-primary px-5 py-3 font-display text-xs font-bold uppercase tracking-wider text-background shadow-neon-cyan transition-all hover:opacity-95 active:scale-[0.99] disabled:opacity-70"
+              >
+                {isLoading ? (
+                  <span className="h-4 w-4 rounded-full border-2 border-background border-t-transparent animate-spin" />
+                ) : (
+                  <>
+                    <span>{isSignUp ? "Create Account" : "Sign In"}</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </>
+                )}
+              </button>
+            </form>
+          )}
+
+
 
           {/* Footer Switch */}
-          <div className="mt-6 text-center text-xs text-muted-foreground">
-            {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
-            <button
-              type="button"
-              onClick={() => { setIsSignUp(!isSignUp); setError(""); }}
-              className="font-medium text-neon-cyan hover:underline ml-1"
-            >
-              {isSignUp ? "Sign in" : "Sign up"}
-            </button>
-          </div> 
+          {!isVerifying && (
+            <div className="mt-6 text-center text-xs text-muted-foreground">
+              {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
+              <button
+                type="button"
+                onClick={() => { setIsSignUp(!isSignUp); setError(""); }}
+                className="font-medium text-neon-cyan hover:underline ml-1"
+              >
+                {isSignUp ? "Sign in" : "Sign up"}
+              </button>
+            </div>
+          )}
 
         </div>
       </div>
