@@ -5,7 +5,7 @@ export function CreatorBuilder() {
     {
       name: "Apple",
       tagline: "Innovation & Design",
-      desc: "Apple revolutionized personal technology with the Macintosh in 1984. Today, Apple leads the world in innovation with its M-series silicon, bringing unprecedented power and efficiency to creative professionals.",
+      desc: "Apple revolutionized personal technology with the Macintosh in 1984. Today, Apple leads the world in innovation with its M series silicon, bringing unprecedented power and efficiency to creative professionals.",
       img: "https://res.cloudinary.com/dpdsdpmgg/image/upload/v1786033609/apple_comany_2K_202608062151_l0u0de.jpg",
       stats: [
         "Founded: April 1, 1976",

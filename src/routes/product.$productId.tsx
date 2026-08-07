@@ -198,9 +198,12 @@ function ProductDetails() {
             <button className="flex-1 sm:flex-none rounded-full glass-strong px-4 sm:px-6 py-3 sm:py-3.5 text-xs sm:text-sm font-bold transition-all hover:bg-white/10 text-center whitespace-normal sm:whitespace-nowrap">
               Save to Wishlist
             </button>
-            <button className="flex-1 sm:flex-none rounded-full bg-gradient-primary px-6 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-sm font-bold text-primary-foreground shadow-[0_0_30px_oklch(0.78_0.18_200/0.3)] transition-transform hover:scale-105 text-center whitespace-normal sm:whitespace-nowrap">
+            <Link 
+              to={`/checkout/${product.id}`}
+              className="flex-1 sm:flex-none rounded-full bg-gradient-primary px-6 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-sm font-bold text-primary-foreground shadow-[0_0_30px_oklch(0.78_0.18_200/0.3)] transition-transform hover:scale-105 text-center whitespace-normal sm:whitespace-nowrap flex items-center justify-center"
+            >
               Configure & Buy
-            </button>
+            </Link>
           </div>
         </div>
       </div>

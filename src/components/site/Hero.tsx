@@ -8,10 +8,10 @@ const metrics = [
   "INTEL CORE ULTRA 9",
   "64GB DDR5X",
   "THUNDERBOLT 5",
-  "MINI-LED 4K",
+  "MINI LED 4K",
   "AI NPU 80 TOPS",
   "VAPOR CHAMBER",
-  "WI-FI 7",
+  "WIFI 7",
 ];
 
 export function Hero() {
@@ -84,7 +84,7 @@ export function Hero() {
         {/* Sub copy + CTAs */}
         <div className="mx-auto mt-8 flex flex-col md:flex-row w-full max-w-full justify-between gap-6 md:gap-8 md:items-end">
           <p className="max-w-md text-sm leading-relaxed text-muted-foreground md:text-base">
-            A new platform for high performance laptops — engineered, rendered,
+            A new platform for high performance laptops  engineered, rendered,
             and shipped in 3D. Cinematic OLED, desktop class silicon, aerospace grade chassis.
           </p>
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">

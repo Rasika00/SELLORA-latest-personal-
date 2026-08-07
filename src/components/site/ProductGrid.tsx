@@ -97,7 +97,7 @@ export function ProductGrid() {
                 <div className="flex items-center gap-2 rounded-[14px] bg-background px-4 py-2.5 transition-colors group-hover:bg-transparent">
                   <Scale className="h-4 w-4 text-neon-cyan group-hover:text-background transition-colors" />
                   <span className="font-display text-xs font-bold tracking-widest text-foreground group-hover:text-background transition-colors">
-                    LAUNCH 3-WAY SHOWDOWN
+                    LAUNCH 3 WAY SHOWDOWN
                   </span>
                 </div>
               </button>

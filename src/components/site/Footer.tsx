@@ -14,7 +14,7 @@ export function Footer() {
             <span className="font-display text-lg font-black tracking-widest">SELLORA</span>
           </div>
           <p className="mt-4 max-w-sm text-sm text-muted-foreground">
-            High-performance computing, engineered without compromise. Shipping globally from orbit.
+            High performance computing, engineered without compromise. Shipping globally from orbit.
           </p>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-8">

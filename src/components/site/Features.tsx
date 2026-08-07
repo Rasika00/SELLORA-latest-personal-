@@ -31,7 +31,7 @@ const features: Feature[] = [
     icon: Cpu,
     title: "Graphics & AI Engine",
     spec: "RTX 5090 · 24GB",
-    desc: "Desktop-class ray tracing with on-chip neural processing acceleration.",
+    desc: "Desktop class ray tracing with on chip neural processing acceleration.",
     accent: "purple",
   },
   {
@@ -45,7 +45,7 @@ const features: Feature[] = [
     icon: MemoryStick,
     title: "Workstation RAM",
     spec: "Up to 128GB DDR5",
-    desc: "Dual-channel 6000MHz low-latency architecture for heavy CAD & 3D timelines.",
+    desc: "Dual channel 6000MHz low latency architecture for heavy CAD & 3D timelines.",
     accent: "cyan",
   },
   {
@@ -72,16 +72,16 @@ const features: Feature[] = [
   {
     icon: Zap,
     title: "Power & Ports",
-    spec: "99.9Wh · Wi-Fi 7",
-    desc: "Max-capacity flight battery with dual Thunderbolt 4 and 40Gbps bandwidth.",
+    spec: "99.9Wh · Wi Fi 7",
+    desc: "Max capacity flight battery with dual Thunderbolt 4 and 40Gbps bandwidth.",
     accent: "purple",
   },
 ];
 
 const standards = [
   { label: "Zero Bloatware OS", desc: "Pure creator installation" },
-  { label: "Orbital Clean-Room", desc: "Dust-free thermal assembly" },
-  { label: "3-Year Global Warranty", desc: "24/7 priority replacement" },
+  { label: "Orbital Clean Room", desc: "Dust free thermal assembly" },
+  { label: "3 Year Global Warranty", desc: "24/7 priority replacement" },
   { label: "ISV Workstation Certified", desc: "Autodesk, Adobe & Epic Games" },
 ];
 

@@ -74,9 +74,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "SELLORA — Next Gen Computing. Unleashed." },
+      { title: "SELLORA  Next Gen Computing. Unleashed." },
       { name: "description", content: "Premium high performance laptops for Gaming, Creator, and Workstation. Engineered for the future." },
-      { property: "og:title", content: "SELLORA — Next Gen Computing. Unleashed." },
+      { property: "og:title", content: "SELLORA  Next Gen Computing. Unleashed." },
       { property: "og:description", content: "Premium high performance laptops for Gaming, Creator, and Workstation." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
