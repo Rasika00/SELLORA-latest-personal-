@@ -1,9 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Menu, X, Search, ShoppingCart, User, ShieldCheck, Scale } from "lucide-react";
-
+import { useCart } from "@/context/CartContext";
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { itemCount, setIsCartOpen } = useCart();
 
   const links = [
     { label: "Laptop", href: "/#products" },
@@ -68,9 +69,17 @@ export function Navbar() {
             <span className="text-sm font-medium hidden lg:inline">Sign In</span>
           </Link>
 
-          <button aria-label="Cart" className="relative rounded-lg p-1.5 sm:p-2 text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground shrink-0">
+          <button 
+            aria-label="Cart" 
+            onClick={() => setIsCartOpen(true)}
+            className="relative rounded-lg p-1.5 sm:p-2 text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground shrink-0"
+          >
             <ShoppingCart className="h-4 w-4" />
-            <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-neon-cyan shadow-neon-cyan" />
+            {itemCount > 0 && (
+              <span className="absolute -right-1 -top-1 h-3.5 w-3.5 rounded-full bg-neon-cyan shadow-neon-cyan text-[9px] font-bold text-background flex items-center justify-center">
+                {itemCount}
+              </span>
+            )}
           </button>
 
           {/* Mobile Menu Button */}

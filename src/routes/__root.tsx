@@ -9,6 +9,8 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
 import { Preloader } from "@/components/site/Preloader";
+import { CartProvider } from "@/context/CartContext";
+import { CartDrawer } from "@/components/cart/CartDrawer";
 
 import appCss from "../styles.css?url";
 
@@ -102,11 +104,14 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <HeadContent />
-      {showPreloader && <Preloader onComplete={() => setShowPreloader(false)} />}
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
-      <Scripts />
+      <CartProvider>
+        <HeadContent />
+        {showPreloader && <Preloader onComplete={() => setShowPreloader(false)} />}
+        <CartDrawer />
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
+        <Scripts />
+      </CartProvider>
     </QueryClientProvider>
   );
 }

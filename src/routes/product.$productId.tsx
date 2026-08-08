@@ -3,6 +3,8 @@ import { ArrowLeft, Cpu, MemoryStick, Zap, Fingerprint, Shield, Battery, Expand 
 import { products } from "@/data/products";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
+import { useCart } from "@/context/CartContext";
+import { ShoppingCart } from "lucide-react";
 
 export const Route = createFileRoute("/product/$productId")({
   component: ProductDetails,
@@ -11,6 +13,8 @@ export const Route = createFileRoute("/product/$productId")({
 function ProductDetails() {
   const { productId } = Route.useParams();
   const product = products.find((p) => p.id === productId);
+  const { addToCart } = useCart();
+
 
   if (!product) {
     return (
@@ -195,8 +199,12 @@ function ProductDetails() {
             </span>
           </div>
           <div className="flex flex-wrap sm:flex-nowrap w-full sm:w-auto gap-2.5 sm:gap-3">
-            <button className="flex-1 sm:flex-none rounded-full glass-strong px-4 sm:px-6 py-3 sm:py-3.5 text-xs sm:text-sm font-bold transition-all hover:bg-white/10 text-center whitespace-normal sm:whitespace-nowrap">
-              Save to Wishlist
+            <button 
+              onClick={() => addToCart(product)}
+              className="flex-1 sm:flex-none rounded-full glass-strong px-4 sm:px-6 py-3 sm:py-3.5 text-xs sm:text-sm font-bold transition-all hover:bg-neon-cyan/20 hover:text-neon-cyan border border-transparent hover:border-neon-cyan/50 text-center whitespace-normal sm:whitespace-nowrap flex items-center justify-center gap-2"
+            >
+              <ShoppingCart className="w-4 h-4" />
+              Add to Cart
             </button>
             <Link 
               to={`/checkout/${product.id}`}
