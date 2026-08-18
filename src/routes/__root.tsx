@@ -11,6 +11,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { Preloader } from "@/components/site/Preloader";
 import { CartProvider } from "@/context/CartContext";
 import { CartDrawer } from "@/components/cart/CartDrawer";
+import { AiChatbot } from "@/components/chat/AiChatbot";
 
 import appCss from "../styles.css?url";
 
@@ -108,6 +109,7 @@ function RootComponent() {
         <HeadContent />
         {showPreloader && <Preloader onComplete={() => setShowPreloader(false)} />}
         <CartDrawer />
+        <AiChatbot />
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <Outlet />
         <Scripts />

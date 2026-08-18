@@ -51,12 +51,12 @@ export function Navbar() {
           {/* Always Accessible Admin Command Button */}
           <Link
             to="/admin"
-            className="rounded-full border border-neon-purple/50 bg-neon-purple/15 px-2.5 py-1 sm:px-3.5 sm:py-1.5 text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider text-neon-purple transition-all hover:bg-neon-purple hover:text-background shadow-[0_0_15px_oklch(0.62_0.24_295/0.25)] flex items-center gap-1 shrink-0"
+            className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-neon-cyan via-neon-blue to-neon-purple px-3 py-1 sm:px-3.5 sm:py-1.5 text-[10px] sm:text-xs font-mono font-black uppercase tracking-wider text-black shadow-neon-cyan transition-all hover:scale-105 hover:shadow-[0_0_25px_oklch(0.78_0.18_200/0.6)] shrink-0"
             title="Admin Command Center"
           >
-            <ShieldCheck className="h-3 w-3 sm:h-3.5 sm:w-3.5 shrink-0" />
+            <ShieldCheck className="h-3 w-3 sm:h-3.5 sm:w-3.5 shrink-0 text-black stroke-[2.5]" />
             <span className="hidden sm:inline">Admin Command</span>
-            <span className="inline sm:hidden font-extrabold">Admin</span>
+            <span className="inline sm:hidden font-black">Admin</span>
           </Link>
 
           <Link
@@ -123,9 +123,9 @@ export function Navbar() {
               <Link
                 to="/admin"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full rounded-xl bg-neon-purple/20 border border-neon-purple/50 px-4 py-3 text-center text-xs font-mono font-bold uppercase tracking-wider text-neon-purple hover:bg-neon-purple hover:text-background transition-all flex items-center justify-center gap-2"
+                className="w-full rounded-xl bg-gradient-to-r from-neon-cyan via-neon-blue to-neon-purple px-4 py-3 text-center text-xs font-mono font-black uppercase tracking-wider text-black shadow-neon-cyan hover:scale-[1.02] transition-all flex items-center justify-center gap-2"
               >
-                <ShieldCheck className="h-4 w-4" />
+                <ShieldCheck className="h-4 w-4 text-black stroke-[2.5]" />
                 Launch Admin Command Center
               </Link>
               <Link

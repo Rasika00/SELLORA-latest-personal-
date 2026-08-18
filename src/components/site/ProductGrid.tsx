@@ -214,39 +214,39 @@ export function ProductGrid() {
                       <SpecPill icon={Zap} label={p.gpu} />
                     </div>
 
-                    <div className="mt-auto flex flex-wrap items-end justify-between gap-3 pt-6">
+                    <div className="mt-auto pt-6 flex flex-col gap-3">
                       <div>
-                        <p className="text-[10px] uppercase tracking-widest text-muted-foreground">From</p>
-                        <p className="font-display text-base sm:text-lg font-bold text-foreground">
+                        <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-mono">FROM</p>
+                        <p className="font-display text-lg sm:text-xl font-bold text-foreground mt-0.5">
                           Rs {p.price.toLocaleString()}
                         </p>
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="grid grid-cols-2 gap-2">
                         <button
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
                             addToCart(p);
                           }}
-                          className="group/btn inline-flex items-center justify-center h-9 w-9 sm:w-auto sm:px-4 rounded-full bg-neon-cyan/20 border border-neon-cyan/60 text-neon-cyan hover:bg-neon-cyan hover:text-black transition-all shadow-[0_0_15px_oklch(0.78_0.18_200/0.15)] hover:shadow-neon-cyan"
+                          className="group/btn inline-flex items-center justify-center h-9 px-2.5 rounded-xl bg-neon-cyan/20 border border-neon-cyan/60 text-neon-cyan hover:bg-neon-cyan hover:text-black transition-all shadow-[0_0_15px_oklch(0.78_0.18_200/0.15)] hover:shadow-neon-cyan text-xs font-semibold"
                           title="Add to Cart"
                         >
-                          <ShoppingCart className="h-3.5 w-3.5 sm:mr-1.5" />
-                          <span className="hidden sm:inline">Add</span>
+                          <ShoppingCart className="h-3.5 w-3.5 mr-1.5 shrink-0" />
+                          <span>Add to Cart</span>
                         </button>
                         <button
                           onClick={(e) => {
                             toggleCompare(e, p.id);
                           }}
-                          className={`group/btn inline-flex items-center justify-center h-9 w-9 sm:w-auto sm:px-4 rounded-full transition-all ${
+                          className={`group/btn inline-flex items-center justify-center h-9 px-2.5 rounded-xl text-xs font-semibold transition-all ${
                             isCompared
                               ? "bg-neon-purple/20 border border-neon-purple/60 text-neon-purple"
-                              : "bg-gradient-primary text-primary-foreground hover:scale-105 hover:shadow-neon-cyan"
+                              : "bg-gradient-primary text-primary-foreground hover:scale-[1.02] hover:shadow-neon-cyan"
                           }`}
                           title="Compare in Showdown"
                         >
-                          {isCompared ? <Check className="h-3.5 w-3.5 sm:mr-1.5" /> : <Scale className="h-3.5 w-3.5 sm:mr-1.5" />}
-                          <span className="hidden sm:inline">{isCompared ? "Added" : "Compare"}</span>
+                          {isCompared ? <Check className="h-3.5 w-3.5 mr-1.5 shrink-0" /> : <Scale className="h-3.5 w-3.5 mr-1.5 shrink-0" />}
+                          <span>{isCompared ? "Added" : "Compare"}</span>
                         </button>
                       </div>
                     </div>
