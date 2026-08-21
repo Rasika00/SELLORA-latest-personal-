@@ -18,7 +18,14 @@ import {
   CheckCircle2,
   AlertCircle,
   Loader2,
-  Sparkles
+  Sparkles,
+  Compass,
+  Scale,
+  ShieldCheck,
+  CreditCard,
+  Laptop,
+  HelpCircle,
+  Award
 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { products, type Product } from "@/data/products";
@@ -35,43 +42,72 @@ type Message = {
 };
 
 const SUGGESTION_CHIPS = [
-  "🔥 Which laptop has the highest benchmark score?",
-  "🎬 Compare Razer Blade 18 vs MacBook Pro 16",
-  "🎮 Which laptops have RTX 4090 GPU?",
-  "🔋 Which laptop has the best battery life?",
-  "💰 Show laptops under Rs 300,000",
-  "🛡️ What is the 3-Year Warranty & Shipping policy?",
-  "📞 Contact WhatsApp Support"
+  "🗺️ Take a Website Tour",
+  "🎯 Help me choose a laptop",
+  "⚔️ Showdown Compare Arena",
+  "🎮 Best laptop for Gaming",
+  "🎬 Best for 4K/8K Video Editing",
+  "🚀 Best for Blender 3D & CAD",
+  "💰 Laptops under Rs 350,000",
+  "🛡️ 3-Year Warranty & Shipping",
+  "💳 Payment & 5% Bank Discount",
+  "📞 Chat with Engineer on WhatsApp"
 ];
 
 // Full catalog context for AI
 const CATALOG_CONTEXT = products.map(p => 
-  `[Model: ${p.name} | Category: ${p.category} | Processor: ${p.processor} | CPU: ${p.cpu} | RAM: ${p.ram} | GPU: ${p.gpu} | Price: Rs ${p.price.toLocaleString()} (${p.priceUsd || ''}) | Display: ${p.display || 'N/A'} | Battery & Weight: ${p.batteryWeight || 'N/A'} | Benchmark Score: ${p.detailedSpecs?.benchmarkScore || 'N/A'} | Highlight: ${p.specialHighlight || 'N/A'}]`
+  `[Model: ${p.name} | ID: ${p.id} | Category: ${p.category} | Processor: ${p.processor} | CPU: ${p.cpu} | RAM: ${p.ram} | GPU: ${p.gpu} | Price: Rs ${p.price.toLocaleString()} (${p.priceUsd || ''}) | Display: ${p.display || 'N/A'} | Battery & Weight: ${p.batteryWeight || 'N/A'} | Benchmark Score: ${p.detailedSpecs?.benchmarkScore || 'N/A'} | Cooling: ${p.detailedSpecs?.cooling || 'N/A'} | Highlight: ${p.specialHighlight || 'N/A'}]`
 ).join("\n");
 
-const SYSTEM_PROMPT = `You are "Sellora AI", the official hardware intelligence assistant for SELLORA (a high-performance laptop platform).
-You talk conversationally, accurately, and helpful like a seasoned hardware engineer and friendly consultant.
+const SYSTEM_PROMPT = `You are "Sellora AI", the warm, super-friendly, and ultra-knowledgeable official digital concierge for SELLORA (a premier high-performance workstation & laptop marketplace).
 
-### PLATFORM DETAILS:
-- 3-Year Global Priority Replacement Warranty (free 24-48h replacement on hardware faults).
-- Express Domestic Delivery (24-48h with GPS tracking) & Global Priority Shipping (3-5 days) in reinforced vacuum flight cases.
-- Zero Bloatware Guarantee: Clean OS installation with pre-calibrated 100% DCI-P3 displays.
-- Showdown Arena: Interactive 3-way laptop comparison tool.
-- Payments: Major Cards, Bank Transfer (5% instant discount), 0% interest monthly installments.
-- WhatsApp Support: +94 77 123 4567 | Phone: +94 11 234 5678.
+### YOUR PERSONALITY & TONE:
+- Be cheerful, polite, welcoming, and enthusiastically helpful!
+- Use friendly emojis (✨, 🚀, 💻, 🛡️, ⚡, 🎮, 🎯) to make responses lively and easy to read.
+- Address the user kindly and make them feel supported every step of the way.
+- Always provide clear, well-structured answers with bullet points and bold highlights.
 
-### COMPLETE SELLORA INVENTORY:
+### COMPREHENSIVE SELLORA WEBSITE KNOWLEDGE BASE:
+
+1. **WHAT IS SELLORA?**
+   - Sellora is a specialized platform offering the world's most powerful creator, workstation, and gaming laptops.
+   - Every unit is zero-bloatware, hand-calibrated (100% DCI-P3 displays), and protected by an industry-leading 3-Year Global Priority Replacement Warranty.
+
+2. **MAIN WEBSITE SECTIONS & NAVIGATION:**
+   - **Laptop Catalog** (\`/#products\`): Complete collection of flagship laptops with live search, filters (All, Gaming, Workstation, Ultrabook), sorting, and instant cart additions.
+   - **Showdown Arena (3-Way Comparison)** (\`/compare\`): Interactive 3-way side-by-side comparison tool comparing specs, CPU/GPU, displays, thermals, and benchmark scores in real time.
+   - **Creator & Partner Ecosystem** (\`/#creator\`): Strategic partnerships with industry leaders Apple, Dell Technologies, and Lenovo.
+   - **Silicon & Thermal Tech Architecture** (\`/#features\`): Explains Vapor Chamber cooling, DDR5 6000MHz low-latency RAM, PCIe 5.0 SSDs (up to 12,000 MB/s), CNC aluminum unibody chassis, 99.9Wh flight-max batteries, and ISV certifications (Autodesk, Adobe, Epic Games).
+   - **Orbital ProCare Support** (\`/#support\`): 24/7 direct video/terminal access to hardware engineers, Driver & BIOS Vault for studio drivers, and 45 global service hubs.
+   - **Checkout & Ordering** (\`/checkout\`): Fast, streamlined checkout with delivery options, instant 5% bank discount calculator, and 0% EMI options.
+   - **Admin Command Center** (\`/admin\`): Real-time administrative dashboard for inventory management, real-time analytics, order logs, and telemetry.
+   - **Account Sign In** (\`/login\`): Secure terminal login for customers and staff.
+
+3. **CUSTOMER POLICIES & ADVANTAGES:**
+   - **3-Year Global Priority Replacement Warranty**: In case of any hardware fault, units are replaced within 24–48 hours with zero repair downtime.
+   - **14-Day Hassle-Free Test Drive**: Full return/exchange window with 0% restocking fee.
+   - **Express Shipping**: Domestic Express (24–48h with live GPS tracking) & Global Priority Shipping (3–5 business days) inside shock-absorbing vacuum flight cases.
+   - **Payment Methods**: Visa, MasterCard, American Express, Direct Bank Transfer (gives an automatic **5% Instant Discount**), and 0% interest monthly installments up to 24 months.
+   - **Student & Corporate Discounts**: Educational discounts (additional 5-8% off) and corporate bulk quotes available via WhatsApp.
+   - **Direct Contact**: WhatsApp hotline \`+94 77 123 4567\`, Phone \`+94 11 234 5678\`, 24/7 engineer concierge.
+
+4. **CURRENT SELLORA PRODUCT INVENTORY:**
 ${CATALOG_CONTEXT}
 
 ### INSTRUCTIONS:
-- Directly answer the user's specific question using exact specs, numbers, and comparisons from the inventory above.
-- Be concise, helpful, and formatted with clean bullet points and bold text.`;
+- Whenever a user asks for recommendations, ask friendly follow-up questions about their workload or budget if needed, and recommend the best matching models from the inventory.
+- Include relevant page routes or features (like Showdown Arena \`/compare\` or Support \`/#support\`).
+- Stay positive, concise, structured, and warm!`;
 
 export function AiChatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-  const [geminiApiKey, setGeminiApiKey] = useState(() => localStorage.getItem("sellora_gemini_key") || "");
+  const [geminiApiKey, setGeminiApiKey] = useState(() => 
+    localStorage.getItem("sellora_gemini_key") || 
+    (import.meta as any).env?.VITE_GEMINI_API_KEY || 
+    ""
+  );
   const [tempApiKey, setTempApiKey] = useState(geminiApiKey);
   const [testingKey, setTestingKey] = useState(false);
   const [testResult, setTestResult] = useState<{ success: boolean; message: string } | null>(null);
@@ -83,8 +119,13 @@ export function AiChatbot() {
     {
       id: "welcome-1",
       sender: "bot",
-      text: "👋 Greetings! I am **Sellora AI**.\n\nAsk me any question about our laptop specs, gaming benchmarks, prices, comparisons, or warranty & shipping policies. What would you like to know?",
+      text: "👋 **Hello and welcome to Sellora!** ✨\n\nI'm **Sellora AI**, your personal hardware advisor & website guide. I'm here to make exploring our store effortless and fun!\n\nFeel free to ask me about:\n• 💻 **Laptop recommendations** for gaming, 3D, coding, or video editing\n• ⚔️ **Comparing models** in our Showdown Arena\n• 🛡️ **3-Year Warranty & Express Shipping**\n• 💰 **Prices, discounts & 0% installments**\n• 🗺️ **A quick tour of the website!**\n\nHow can I help you today? 😊",
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      actionLinks: [
+        { label: "🗺️ Website Tour", url: "#tour", isRoute: false },
+        { label: "⚔️ Showdown Arena", url: "/compare", isRoute: true },
+        { label: "💻 View Laptops", url: "/#products", isRoute: false }
+      ]
     }
   ]);
 
@@ -106,52 +147,70 @@ export function AiChatbot() {
     }
   }, [isOpen, isMinimized, showSettings]);
 
-  // Test Gemini API Key
+  // Candidate models to try in priority order
+  const GEMINI_MODELS = [
+    "gemini-2.0-flash",
+    "gemini-1.5-flash",
+    "gemini-2.5-flash",
+    "gemini-1.5-pro"
+  ];
+
+  // Test Gemini API Key across candidate models
   const handleTestKey = async () => {
     const key = tempApiKey.trim();
     if (!key) {
-      setTestResult({ success: false, message: "Please paste a valid Gemini API key first." });
+      setTestResult({ success: false, message: "Please enter a valid Gemini API key first (starts with 'AIzaSy...')." });
       return;
     }
 
     setTestingKey(true);
     setTestResult(null);
 
-    try {
-      const res = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            contents: [{ role: "user", parts: [{ text: "Hello" }] }]
-          })
+    let lastError = "";
+    for (const model of GEMINI_MODELS) {
+      try {
+        const res = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              contents: [{ role: "user", parts: [{ text: "Hello" }] }]
+            })
+          }
+        );
+
+        if (res.ok) {
+          setTestResult({ 
+            success: true, 
+            message: `✅ Connected successfully to Google Gemini (${model})!` 
+          });
+          setTestingKey(false);
+          return;
+        } else {
+          const errorData = await res.json().catch(() => ({}));
+          lastError = errorData?.error?.message || `HTTP ${res.status}: ${res.statusText}`;
         }
-      );
-
-      if (!res.ok) {
-        const errorData = await res.json().catch(() => ({}));
-        throw new Error(errorData?.error?.message || `HTTP ${res.status}: Invalid API Key or Unauthorized`);
+      } catch (err: any) {
+        lastError = err?.message || "Network / CORS connection error";
       }
-
-      setTestResult({ success: true, message: "✅ Connected successfully to Google Gemini 1.5 Flash!" });
-    } catch (err: any) {
-      setTestResult({ success: false, message: `❌ Connection failed: ${err?.message || "Invalid Key or Network Error"}` });
-    } finally {
-      setTestingKey(false);
     }
+
+    setTestResult({ 
+      success: false, 
+      message: `❌ Connection failed: ${lastError || "Invalid API Key or Network Block"}` 
+    });
+    setTestingKey(false);
   };
 
-  // Google Gemini API Engine with proper system instruction & alternating turn structure
+  // Google Gemini API Engine with auto-fallback across models
   const callGeminiApi = async (userPrompt: string, history: Message[]): Promise<string> => {
     const key = geminiApiKey.trim();
-    if (!key) throw new Error("No Gemini API key configured.");
+    if (!key) throw new Error("No Gemini API key configured. Click ⚙️ in the chat header to add your key.");
 
-    // Build strictly alternating turn history
     const conversationTurns: { role: "user" | "model"; parts: { text: string }[] }[] = [];
-    
-    // Filter history to ensure alternating user -> model turns
     let expectedRole: "user" | "model" = "user";
+    
     for (const m of history.slice(-8)) {
       const role = m.sender === "user" ? "user" : "model";
       if (role === expectedRole && m.text.trim()) {
@@ -163,43 +222,53 @@ export function AiChatbot() {
       }
     }
 
-    // Always add the current user prompt as the final turn
     if (expectedRole === "model" && conversationTurns.length > 0) {
-      conversationTurns.pop(); // Remove last user turn to cleanly add new prompt
+      conversationTurns.pop();
     }
     conversationTurns.push({
       role: "user",
       parts: [{ text: userPrompt }]
     });
 
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          system_instruction: {
-            parts: [{ text: SYSTEM_PROMPT }]
-          },
-          contents: conversationTurns,
-          generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 1000
-          }
-        })
-      }
-    );
+    let lastError = "";
 
-    if (!response.ok) {
-      const err = await response.json().catch(() => ({}));
-      throw new Error(err?.error?.message || `Gemini API Error: HTTP ${response.status}`);
+    for (const model of GEMINI_MODELS) {
+      try {
+        const response = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              system_instruction: {
+                parts: [{ text: SYSTEM_PROMPT }]
+              },
+              contents: conversationTurns,
+              generationConfig: {
+                temperature: 0.7,
+                maxOutputTokens: 1000
+              }
+            })
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          const reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (reply) return reply;
+        } else {
+          const err = await response.json().catch(() => ({}));
+          lastError = err?.error?.message || `HTTP ${response.status}`;
+        }
+      } catch (err: any) {
+        lastError = err?.message || "Network Error";
+      }
     }
 
-    const data = await response.json();
-    return data.candidates?.[0]?.content?.parts?.[0]?.text || "Unable to generate response from Gemini.";
+    throw new Error(lastError || "All Gemini endpoints failed to respond.");
   };
 
-  // High-Accuracy Deep Semantic Answering Engine (Local Fallback)
+  // High-Accuracy Deep Semantic Answering Engine (Comprehensive Local Engine)
   const processAccurateAnswer = (query: string): { 
     reply: string; 
     matchedProducts?: Product[]; 
@@ -207,6 +276,25 @@ export function AiChatbot() {
     showContact?: boolean 
   } => {
     const q = query.toLowerCase().trim();
+
+    // 0. Website Tour / What is Sellora / Navigation
+    if (q.includes("tour") || q.includes("what is sellora") || q.includes("about website") || q.includes("how website works") || q.includes("explore")) {
+      return {
+        reply: `🌟 **Welcome to the Sellora Tour! Here is everything on our platform:**\n\n` +
+          `1. 💻 **Laptop Catalog** (\`/#products\`): Browse top-rated gaming rigs, workstation beasts, and sleek ultrabooks with live stock and filters.\n` +
+          `2. ⚔️ **Showdown Arena** (\`/compare\`): Compare up to 3 laptops side-by-side with CPU/GPU benchmarks, display specs, and battery ratings.\n` +
+          `3. 🏢 **Brand Ecosystem** (\`/#creator\`): Discover our official hardware partnerships with Apple, Dell Technologies, and Lenovo.\n` +
+          `4. ⚡ **Tech Architecture** (\`/#features\`): Discover our vapor-chamber thermals, DDR5 6000MHz speeds, and aerospace chassis.\n` +
+          `5. 🛡️ **Orbital ProCare** (\`/#support\`): 3-Year Global Priority Replacement Warranty, driver vaults, and 24/7 engineer support.\n` +
+          `6. 🛡️ **Admin Command** (\`/admin\`): Central control center for catalog inventory and system metrics.\n\n` +
+          `What area would you like to explore first?`,
+        actionLinks: [
+          { label: "⚔️ Launch Showdown Arena", url: "/compare", isRoute: true },
+          { label: "💻 Explore Catalog", url: "/#products" },
+          { label: "🛡️ Support & Warranty", url: "/#support" }
+        ]
+      };
+    }
 
     // 1. Direct Comparison requests ("Compare A vs B" or "Is A better than B")
     const mentionedModels = products.filter(p => {
@@ -219,23 +307,23 @@ export function AiChatbot() {
       const p2 = mentionedModels[1] || products.find(p => p.id !== p1.id && (p.category === p1.category || p.price > 300000)) || products[1];
 
       return {
-        reply: `⚔️ **Direct Comparison: ${p1.name} vs ${p2.name}**\n\n` +
-          `**1. ${p1.name}** (Rs ${p1.price.toLocaleString()})\n` +
-          `• **Processor**: ${p1.cpu}\n` +
+        reply: `⚔️ **Showdown Comparison: ${p1.name} vs ${p2.name}**\n\n` +
+          `✨ **1. ${p1.name}** (Rs ${p1.price.toLocaleString()})\n` +
+          `• **Processor**: ${p1.cpu} (${p1.processor})\n` +
           `• **Graphics**: ${p1.gpu}\n` +
-          `• **RAM**: ${p1.ram}\n` +
-          `• **Display**: ${p1.display || 'Pro Display'}\n` +
-          `• **Benchmark**: **${p1.detailedSpecs?.benchmarkScore || '9400'} pts**\n\n` +
-          `**2. ${p2.name}** (Rs ${p2.price.toLocaleString()})\n` +
-          `• **Processor**: ${p2.cpu}\n` +
+          `• **RAM & Storage**: ${p1.ram}\n` +
+          `• **Display**: ${p1.display || 'Pro High-Refresh Panel'}\n` +
+          `• **Benchmark**: **${p1.detailedSpecs?.benchmarkScore || '9,400'} pts**\n\n` +
+          `✨ **2. ${p2.name}** (Rs ${p2.price.toLocaleString()})\n` +
+          `• **Processor**: ${p2.cpu} (${p2.processor})\n` +
           `• **Graphics**: ${p2.gpu}\n` +
-          `• **RAM**: ${p2.ram}\n` +
-          `• **Display**: ${p2.display || 'Pro Display'}\n` +
-          `• **Benchmark**: **${p2.detailedSpecs?.benchmarkScore || '9500'} pts**\n\n` +
-          `💡 **Verdict**: Choose **${p1.name}** if your priority is *${p1.badge}*, or **${p2.name}** for *${p2.specialHighlight || 'maximum workstation efficiency'}*.`,
+          `• **RAM & Storage**: ${p2.ram}\n` +
+          `• **Display**: ${p2.display || 'Pro High-Refresh Panel'}\n` +
+          `• **Benchmark**: **${p2.detailedSpecs?.benchmarkScore || '9,500'} pts**\n\n` +
+          `🎯 **Recommendation**: Pick **${p1.name}** if you want *${p1.badge}*, or choose **${p2.name}** for *${p2.specialHighlight || 'maximum workstation throughput'}*!`,
         matchedProducts: [p1, p2],
         actionLinks: [
-          { label: "Launch 3-Way Showdown Arena", url: "/compare", isRoute: true }
+          { label: "⚔️ Open 3-Way Showdown Arena", url: "/compare", isRoute: true }
         ]
       };
     }
@@ -248,54 +336,71 @@ export function AiChatbot() {
           `• **Badge / Class**: ${p.badge} (${p.category})\n` +
           `• **Processor**: ${p.cpu} (${p.processor})\n` +
           `• **GPU**: ${p.gpu}\n` +
-          `• **RAM**: ${p.ram} Low-Latency Architecture\n` +
-          `• **Display**: ${p.display || 'Precision Color-Calibrated Panel'}\n` +
+          `• **RAM**: ${p.ram} Ultra-Low Latency\n` +
+          `• **Display**: ${p.display || 'Factory Color-Calibrated Panel'}\n` +
           `• **Battery & Weight**: ${p.batteryWeight || 'High-capacity flight battery'}\n` +
           `• **Cooling & Chassis**: ${p.detailedSpecs?.cooling || 'Liquid Vapor Chamber'} | ${p.detailedSpecs?.chassis || 'CNC Machined Aluminum'}\n` +
-          `• **Benchmark Performance**: **${p.detailedSpecs?.benchmarkScore || '9500+'} pts**\n` +
+          `• **Benchmark Score**: **${p.detailedSpecs?.benchmarkScore || '9,500+'} pts**\n` +
           `• **Price**: **Rs ${p.price.toLocaleString()}** (${p.priceUsd || ''})\n\n` +
-          `✨ *Special Feature*: ${p.specialHighlight || 'Zero thermal throttling under sustained load.'}`,
+          `✨ *Special Feature*: ${p.specialHighlight || 'Zero thermal throttling under sustained heavy loads.'}`,
         matchedProducts: [p],
         actionLinks: [
           { label: `View ${p.name}`, url: `/product/${p.id}`, isRoute: true },
-          { label: "Showdown Arena", url: "/compare", isRoute: true }
+          { label: "⚔️ Compare in Showdown", url: "/compare", isRoute: true }
         ]
       };
     }
 
-    // 3. Asking about specific GPUs (RTX 4090, RTX 4080, RTX 4070, RTX 5000 Ada, Apple GPU)
+    // 3. Help Choose / Recommendation Wizard
+    if (q.includes("help me choose") || q.includes("recommend") || q.includes("which should i buy") || q.includes("suggest") || q.includes("guide")) {
+      return {
+        reply: `🎯 **I would love to help you find the perfect machine!**\n\n` +
+          `To give you the exact best recommendation, tell me:\n` +
+          `1. 🎮 **Primary Use**: Gaming, 3D/Blender, 4K Video Editing, Software Development, or General Work?\n` +
+          `2. 💰 **Budget Range**: e.g., Under Rs 250,000, Rs 350,000, or Flagship (Rs 450,000+)?\n` +
+          `3. ✈️ **Portability**: Do you prefer an ultra-thin laptop (like MacBook Pro / Zephyrus) or a desktop-replacement titan (MSI Titan / Razer Blade 18)?\n\n` +
+          `Here are 3 top picks across different workflows:`,
+        matchedProducts: [products[0], products[1], products[2]],
+        actionLinks: [
+          { label: "⚔️ Compare Top 3 in Arena", url: "/compare", isRoute: true },
+          { label: "💻 View Full Catalog", url: "/#products" }
+        ]
+      };
+    }
+
+    // 4. Asking about specific GPUs
     if (q.includes("4090") || q.includes("4080") || q.includes("4070") || q.includes("ada") || q.includes("rtx")) {
       const targetGpu = q.includes("4090") ? "4090" : q.includes("4080") ? "4080" : q.includes("4070") ? "4070" : q.includes("ada") ? "Ada" : "RTX";
       const gpuMatches = products.filter(p => p.gpu.toLowerCase().includes(targetGpu.toLowerCase()));
       if (gpuMatches.length > 0) {
         return {
-          reply: `⚡ **Laptops equipped with ${targetGpu.toUpperCase()} Graphics**:\n\n` +
+          reply: `⚡ **Laptops powered by ${targetGpu.toUpperCase()} Graphics**:\n\n` +
             gpuMatches.map(p => `• **${p.name}** — **Rs ${p.price.toLocaleString()}**\n   GPU: ${p.gpu} | CPU: ${p.cpu} | RAM: ${p.ram}`).join("\n\n") +
-            `\n\nAll models feature dedicated ray tracing acceleration and high-bandwidth VRAM for 4K gaming and 3D rendering.`,
+            `\n\nEvery GPU is paired with unlocked power limits and liquid vapor chambers for zero thermal throttling!`,
           matchedProducts: gpuMatches.slice(0, 3),
-          actionLinks: [{ label: "View Showdown Arena", url: "/compare", isRoute: true }]
+          actionLinks: [{ label: "⚔️ Compare in Showdown", url: "/compare", isRoute: true }]
         };
       }
     }
 
-    // 4. Asking about RAM capacity (128GB, 64GB, 32GB)
+    // 5. Asking about RAM capacity
     if (q.includes("128gb") || q.includes("64gb") || q.includes("32gb") || q.includes("ram")) {
       const ramTarget = q.includes("128gb") ? "128GB" : q.includes("64gb") ? "64GB" : q.includes("32gb") ? "32GB" : "";
       const ramMatches = ramTarget ? products.filter(p => p.ram.toLowerCase().includes(ramTarget.toLowerCase())) : products.filter(p => p.ram.includes("64GB") || p.ram.includes("128GB"));
       if (ramMatches.length > 0) {
         return {
-          reply: `🧠 **Laptops with ${ramTarget || 'High'} RAM Configuration**:\n\n` +
+          reply: `🧠 **Laptops with ${ramTarget || 'High-Capacity'} DDR5 RAM**:\n\n` +
             ramMatches.map(p => `• **${p.name}** — **${p.ram}** (Rs ${p.price.toLocaleString()})\n   CPU: ${p.cpu} | GPU: ${p.gpu}`).join("\n\n") +
-            `\n\nIdeal for running heavy virtual machines, massive 3D polygon scenes, and multi-track 8K video timelines.`,
+            `\n\nIdeal for huge 3D CAD scenes, virtualization, and complex 8K multitrack workflows.`,
           matchedProducts: ramMatches.slice(0, 3),
-          actionLinks: [{ label: "View Workstations", url: "/#workstation" }]
+          actionLinks: [{ label: "Explore Workstations", url: "/#workstation" }]
         };
       }
     }
 
-    // 5. Asking for Budget / Price limits
+    // 6. Asking for Budget / Price limits
     const priceMatch = q.match(/(under|below|less than|around|within|budget of|max)?\s*(?:rs\.?|lkr)?\s*(\d+[\d,]*)(k|000)?/i);
-    if (priceMatch || q.includes("cheap") || q.includes("lowest price") || q.includes("affordable")) {
+    if (priceMatch || q.includes("cheap") || q.includes("lowest price") || q.includes("affordable") || q.includes("budget")) {
       let limit = 600000;
       if (priceMatch) {
         let val = parseInt(priceMatch[2].replace(/,/g, ''), 10);
@@ -306,137 +411,148 @@ export function AiChatbot() {
       const affordable = [...products].filter(p => p.price <= limit).sort((a, b) => a.price - b.price).slice(0, 3);
       if (affordable.length > 0) {
         return {
-          reply: `💰 **Best High-Performance Laptops ${limit < 600000 ? `under Rs ${limit.toLocaleString()}` : 'by Price'}**:\n\n` +
-            affordable.map((p, idx) => `${idx + 1}. **${p.name}** — **Rs ${p.price.toLocaleString()}**\n   • Processor: ${p.cpu}\n   • GPU: ${p.gpu}\n   • RAM: ${p.ram}`).join("\n\n"),
+          reply: `💰 **Best High-Performance Laptops ${limit < 600000 ? `under Rs ${limit.toLocaleString()}` : 'by Value'}**:\n\n` +
+            affordable.map((p, idx) => `${idx + 1}. **${p.name}** — **Rs ${p.price.toLocaleString()}**\n   • Processor: ${p.cpu}\n   • GPU: ${p.gpu}\n   • RAM: ${p.ram}`).join("\n\n") +
+            `\n\n💡 *Tip: Pay via Direct Bank Transfer during checkout to save an instant 5%!*`,
           matchedProducts: affordable,
-          actionLinks: [{ label: "View All Laptops", url: "/#products" }]
+          actionLinks: [{ label: "💻 View All in Catalog", url: "/#products" }]
         };
       }
     }
 
-    // 6. Best for Gaming
+    // 7. Best for Gaming
     if (q.includes("gaming") || q.includes("game") || q.includes("fps") || q.includes("cyberpunk") || q.includes("steam") || q.includes("esports")) {
       const topGaming = products.filter(p => p.category === "Gaming" || p.gpu.includes("4090") || p.gpu.includes("4080")).slice(0, 3);
       return {
-        reply: `🎮 **Top Rated Gaming Weapons on Sellora**:\n\n` +
-          `1. **MSI Titan 18 HX** (Rs 499,900) — Core i9 14900HX, RTX 4090 (16GB), 128GB RAM, 4K Mini-LED (120Hz).\n` +
-          `2. **Razer Blade 18** (Rs 399,900) — Core i9 14900HX, RTX 4090, 64GB RAM, 300Hz QHD+ Mini-LED.\n` +
-          `3. **Asus ROG Strix SCAR 16** (Rs 319,900) — Core i9 14900HX, RTX 4080, 32GB RAM, 240Hz Nebula HDR Display.\n\n` +
-          `All feature vapor chamber cooling and zero thermal throttling.`,
+        reply: `🎮 **Top Flagship Gaming Weapons on Sellora**:\n\n` +
+          `1. 🏆 **MSI Titan 18 HX** (Rs 499,900) — Core i9 14900HX, RTX 4090 (16GB), 128GB RAM, 4K Mini-LED 120Hz display.\n` +
+          `2. ⚡ **Razer Blade 18** (Rs 399,900) — Core i9 14900HX, RTX 4090, 64GB RAM, 300Hz QHD+ Mini-LED.\n` +
+          `3. 🔥 **Asus ROG Strix SCAR 16** (Rs 319,900) — Core i9 14900HX, RTX 4080, 32GB RAM, 240Hz Nebula HDR.\n\n` +
+          `All feature ultra-responsive keyboards, high-refresh panels, and zero thermal throttling!`,
         matchedProducts: topGaming,
-        actionLinks: [{ label: "Compare Gaming Laptops", url: "/compare", isRoute: true }]
+        actionLinks: [{ label: "⚔️ Compare Gaming Rigs", url: "/compare", isRoute: true }]
       };
     }
 
-    // 7. Best for 3D Rendering, Blender, CAD
+    // 8. Best for 3D Rendering, Blender, CAD
     if (q.includes("3d") || q.includes("blender") || q.includes("render") || q.includes("cad") || q.includes("solidworks") || q.includes("maya") || q.includes("unreal")) {
       const top3D = products.filter(p => p.category === "Workstation" || p.ram.includes("128GB") || p.ram.includes("64GB")).slice(0, 3);
       return {
-        reply: `🚀 **Top Workstations for 3D Modeling & Blender**:\n\n` +
-          `• **Lenovo ThinkPad P16** (Rs 459,900): 128GB ECC DDR5 RAM, NVIDIA RTX 5000 Ada (16GB VRAM), ISV certified for Blender, Maya, AutoCAD & Unreal Engine.\n` +
-          `• **HP ZBook Fury 16** (Rs 389,900): Core i9 13950HX, 64GB DDR5, RTX 4000 Ada (12GB), 100% DCI-P3 DreamColor display.\n` +
-          `• **MSI Titan 18 HX** (Rs 499,900): 128GB DDR5, RTX 4090, 18-inch 4K Mini-LED.`,
+        reply: `🚀 **Top Workstations for 3D Modeling, Blender & Unreal Engine**:\n\n` +
+          `• 🛡️ **Lenovo ThinkPad P16** (Rs 459,900): 128GB ECC DDR5 RAM, NVIDIA RTX 5000 Ada (16GB VRAM), ISV certified for Blender, Maya, AutoCAD & Unreal Engine.\n` +
+          `• ⚡ **HP ZBook Fury 16** (Rs 389,900): Core i9 13950HX, 64GB DDR5, RTX 4000 Ada (12GB), 100% DCI-P3 DreamColor display.\n` +
+          `• 👑 **MSI Titan 18 HX** (Rs 499,900): 128GB DDR5, RTX 4090 (16GB), 18-inch 4K Mini-LED workspace.`,
         matchedProducts: top3D,
         actionLinks: [{ label: "Explore Workstations", url: "/#workstation" }]
       };
     }
 
-    // 8. Best for Video Editing
+    // 9. Best for Video Editing
     if (q.includes("video") || q.includes("editing") || q.includes("premiere") || q.includes("davinci") || q.includes("after effects") || q.includes("youtube") || q.includes("creator")) {
       const topVideo = products.filter(p => p.category === "Ultrabook" || p.processor === "Apple M Max" || p.badgeColor === "purple").slice(0, 3);
       return {
-        reply: `🎬 **Best Laptops for Video Editing (Premiere Pro & DaVinci Resolve)**:\n\n` +
-          `• **MacBook Pro 16 (M3 Max)** (Rs 349,900): Dedicated hardware ProRes encode/decode engines, Liquid Retina XDR (1600 nits peak), 48GB unified RAM (400GB/s bandwidth).\n` +
-          `• **Dell XPS 14** (Rs 199,900): Core Ultra 9 185H, 3.2K OLED 120Hz display (100% DCI-P3 color calibrated).\n` +
-          `• **Razer Blade 18** (Rs 399,900): 18-inch Mini-LED 300Hz display with RTX 4090 VRAM for real-time 8K RAW scrubbing.`,
+        reply: `🎬 **Best Creator Laptops for 4K/8K Video Editing (Premiere Pro & DaVinci Resolve)**:\n\n` +
+          `• 🍏 **MacBook Pro 16 (M3 Max)** (Rs 349,900): Dedicated ProRes encode/decode engines, Liquid Retina XDR (1,600 nits peak), 48GB unified memory (400GB/s bandwidth).\n` +
+          `• 💎 **Dell XPS 14** (Rs 199,900): Core Ultra 9 185H, 3.2K OLED 120Hz display (100% DCI-P3 calibrated unibody).\n` +
+          `• ⚡ **Razer Blade 18** (Rs 399,900): 18-inch Mini-LED 300Hz display with RTX 4090 VRAM for smooth multi-cam 8K RAW scrubbing.`,
         matchedProducts: topVideo,
         actionLinks: [{ label: "Creator Ecosystem", url: "/#creator" }]
       };
     }
 
-    // 9. Best Battery Life / Portability
-    if (q.includes("battery") || q.includes("weight") || q.includes("portable") || q.includes("travel")) {
+    // 10. Best Battery Life / Portability
+    if (q.includes("battery") || q.includes("weight") || q.includes("portable") || q.includes("travel") || q.includes("lightweight")) {
       const batteryKings = products.filter(p => p.category === "Ultrabook" || p.batteryWeight?.includes("100Wh")).slice(0, 3);
       return {
-        reply: `🔋 **Battery Life & Portability Leaders**:\n\n` +
-          `1. **MacBook Pro 16 (M3 Max)**: Up to **22 hours battery life** (100Wh flight-maximum capacity) with 100% performance retention on battery.\n` +
-          `2. **Dell XPS 14**: 1.68 kg ultra-thin CNC aluminum unibody with 69.5Wh battery and fast Type-C PD charging.\n` +
-          `3. **Asus ROG Zephyrus G14**: Only 1.50 kg with a 73Wh battery and OLED display.`,
+        reply: `🔋 **Battery Life & Portability Champions**:\n\n` +
+          `1. 🥇 **MacBook Pro 16 (M3 Max)**: Up to **22 hours battery life** (100Wh flight-maximum capacity) with 100% full performance even on battery!\n` +
+          `2. 🥈 **Dell XPS 14**: 1.68 kg ultra-thin CNC aluminum unibody with 69.5Wh battery and fast Type-C PD charging.\n` +
+          `3. 🥉 **Asus ROG Zephyrus G14**: Only 1.50 kg with a 73Wh battery and gorgeous OLED panel.`,
         matchedProducts: batteryKings,
-        actionLinks: [{ label: "Compare Specs", url: "/compare", isRoute: true }]
+        actionLinks: [{ label: "⚔️ Compare Portability", url: "/compare", isRoute: true }]
       };
     }
 
-    // 10. Asking about Warranty, Shipping, Payment, Return
+    // 11. Warranty, Shipping, Payment, Return
     if (q.includes("warranty") || q.includes("guarantee") || q.includes("replace") || q.includes("broken") || q.includes("repair")) {
       return {
         reply: `🛡️ **Sellora 3-Year Global Priority Replacement Warranty**:\n\n` +
-          `• Every machine comes standard with **3 full years of worldwide priority replacement coverage**.\n` +
-          `• In case of any hardware fault, our certified engineering team replaces your unit within **24–48 hours** with zero downtime.\n` +
-          `• Covers CPU, GPU, Display panel, Motherboard, and Vapor Chamber cooling components.`,
-        actionLinks: [{ label: "Explore Architecture", url: "/#features" }]
+          `• Every single laptop sold comes with **3 full years of global priority replacement coverage**.\n` +
+          `• If any hardware fault occurs, our certified engineering team replaces the unit within **24–48 hours** with zero downtime!\n` +
+          `• Includes free thermal paste servicing and full coverage for CPU, GPU, Display, and Motherboard.`,
+        actionLinks: [{ label: "Orbital ProCare Support", url: "/#support" }]
       };
     }
 
     if (q.includes("shipping") || q.includes("delivery") || q.includes("ship") || q.includes("courier") || q.includes("how long")) {
       return {
         reply: `📦 **Shipping & Delivery Timelines**:\n\n` +
-          `• **Domestic Express Delivery**: 24 – 48 Hours with live GPS tracking.\n` +
-          `• **Global Priority Shipping**: 3 – 5 Business Days.\n` +
-          `• Packed in anti-static, shock-absorbing vacuum flight cases for 100% safe transit.`,
-        actionLinks: [{ label: "Support & Tracking", url: "/#support" }]
+          `• 🚚 **Domestic Express Delivery**: 24 – 48 Hours with live GPS tracking straight to your doorstep.\n` +
+          `• ✈️ **Global Priority Shipping**: 3 – 5 Business Days worldwide.\n` +
+          `• 🛡️ **Vacuum Flight Cases**: All rigs are shipped in shock-absorbing, anti-static flight cases for 100% safe transit.`,
+        actionLinks: [{ label: "Support Center", url: "/#support" }]
       };
     }
 
-    if (q.includes("discount") || q.includes("payment") || q.includes("installment") || q.includes("emi") || q.includes("card")) {
+    if (q.includes("discount") || q.includes("payment") || q.includes("installment") || q.includes("emi") || q.includes("bank") || q.includes("card")) {
       return {
-        reply: `💳 **Payments & Exclusive Discounts**:\n\n` +
-          `• **Direct Bank Transfer**: Instant **5% Discount** automatically applied.\n` +
-          `• **Credit/Debit Cards**: Visa, MasterCard, Amex supported.\n` +
-          `• **0% Interest Installments**: Available up to 24 months.\n\n` +
-          `Contact our support team on WhatsApp for custom corporate and educational quotes!`,
+        reply: `💳 **Payment Options & Exclusive Discounts**:\n\n` +
+          `• 🏦 **Direct Bank Transfer**: Automatic **5% Instant Discount** applied at checkout!\n` +
+          `• 💳 **Credit & Debit Cards**: Visa, MasterCard, and American Express with 3D Secure.\n` +
+          `• 📅 **0% Interest Installments**: Flexible monthly plans up to 24 months.\n` +
+          `• 🎓 **Student & Corporate Discounts**: Reach out via WhatsApp for verified educational and enterprise quotations!`,
         showContact: true,
-        actionLinks: [{ label: "Proceed to Checkout", url: "/checkout", isRoute: true }]
+        actionLinks: [{ label: "🛒 Go to Checkout", url: "/checkout", isRoute: true }]
+      };
+    }
+
+    if (q.includes("return") || q.includes("refund") || q.includes("exchange") || q.includes("policy")) {
+      return {
+        reply: `🔄 **14-Day Test Drive & Return Policy**:\n\n` +
+          `• You have **14 full days** from delivery to test your machine under your real workflow.\n` +
+          `• If you are not 100% satisfied, return it for an exchange or full refund with **zero restocking fee**.\n` +
+          `• Units must be in original condition with all accessories and flight packaging.`,
+        actionLinks: [{ label: "Support Portal", url: "/#support" }]
       };
     }
 
     if (q.includes("whatsapp") || q.includes("phone") || q.includes("call") || q.includes("contact") || q.includes("human") || q.includes("agent") || q.includes("support")) {
       return {
-        reply: `📞 **Sellora Direct Support Channels**:\n\nReach our senior hardware engineering team directly for custom consultations, discounts, or orders:`,
+        reply: `📞 **Sellora Direct Concierge Channels**:\n\nConnect with our senior hardware engineers directly for custom inquiries, order updates, or consultations:`,
         showContact: true,
-        actionLinks: [{ label: "Support Center", url: "/#support" }]
+        actionLinks: [{ label: "Support Section", url: "/#support" }]
       };
     }
 
-    // 11. Asking about Highest Benchmark / Fastest overall
-    if (q.includes("fastest") || q.includes("benchmark") || q.includes("most powerful") || q.includes("top performance")) {
+    // 12. Benchmark Scores
+    if (q.includes("fastest") || q.includes("benchmark") || q.includes("most powerful") || q.includes("top performance") || q.includes("score")) {
       const topScorer = [...products].sort((a, b) => (b.detailedSpecs?.benchmarkScore || 0) - (a.detailedSpecs?.benchmarkScore || 0)).slice(0, 3);
       return {
         reply: `🏆 **Top Benchmarking Powerhouses on Sellora**:\n\n` +
-          `1. **MSI Titan 18 HX** — **9,850 pts** (Core i9 14900HX, RTX 4090, 128GB RAM)\n` +
-          `2. **MacBook Pro 16 (M3 Max)** — **9,800 pts** (16-Core CPU, 40-Core GPU, 48GB Unified RAM)\n` +
-          `3. **Razer Blade 18** — **9,750 pts** (Core i9 14900HX, RTX 4090 16GB, 64GB RAM)`,
+          `1. 🥇 **MSI Titan 18 HX** — **9,850 pts** (Core i9 14900HX, RTX 4090, 128GB RAM)\n` +
+          `2. 🥈 **MacBook Pro 16 (M3 Max)** — **9,800 pts** (16-Core CPU, 40-Core GPU, 48GB Unified RAM)\n` +
+          `3. 🥉 **Razer Blade 18** — **9,750 pts** (Core i9 14900HX, RTX 4090 16GB, 64GB RAM)`,
         matchedProducts: topScorer,
-        actionLinks: [{ label: "Launch 3-Way Showdown Arena", url: "/compare", isRoute: true }]
+        actionLinks: [{ label: "⚔️ Launch Showdown Arena", url: "/compare", isRoute: true }]
       };
     }
 
-    // 12. Friendly General Inquiries
-    if (q === "hi" || q === "hello" || q === "hey" || q.startsWith("hi ") || q.startsWith("hello ")) {
+    // 13. Friendly Greetings
+    if (q === "hi" || q === "hello" || q === "hey" || q.startsWith("hi ") || q.startsWith("hello ") || q.startsWith("hey ")) {
       return {
-        reply: `👋 Hello! I am **Sellora AI**.\n\nHow can I help you today? You can ask me:\n• *"Which laptop has the highest benchmark score?"*\n• *"Compare Razer Blade 18 vs MacBook Pro 16"*\n• *"What is the best laptop for Blender 3D?"*\n• *"Show laptops under Rs 350,000"*\n• *"What is the warranty policy?"*`
+        reply: `👋 **Hello there! Welcome to Sellora!** ✨\n\nHow can I help you today? Here are a few things you can ask me:\n• *"Which laptop has the highest benchmark score?"*\n• *"Compare Razer Blade 18 vs MacBook Pro 16"*\n• *"What is the best laptop for Blender 3D?"*\n• *"Show laptops under Rs 350,000"*\n• *"Explain the 3-Year Warranty policy"*`
       };
     }
 
-    // 13. Dynamic General Response based on keywords in query
+    // 14. Dynamic Fallback
     return {
       reply: `💡 **Here is what I found regarding "${query}"**:\n\n` +
-        `Our database includes top-tier machines engineered for high-performance workloads with up to 128GB DDR5 RAM, RTX 4090 & Ada GPUs, and 300Hz displays.\n\n` +
-        `Would you like to narrow down by **workload** (Gaming / 3D / Video / Coding), **budget**, or compare specific models?`,
+        `Our store features enterprise workstations and enthusiast gaming laptops equipped with up to 128GB DDR5 RAM, NVIDIA RTX 4090 & Ada GPUs, and 300Hz displays.\n\n` +
+        `Would you like to explore by **workload** (Gaming / 3D / Video / Coding), **budget**, or compare specific models in the Showdown Arena?`,
       matchedProducts: products.slice(0, 2),
       actionLinks: [
-        { label: "View All Laptops", url: "/#products" },
-        { label: "Launch 3-Way Showdown Arena", url: "/compare", isRoute: true }
+        { label: "💻 View All Laptops", url: "/#products" },
+        { label: "⚔️ Showdown Arena", url: "/compare", isRoute: true }
       ]
     };
   };
@@ -458,10 +574,7 @@ export function AiChatbot() {
 
     try {
       if (geminiApiKey.trim()) {
-        // Use Google Gemini API
         const aiResponseText = await callGeminiApi(query, messages);
-        
-        // Find if any products are mentioned in response
         const mentionedProducts = products.filter(p => aiResponseText.toLowerCase().includes(p.name.toLowerCase())).slice(0, 2);
 
         const botMsg: Message = {
@@ -471,13 +584,12 @@ export function AiChatbot() {
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
           suggestedProducts: mentionedProducts.length ? mentionedProducts : undefined,
           actionLinks: [
-            { label: "View All Laptops", url: "/#products" },
-            { label: "Showdown Arena", url: "/compare", isRoute: true }
+            { label: "💻 View Catalog", url: "/#products" },
+            { label: "⚔️ Showdown Arena", url: "/compare", isRoute: true }
           ]
         };
         setMessages(prev => [...prev, botMsg]);
       } else {
-        // Use Deep Semantic Engine
         await new Promise(r => setTimeout(r, 350));
         const result = processAccurateAnswer(query);
 
@@ -493,12 +605,12 @@ export function AiChatbot() {
         setMessages(prev => [...prev, botMsg]);
       }
     } catch (err: any) {
-      console.warn("Gemini API error, falling back to local AI engine:", err);
+      console.warn("API fallback to local engine:", err);
       const fallback = processAccurateAnswer(query);
       const botMsg: Message = {
         id: `bot-${Date.now()}`,
         sender: "bot",
-        text: `${fallback.reply}\n\n*(⚠️ Gemini API Notice: ${err?.message || "Check API Key in settings"} — Answered via Sellora Internal Database)*`,
+        text: fallback.reply,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         suggestedProducts: fallback.matchedProducts,
         actionLinks: fallback.actionLinks,
@@ -522,70 +634,64 @@ export function AiChatbot() {
       {
         id: "welcome-reset",
         sender: "bot",
-        text: "⚡ **Neural Core Reset**.\n\nAsk me any question about specs, benchmark comparisons, battery life, pricing, or custom workstation recommendations!",
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        text: "⚡ **Sellora AI Hub Reset** ✨\n\nI'm ready for your next question! Ask me about laptop specs, 3-way comparisons, budget recommendations, or website features.",
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        actionLinks: [
+          { label: "🗺️ Website Tour", url: "#tour", isRoute: false },
+          { label: "⚔️ Showdown Arena", url: "/compare", isRoute: true }
+        ]
       }
     ]);
   };
 
   return (
     <>
-      {/* Floating Trigger Button */}
+      {/* Floating Trigger Button (Icon-only) */}
       {!isOpen && (
         <div className="fixed bottom-6 right-6 z-50 animate-fade-up">
           <button
             onClick={() => { setIsOpen(true); setIsMinimized(false); }}
-            className="group relative flex items-center gap-3 rounded-full bg-gradient-to-r from-neon-cyan via-neon-blue to-neon-purple p-1 shadow-neon-cyan transition-transform duration-300 hover:scale-105"
+            className="group relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-tr from-neon-cyan via-neon-blue to-neon-purple p-0.5 shadow-neon-cyan transition-all duration-300 hover:scale-110 active:scale-95"
             aria-label="Open Sellora AI Chatbot"
+            title="Open Sellora AI Chat"
           >
-            <div className="flex items-center gap-2.5 rounded-full bg-black/90 px-4 py-2.5 backdrop-blur-md">
-              <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/60">
-                <Bot className="h-5 w-5 animate-pulse" />
-                <span className="absolute -top-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-neon-cyan shadow-neon-cyan animate-ping" />
-                <span className="absolute -top-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-neon-cyan" />
-              </div>
-              <div className="flex flex-col text-left">
-                <div className="flex items-center gap-1.5">
-                  <span className="font-display text-xs font-black tracking-wider text-foreground">SELLORA AI</span>
-                  <span className="rounded bg-neon-cyan/20 px-1 py-0.2 text-[8px] font-mono font-bold text-neon-cyan border border-neon-cyan/40">ONLINE</span>
-                </div>
-                <span className="text-[10px] text-muted-foreground">Instant hardware advisor & catalog AI</span>
-              </div>
+            <div className="relative flex h-full w-full items-center justify-center rounded-full bg-[#0B0F19] text-neon-cyan transition-colors group-hover:bg-black">
+              <Bot className="h-6 w-6 transition-transform duration-300 group-hover:scale-110" />
+              <span className="absolute top-2 right-2 h-2.5 w-2.5 rounded-full bg-neon-cyan shadow-neon-cyan animate-ping" />
+              <span className="absolute top-2 right-2 h-2.5 w-2.5 rounded-full bg-neon-cyan border-2 border-[#0B0F19]" />
             </div>
           </button>
         </div>
       )}
 
-      {/* Main Chat Window */}
+      {/* Main Chat Window (Compact Size) */}
       {isOpen && (
         <div 
-          className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col rounded-3xl border border-glass-border bg-[#0B0F19]/95 backdrop-blur-2xl shadow-[0_0_50px_oklch(0_0_0/0.8)] transition-all duration-300 ${
+          className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col rounded-2xl border border-glass-border bg-[#0B0F19]/95 backdrop-blur-2xl shadow-[0_0_40px_oklch(0_0_0/0.85)] transition-all duration-300 ${
             isMinimized 
-              ? "h-16 w-80 sm:w-96 overflow-hidden" 
-              : "h-[640px] max-h-[92vh] w-[calc(100vw-32px)] sm:w-[440px] md:w-[490px]"
+              ? "h-14 w-72 sm:w-80 overflow-hidden" 
+              : "h-[500px] sm:h-[530px] max-h-[84vh] w-[calc(100vw-32px)] sm:w-[370px] md:w-[390px]"
           }`}
         >
           {/* Header */}
           <div className="flex items-center justify-between border-b border-glass-border bg-black/50 px-4 py-3 backdrop-blur-md shrink-0">
-            <div className="flex items-center gap-3">
-              <div className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-neon-cyan/20 to-neon-purple/20 border border-neon-cyan/50 text-neon-cyan shadow-[0_0_15px_oklch(0.78_0.18_200/0.25)]">
-                <Bot className="h-5 w-5" />
-                <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full bg-neon-cyan border-2 border-background" />
+            <div className="flex items-center gap-2.5">
+              <div className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-neon-cyan/20 to-neon-purple/20 border border-neon-cyan/50 text-neon-cyan shadow-[0_0_15px_oklch(0.78_0.18_200/0.25)]">
+                <Bot className="h-4 w-4" />
+                <span className="absolute bottom-0 right-0 h-2 w-2 rounded-full bg-neon-cyan border-2 border-background" />
               </div>
               
               <div>
-                <div className="flex items-center gap-2">
-                  <h3 className="font-display text-sm font-black tracking-wide text-foreground">
+                <div className="flex items-center gap-1.5">
+                  <h3 className="font-display text-xs font-black tracking-wide text-foreground">
                     SELLORA AI
                   </h3>
-                  <span className={`rounded-full px-2 py-0.2 text-[9px] font-mono font-bold border ${
-                    geminiApiKey ? "bg-neon-purple/20 text-neon-purple border-neon-purple/40" : "bg-neon-cyan/15 text-neon-cyan border-neon-cyan/30"
-                  }`}>
-                    {geminiApiKey ? "GEMINI ACTIVE" : "AI ONLINE"}
+                  <span className="rounded-full px-1.5 py-0.2 text-[8px] font-mono font-bold bg-neon-cyan/15 text-neon-cyan border border-neon-cyan/30">
+                    ONLINE
                   </span>
                 </div>
                 <p className="text-[10px] text-muted-foreground">
-                  Hardware Advisor & Catalog Intelligence
+                  Hardware &amp; Site Guide
                 </p>
               </div>
             </div>
@@ -599,58 +705,54 @@ export function AiChatbot() {
                 className={`rounded-lg p-1.5 transition-colors ${
                   showSettings ? "bg-neon-cyan/20 text-neon-cyan" : "text-muted-foreground hover:bg-white/10 hover:text-foreground"
                 }`}
-                title="AI Settings & Gemini API Key"
+                title="AI Settings"
               >
-                <Settings className="h-4 w-4" />
+                <Settings className="h-3.5 w-3.5" />
               </button>
               <button
                 onClick={resetChat}
                 className="rounded-lg p-1.5 text-muted-foreground hover:bg-white/10 hover:text-foreground transition-colors"
                 title="Reset Conversation"
               >
-                <RotateCcw className="h-4 w-4" />
+                <RotateCcw className="h-3.5 w-3.5" />
               </button>
               <button
                 onClick={() => setIsMinimized(!isMinimized)}
                 className="rounded-lg p-1.5 text-muted-foreground hover:bg-white/10 hover:text-foreground transition-colors"
                 title={isMinimized ? "Expand" : "Minimize"}
               >
-                <Minimize2 className="h-4 w-4" />
+                <Minimize2 className="h-3.5 w-3.5" />
               </button>
               <button
                 onClick={() => setIsOpen(false)}
                 className="rounded-lg p-1.5 text-muted-foreground hover:bg-white/10 hover:text-red-400 transition-colors"
                 title="Close"
               >
-                <X className="h-4 w-4" />
+                <X className="h-3.5 w-3.5" />
               </button>
             </div>
           </div>
 
-          {/* Settings Modal (Gemini API Configuration & Live Test) */}
+          {/* Settings Modal */}
           {showSettings && !isMinimized && (
-            <div className="flex-1 p-5 overflow-y-auto space-y-4 text-xs animate-fade-up">
-              <div className="flex items-center gap-2 border-b border-glass-border pb-3">
-                <Key className="h-4 w-4 text-neon-cyan" />
-                <h4 className="font-display text-sm font-bold text-foreground">Google Gemini API Settings</h4>
+            <div className="flex-1 p-4 overflow-y-auto space-y-3.5 text-xs animate-fade-up">
+              <div className="flex items-center gap-2 border-b border-glass-border pb-2.5">
+                <Key className="h-3.5 w-3.5 text-neon-cyan" />
+                <h4 className="font-display text-xs font-bold text-foreground">API Settings</h4>
               </div>
-
-              <p className="text-muted-foreground leading-relaxed">
-                Connect your Google Gemini API Key for unbounded multi-turn reasoning across all laptop models, benchmarks, and custom workloads.
-              </p>
 
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <label className="font-mono text-[11px] font-bold text-neon-cyan">
-                    GEMINI API KEY
+                  <label className="font-mono text-[10px] font-bold text-neon-cyan">
+                    API KEY
                   </label>
                   <a
                     href="https://aistudio.google.com/app/apikey"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[10px] text-neon-cyan hover:underline flex items-center gap-1 font-mono"
+                    className="text-[9px] text-neon-cyan hover:underline flex items-center gap-1 font-mono"
                   >
-                    Get Free Key <ExternalLink className="h-2.5 w-2.5" />
+                    Get Key <ExternalLink className="h-2.5 w-2.5" />
                   </a>
                 </div>
                 <input
@@ -660,27 +762,27 @@ export function AiChatbot() {
                     setTempApiKey(e.target.value);
                     setTestResult(null);
                   }}
-                  placeholder="Paste AIzaSy... key here"
-                  className="w-full rounded-xl border border-glass-border bg-white/5 px-3.5 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/40 focus:border-neon-cyan focus:outline-none"
+                  placeholder="Paste API Key here..."
+                  className="w-full rounded-xl border border-glass-border bg-white/5 px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground/40 focus:border-neon-cyan focus:outline-none"
                 />
 
                 {/* Test Connection Button */}
-                <div className="pt-1">
+                <div className="pt-0.5">
                   <button
                     type="button"
                     onClick={handleTestKey}
                     disabled={testingKey || !tempApiKey.trim()}
-                    className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 px-3 py-2 text-xs font-bold text-foreground transition-all disabled:opacity-40"
+                    className="w-full inline-flex items-center justify-center gap-1.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 px-3 py-1.5 text-xs font-bold text-foreground transition-all disabled:opacity-40"
                   >
                     {testingKey ? (
                       <>
-                        <Loader2 className="h-3.5 w-3.5 animate-spin text-neon-cyan" />
-                        <span>Verifying Connection...</span>
+                        <Loader2 className="h-3 w-3 animate-spin text-neon-cyan" />
+                        <span>Verifying...</span>
                       </>
                     ) : (
                       <>
-                        <Sparkles className="h-3.5 w-3.5 text-neon-cyan" />
-                        <span>Test & Validate API Key</span>
+                        <Sparkles className="h-3 w-3 text-neon-cyan" />
+                        <span>Test Connection</span>
                       </>
                     )}
                   </button>
@@ -688,28 +790,23 @@ export function AiChatbot() {
 
                 {/* Test Result Message */}
                 {testResult && (
-                  <div className={`p-3 rounded-xl border text-[11px] leading-relaxed flex items-start gap-2 ${
+                  <div className={`p-2.5 rounded-xl border text-[10px] leading-relaxed flex items-start gap-1.5 ${
                     testResult.success 
                       ? "bg-emerald-950/40 border-emerald-500/40 text-emerald-300" 
                       : "bg-red-950/40 border-red-500/40 text-red-300"
                   }`}>
-                    {testResult.success ? <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" /> : <AlertCircle className="h-4 w-4 text-red-400 shrink-0 mt-0.5" />}
+                    {testResult.success ? <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0 mt-0.5" /> : <AlertCircle className="h-3.5 w-3.5 text-red-400 shrink-0 mt-0.5" />}
                     <span>{testResult.message}</span>
                   </div>
                 )}
-
-                <p className="text-[10px] text-muted-foreground flex items-center gap-1 pt-1">
-                  <Info className="h-3 w-3 text-neon-cyan" />
-                  Stored only in your local browser storage (localStorage).
-                </p>
               </div>
 
-              <div className="flex gap-2 pt-3 border-t border-glass-border">
+              <div className="flex gap-2 pt-2 border-t border-glass-border">
                 <button
                   onClick={() => saveApiKey(tempApiKey)}
-                  className="flex-1 rounded-xl bg-neon-cyan text-black font-bold py-2.5 hover:opacity-90 transition-all text-xs"
+                  className="flex-1 rounded-xl bg-neon-cyan text-black font-bold py-2 hover:opacity-90 transition-all text-xs"
                 >
-                  Save Key & Use Gemini
+                  Save
                 </button>
                 {geminiApiKey && (
                   <button
@@ -717,14 +814,14 @@ export function AiChatbot() {
                       setTempApiKey("");
                       saveApiKey("");
                     }}
-                    className="rounded-xl border border-red-500/40 bg-red-500/10 text-red-400 px-4 py-2.5 hover:bg-red-500 hover:text-white transition-all text-xs font-bold"
+                    className="rounded-xl border border-red-500/40 bg-red-500/10 text-red-400 px-3 py-2 hover:bg-red-500 hover:text-white transition-all text-xs font-bold"
                   >
                     Clear
                   </button>
                 )}
                 <button
                   onClick={() => setShowSettings(false)}
-                  className="rounded-xl border border-glass-border bg-white/5 text-muted-foreground px-4 py-2.5 hover:bg-white/10 hover:text-foreground transition-all text-xs"
+                  className="rounded-xl border border-glass-border bg-white/5 text-muted-foreground px-3 py-2 hover:bg-white/10 hover:text-foreground transition-all text-xs"
                 >
                   Close
                 </button>
@@ -735,24 +832,24 @@ export function AiChatbot() {
           {!isMinimized && !showSettings && (
             <>
               {/* Message List */}
-              <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 text-xs sm:text-sm selection:bg-neon-cyan/30">
+              <div className="flex-1 overflow-y-auto p-3.5 sm:p-4 space-y-3 text-xs sm:text-sm selection:bg-neon-cyan/30">
                 {messages.map((m) => {
                   const isUser = m.sender === "user";
 
                   return (
                     <div
                       key={m.id}
-                      className={`flex gap-2.5 ${isUser ? "justify-end" : "justify-start"} animate-fade-up`}
+                      className={`flex gap-2 ${isUser ? "justify-end" : "justify-start"} animate-fade-up`}
                     >
                       {!isUser && (
-                        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-neon-cyan/10 border border-neon-cyan/40 text-neon-cyan mt-0.5">
-                          <Bot className="h-4 w-4" />
+                        <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-neon-cyan/10 border border-neon-cyan/40 text-neon-cyan mt-0.5">
+                          <Bot className="h-3.5 w-3.5" />
                         </div>
                       )}
 
                       <div className={`flex flex-col max-w-[88%] ${isUser ? "items-end" : "items-start"}`}>
                         <div
-                          className={`rounded-2xl px-4 py-3 leading-relaxed ${
+                          className={`rounded-2xl px-3.5 py-2.5 leading-relaxed ${
                             isUser
                               ? "bg-gradient-to-r from-neon-cyan via-neon-blue to-neon-purple text-black font-medium rounded-tr-sm shadow-neon-cyan"
                               : "bg-white/[0.06] border border-glass-border text-foreground/90 backdrop-blur-md rounded-tl-sm shadow-md"
@@ -804,17 +901,17 @@ export function AiChatbot() {
 
                           {/* Embedded Product Cards inside Messages */}
                           {m.suggestedProducts && m.suggestedProducts.length > 0 && (
-                            <div className="mt-3.5 space-y-2 w-full">
+                            <div className="mt-3 space-y-2 w-full">
                               {m.suggestedProducts.map((prod) => (
                                 <div
                                   key={prod.id}
-                                  className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 rounded-xl bg-black/70 border border-glass-border p-2.5 transition-all hover:border-neon-cyan/50"
+                                  className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 rounded-xl bg-black/70 border border-glass-border p-2 transition-all hover:border-neon-cyan/50"
                                 >
-                                  <div className="flex items-center gap-2.5 min-w-0">
+                                  <div className="flex items-center gap-2 min-w-0">
                                     <img
                                       src={prod.img}
                                       alt={prod.name}
-                                      className="h-11 w-11 rounded-lg bg-black object-cover shrink-0 border border-white/10"
+                                      className="h-10 w-10 rounded-lg bg-black object-cover shrink-0 border border-white/10"
                                     />
                                     <div className="min-w-0 flex flex-col">
                                       <span className="font-display text-xs font-bold text-white truncate">
@@ -832,7 +929,7 @@ export function AiChatbot() {
                                   <div className="flex items-center gap-1.5 self-end sm:self-center shrink-0">
                                     <button
                                       onClick={() => addToCart(prod)}
-                                      className="inline-flex items-center gap-1 rounded-lg bg-neon-cyan/20 border border-neon-cyan/50 px-2.5 py-1 text-[10px] font-bold text-neon-cyan hover:bg-neon-cyan hover:text-black transition-all"
+                                      className="inline-flex items-center gap-1 rounded-lg bg-neon-cyan/20 border border-neon-cyan/50 px-2 py-1 text-[10px] font-bold text-neon-cyan hover:bg-neon-cyan hover:text-black transition-all"
                                       title="Add to Cart"
                                     >
                                       <ShoppingCart className="h-3 w-3" />
@@ -842,7 +939,7 @@ export function AiChatbot() {
                                       to="/product/$productId"
                                       params={{ productId: prod.id }}
                                       onClick={() => setIsOpen(false)}
-                                      className="inline-flex items-center gap-1 rounded-lg bg-white/10 border border-white/20 px-2.5 py-1 text-[10px] font-bold text-foreground hover:bg-white/20 transition-all"
+                                      className="inline-flex items-center gap-1 rounded-lg bg-white/10 border border-white/20 px-2 py-1 text-[10px] font-bold text-foreground hover:bg-white/20 transition-all"
                                     >
                                       <span>View</span>
                                       <ArrowRight className="h-3 w-3" />
@@ -855,14 +952,27 @@ export function AiChatbot() {
 
                           {/* Action Links */}
                           {m.actionLinks && m.actionLinks.length > 0 && (
-                            <div className="mt-3 flex flex-wrap gap-1.5 border-t border-white/10 pt-2.5">
-                              {m.actionLinks.map((action, aIdx) => (
-                                action.isRoute ? (
+                            <div className="mt-2.5 flex flex-wrap gap-1.5 border-t border-white/10 pt-2">
+                              {m.actionLinks.map((action, aIdx) => {
+                                if (action.url === "#tour") {
+                                  return (
+                                    <button
+                                      key={aIdx}
+                                      onClick={() => handleSend("Take a Website Tour")}
+                                      className="inline-flex items-center gap-1 rounded-full bg-neon-purple/20 border border-neon-purple/50 px-2.5 py-0.5 text-[10px] font-mono font-bold text-neon-purple hover:bg-neon-purple hover:text-white transition-all"
+                                    >
+                                      <Compass className="h-3 w-3" />
+                                      <span>{action.label}</span>
+                                    </button>
+                                  );
+                                }
+
+                                return action.isRoute ? (
                                   <Link
                                     key={aIdx}
                                     to={action.url as any}
                                     onClick={() => setIsOpen(false)}
-                                    className="inline-flex items-center gap-1 rounded-full bg-neon-cyan/15 border border-neon-cyan/40 px-3 py-1 text-[10px] font-mono font-bold text-neon-cyan hover:bg-neon-cyan hover:text-black transition-all"
+                                    className="inline-flex items-center gap-1 rounded-full bg-neon-cyan/15 border border-neon-cyan/40 px-2.5 py-0.5 text-[10px] font-mono font-bold text-neon-cyan hover:bg-neon-cyan hover:text-black transition-all"
                                   >
                                     <span>{action.label}</span>
                                     <ChevronRight className="h-3 w-3" />
@@ -872,17 +982,17 @@ export function AiChatbot() {
                                     key={aIdx}
                                     href={action.url}
                                     onClick={() => setIsOpen(false)}
-                                    className="inline-flex items-center gap-1 rounded-full bg-white/10 border border-white/20 px-3 py-1 text-[10px] font-mono font-bold text-foreground hover:bg-white/20 transition-all"
+                                    className="inline-flex items-center gap-1 rounded-full bg-white/10 border border-white/20 px-2.5 py-0.5 text-[10px] font-mono font-bold text-foreground hover:bg-white/20 transition-all"
                                   >
                                     <span>{action.label}</span>
                                     <ChevronRight className="h-3 w-3" />
                                   </a>
-                                )
-                              ))}
+                                );
+                              })}
                             </div>
                           )}
                         </div>
-                        <span className="mt-1 text-[9px] text-muted-foreground/60 px-1 font-mono">{m.timestamp}</span>
+                        <span className="mt-0.5 text-[9px] text-muted-foreground/60 px-1 font-mono">{m.timestamp}</span>
                       </div>
                     </div>
                   );
@@ -890,16 +1000,16 @@ export function AiChatbot() {
 
                 {/* Typing Indicator */}
                 {isTyping && (
-                  <div className="flex gap-2.5 justify-start animate-fade-up">
-                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-neon-cyan/10 border border-neon-cyan/40 text-neon-cyan">
-                      <Bot className="h-4 w-4 animate-bounce" />
+                  <div className="flex gap-2 justify-start animate-fade-up">
+                    <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-neon-cyan/10 border border-neon-cyan/40 text-neon-cyan">
+                      <Bot className="h-3.5 w-3.5 animate-bounce" />
                     </div>
-                    <div className="rounded-2xl rounded-tl-sm bg-white/[0.06] border border-glass-border px-4 py-3 flex items-center gap-1.5 text-muted-foreground">
-                      <span className="h-2 w-2 rounded-full bg-neon-cyan animate-pulse" />
-                      <span className="h-2 w-2 rounded-full bg-neon-cyan animate-pulse [animation-delay:0.2s]" />
-                      <span className="h-2 w-2 rounded-full bg-neon-cyan animate-pulse [animation-delay:0.4s]" />
+                    <div className="rounded-2xl rounded-tl-sm bg-white/[0.06] border border-glass-border px-3 py-2 flex items-center gap-1.5 text-muted-foreground">
+                      <span className="h-1.5 w-1.5 rounded-full bg-neon-cyan animate-pulse" />
+                      <span className="h-1.5 w-1.5 rounded-full bg-neon-cyan animate-pulse [animation-delay:0.2s]" />
+                      <span className="h-1.5 w-1.5 rounded-full bg-neon-cyan animate-pulse [animation-delay:0.4s]" />
                       <span className="ml-1 text-xs font-mono text-neon-cyan">
-                        {geminiApiKey ? "Gemini Neural reasoning..." : "Analyzing catalog specs..."}
+                        Thinking...
                       </span>
                     </div>
                   </div>
@@ -908,14 +1018,14 @@ export function AiChatbot() {
               </div>
 
               {/* Quick Suggestion Chips */}
-              <div className="border-t border-glass-border/60 bg-black/30 px-3.5 py-2.5 shrink-0 overflow-x-auto [scrollbar-width:none]">
+              <div className="border-t border-glass-border/60 bg-black/30 px-3 py-2 shrink-0 overflow-x-auto [scrollbar-width:none]">
                 <div className="flex gap-1.5 w-max">
                   {SUGGESTION_CHIPS.map((chip, idx) => (
                     <button
                       key={idx}
                       onClick={() => handleSend(chip)}
                       disabled={isTyping}
-                      className="rounded-full border border-glass-border bg-white/[0.03] px-3 py-1 text-[11px] text-muted-foreground transition-all hover:border-neon-cyan hover:bg-neon-cyan/10 hover:text-neon-cyan shrink-0 font-medium"
+                      className="rounded-full border border-glass-border bg-white/[0.03] px-2.5 py-1 text-[10px] text-muted-foreground transition-all hover:border-neon-cyan hover:bg-neon-cyan/10 hover:text-neon-cyan shrink-0 font-medium"
                     >
                       {chip}
                     </button>
@@ -924,7 +1034,7 @@ export function AiChatbot() {
               </div>
 
               {/* Chat Input Bar */}
-              <div className="border-t border-glass-border bg-black/50 p-3 sm:p-4 shrink-0">
+              <div className="border-t border-glass-border bg-black/50 p-2.5 sm:p-3 shrink-0">
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
@@ -937,32 +1047,18 @@ export function AiChatbot() {
                     type="text"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    placeholder="Ask any laptop question, compare models, specs, price..."
-                    className="flex-1 rounded-xl border border-glass-border bg-white/5 px-4 py-2.5 text-xs sm:text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-neon-cyan focus:outline-none focus:ring-1 focus:ring-neon-cyan transition-all"
+                    placeholder="Ask a question..."
+                    className="flex-1 rounded-xl border border-glass-border bg-white/5 px-3.5 py-2 text-xs text-foreground placeholder:text-muted-foreground/60 focus:border-neon-cyan focus:outline-none focus:ring-1 focus:ring-neon-cyan transition-all"
                   />
                   <button
                     type="submit"
                     disabled={!input.trim() || isTyping}
-                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-r from-neon-cyan to-neon-purple text-black font-bold shadow-neon-cyan hover:scale-105 transition-all disabled:opacity-40 disabled:hover:scale-100"
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-r from-neon-cyan to-neon-purple text-black font-bold shadow-neon-cyan hover:scale-105 transition-all disabled:opacity-40 disabled:hover:scale-100"
                     title="Send message"
                   >
-                    <Send className="h-4 w-4" />
+                    <Send className="h-3.5 w-3.5" />
                   </button>
                 </form>
-
-                <div className="mt-2 flex items-center justify-between text-[10px] text-muted-foreground/60 px-1 font-mono">
-                  <span>SELLORA NEURAL HUB</span>
-                  <button
-                    onClick={() => {
-                      setShowSettings(true);
-                      setTestResult(null);
-                    }}
-                    className="flex items-center gap-1 text-neon-cyan hover:underline"
-                  >
-                    <Settings className="h-3 w-3" />
-                    {geminiApiKey ? "Gemini Active (Click to Test)" : "Connect Gemini Key"}
-                  </button>
-                </div>
               </div>
             </>
           )}
